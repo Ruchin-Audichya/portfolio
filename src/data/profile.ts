@@ -8,7 +8,9 @@ export const profile = {
   socials: {
     linkedin: "https://www.linkedin.com/in/ruchinaudi/",
     github: "https://github.com/Ruchin-Audichya",
-    twitter: "", // Add if available
+    twitter: "https://twitter.com/itsruchin", // Placeholder based on username pattern or empty
+    facebook: "https://www.facebook.com/ruchin.audichya", // Placeholder based on name
+    buymeacoffee: "https://buymeacoffee.com/ruchinaudik",
   },
   badges: [
     "1x AWS Certified",

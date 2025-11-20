@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Send, Coffee } from "lucide-react"
+import { Send, Coffee, Linkedin, Github, Facebook } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -134,27 +134,56 @@ export function Contact() {
                   <div>
                     <h4 className="font-semibold mb-1">Socials</h4>
                     <div className="flex gap-4 mt-2">
-                      {/* Social icons are already in Footer/Hero, but good to have here too */}
-                      <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">LinkedIn</a>
-                      <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">GitHub</a>
+                      <a 
+                        href={profile.socials.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-muted-foreground hover:text-[#0077b5] transition-colors hover:scale-110 transform duration-200"
+                        title="LinkedIn"
+                      >
+                        <Linkedin className="h-5 w-5" />
+                      </a>
+                      <a 
+                        href={profile.socials.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-muted-foreground hover:text-black dark:hover:text-white transition-colors hover:scale-110 transform duration-200"
+                        title="GitHub"
+                      >
+                        <Github className="h-5 w-5" />
+                      </a>
+                      {profile.socials.facebook && (
+                        <a 
+                          href={profile.socials.facebook} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-muted-foreground hover:text-[#1877F2] transition-colors hover:scale-110 transform duration-200"
+                          title="Facebook"
+                        >
+                          <Facebook className="h-5 w-5" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-900">
+              <Card className="bg-gradient-to-br from-[#FFDD00]/20 to-[#FFDD00]/5 border-[#FFDD00]/50 overflow-hidden relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FFDD00]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Coffee className="h-5 w-5 text-orange-500" />
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="p-2 bg-[#FFDD00] rounded-full text-black">
+                      <Coffee className="h-5 w-5" />
+                    </div>
                     Buy me a coffee
                   </CardTitle>
                   <CardDescription>
-                    If you found my work helpful, consider supporting me!
+                    Fuel my creativity! If you found my work helpful, consider supporting me.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button className="w-full bg-[#FFDD00] text-black hover:bg-[#FFDD00]/90" asChild>
-                    <a href="https://www.buymeacoffee.com/ruchin" target="_blank" rel="noopener noreferrer">
+                  <Button className="w-full bg-[#FFDD00] text-black hover:bg-[#FFDD00]/90 font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5" asChild>
+                    <a href={profile.socials.buymeacoffee} target="_blank" rel="noopener noreferrer">
                       Support My Work
                     </a>
                   </Button>

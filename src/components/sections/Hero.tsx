@@ -68,17 +68,17 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col gap-4 sm:flex-row"
         >
-          <Button asChild size="lg" className="gap-2">
+          <Button asChild size="lg" className="gap-2 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-primary/25 transition-all">
             <Link href="#projects">
               View Projects <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="gap-2">
+          <Button asChild variant="outline" size="lg" className="gap-2 border-blue-600/20 hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             <Link href={profile.socials.linkedin} target="_blank">
               Connect on LinkedIn <Linkedin className="h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="secondary" size="lg" className="gap-2">
+          <Button asChild variant="secondary" size="lg" className="gap-2 hover:bg-secondary/80 transition-colors">
             <Link href="/resume.pdf" target="_blank" download>
               Download Resume <Download className="h-4 w-4" />
             </Link>
