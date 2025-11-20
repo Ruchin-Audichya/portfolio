@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail, Facebook } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
 import { profile } from "@/data/profile"
 
 export function Footer() {
@@ -36,17 +36,6 @@ export function Footer() {
             <Github className="h-5 w-5" />
             <span className="sr-only">GitHub</span>
           </Link>
-          {profile.socials.facebook && (
-            <Link
-              href={profile.socials.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-blue-50 dark:hover:bg-blue-950/30 text-muted-foreground hover:text-[#1877F2] transition-all duration-300 hover:scale-110"
-            >
-              <Facebook className="h-5 w-5" />
-              <span className="sr-only">Facebook</span>
-            </Link>
-          )}
           <Link
             href={`mailto:${profile.email}`}
             className="p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-950/30 text-muted-foreground hover:text-red-500 transition-all duration-300 hover:scale-110"

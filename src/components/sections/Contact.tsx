@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Send, Coffee, Linkedin, Github, Facebook } from "lucide-react"
+import { Send, Coffee, Linkedin, Github } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -152,17 +152,6 @@ export function Contact() {
                       >
                         <Github className="h-5 w-5" />
                       </a>
-                      {profile.socials.facebook && (
-                        <a 
-                          href={profile.socials.facebook} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-muted-foreground hover:text-[#1877F2] transition-colors hover:scale-110 transform duration-200"
-                          title="Facebook"
-                        >
-                          <Facebook className="h-5 w-5" />
-                        </a>
-                      )}
                     </div>
                   </div>
                 </CardContent>
