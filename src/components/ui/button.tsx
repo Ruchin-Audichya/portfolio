@@ -1,14 +1,8 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
-// Since I didn't add class-variance-authority and radix-ui to package.json, I should add them or simplify.
-// I'll simplify for now to avoid too many dependencies, or I can add them to package.json.
-// Actually, I'll stick to simple Tailwind for now to keep it lightweight as requested "no low-code" but "production ready".
-// But standard shadcn/ui uses these. I'll implement a simpler version without extra deps if possible, 
-// OR I'll just add them to package.json. I'll add them to package.json later if needed.
-// For now, I'll write a standard button component.
+// Simplified Button component using only Tailwind classes.
+// Removed Slot and class-variance-authority to avoid adding unused dependencies.
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
