@@ -35,14 +35,14 @@ export function Contact() {
     setIsSubmitting(true)
     // TODO: Wire up actual API route here
     console.log("Form submitted:", values)
-    
+
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    
+
     setIsSubmitting(false)
     setIsSuccess(true)
     form.reset()
-    
+
     setTimeout(() => setIsSuccess(false), 3000)
   }
 
@@ -61,7 +61,7 @@ export function Contact() {
               Get in Touch
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Have a project in mind or just want to say hi? I'd love to hear from you.
+              Have a project in mind or just want to say hi? I&apos;d love to hear from you.
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export function Contact() {
               <CardHeader>
                 <CardTitle>Send a Message</CardTitle>
                 <CardDescription>
-                  Fill out the form below and I'll get back to you as soon as possible.
+                  Fill out the form below and I&apos;ll get back to you as soon as possible.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -134,19 +134,19 @@ export function Contact() {
                   <div>
                     <h4 className="font-semibold mb-1">Socials</h4>
                     <div className="flex gap-4 mt-2">
-                      <a 
-                        href={profile.socials.linkedin} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={profile.socials.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-[#0077b5] transition-colors hover:scale-110 transform duration-200"
                         title="LinkedIn"
                       >
                         <Linkedin className="h-5 w-5" />
                       </a>
-                      <a 
-                        href={profile.socials.github} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={profile.socials.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-black dark:hover:text-white transition-colors hover:scale-110 transform duration-200"
                         title="GitHub"
                       >

@@ -38,7 +38,7 @@ export default function Story() {
 
                     <div className="pt-8 border-t border-white/10">
                         <p className="text-muted font-body italic">
-                            "{content.profile.mission}"
+                            &quot;{content.profile.mission}&quot;
                         </p>
                     </div>
                 </motion.div>
