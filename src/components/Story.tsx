@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { content } from "@/lib/content";
 
 export default function Story() {
@@ -23,10 +24,13 @@ export default function Story() {
                     </h2>
 
                     <div className="mb-12 relative w-32 h-32 md:w-48 md:h-48 overflow-hidden rounded-2xl border border-white/10">
-                        <img
+                        <Image
                             src={content.profile.avatar}
                             alt={content.profile.name}
-                            className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                            fill
+                            className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            sizes="(max-width: 768px) 128px, 192px"
+                            priority
                         />
                     </div>
 
