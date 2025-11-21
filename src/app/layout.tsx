@@ -1,25 +1,3 @@
-import type { Metadata } from "next";
-import { Fraunces, Outfit, Manrope } from "next/font/google";
-import "./globals.css";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { ThemeProvider } from "@/components/theme-provider";
-
-const clash = Outfit({
-  subsets: ["latin"],
-  variable: "--font-clash",
-  display: "swap",
-});
-
-const satoshi = Manrope({
-  subsets: ["latin"],
-  variable: "--font-satoshi",
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
