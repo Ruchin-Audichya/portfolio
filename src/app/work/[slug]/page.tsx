@@ -17,10 +17,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     // Find project data
     const project = content.projects.find(p => p.slug === params.slug);
 
-    if (!project) {
-        return notFound();
-    }
-
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Parallax Hero Image
@@ -49,6 +45,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
         return () => ctx.revert();
     }, []);
+
+    if (!project) {
+        return notFound();
+    }
 
     return (
         <main ref={containerRef} className="min-h-screen bg-background text-primary">

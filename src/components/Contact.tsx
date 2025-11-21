@@ -36,7 +36,7 @@ export default function Contact() {
                 <div className="space-y-12">
                     <div>
                         <h2 className="text-6xl md:text-8xl font-display font-bold mb-6">
-                            Let's<br />Build.
+                            Let&apos;s<br />Build.
                         </h2>
                         <p className="text-xl text-muted">
                             Open for select collaborations and engineering challenges.
