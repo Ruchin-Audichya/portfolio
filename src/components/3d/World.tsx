@@ -10,6 +10,7 @@ import { LoadingProgress } from "./LoadingProgress";
 import { Particles } from "./Particles";
 import { Clouds } from "./Clouds";
 import { Birds } from "./Birds";
+import { NavigationGems } from "./NavigationGems";
 
 interface WorldProps {
     onNodeClick?: (id: any) => void;
@@ -68,37 +69,40 @@ export default function World({ onNodeClick }: WorldProps) {
                 </div>
             </Html>
 
-            {/* Lighting changes based on Day/Night with purple/blue theme */}
-            <ambientLight intensity={isNight ? 0.3 : 0.7} />
+            {/* Lighting changes based on Day/Night with realistic colors */}
+            <ambientLight intensity={isNight ? 0.2 : 0.6} />
             <directionalLight
                 position={[10, 10, 5]}
-                intensity={isNight ? 0.2 : 1.2}
-                color={isNight ? "#C77DFF" : "#E0AAFF"}
+                intensity={isNight ? 0.3 : 1.5}
+                color={isNight ? "#7B9FD3" : "#FFF4E6"}
                 castShadow
             />
-            {isNight && <pointLight position={[0, 5, 0]} intensity={1.5} color="#9D4EDD" distance={15} />}
+            {isNight && <pointLight position={[0, 5, 0]} intensity={1} color="#A7C7E7" distance={15} />}
 
             {/* The Rotating World */}
             <group ref={groupRef} position={[0, -2, 0]}>
-                {/* Ground - Purple/Blue palette */}
+                {/* Ground - Natural colors */}
                 <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
                     <circleGeometry args={[10, 64]} />
-                    <meshStandardMaterial color={isNight ? "#240046" : "#7B2CBF"} />
+                    <meshStandardMaterial color={isNight ? "#1a2332" : "#4A7C59"} />
                 </mesh>
 
                 {/* Elements */}
                 <Trees count={20} radius={9} isNight={isNight} />
                 <SceneElements isNight={isNight} />
+
+                {/* Navigation Gems */}
+                <NavigationGems />
             </group>
 
-            {/* Background Color - Purple/Blue gradient */}
-            <color attach="background" args={[isNight ? "#10002B" : "#C77DFF"]} />
+            {/* Background Color - Realistic sky */}
+            <color attach="background" args={[isNight ? "#0B1026" : "#87CEEB"]} />
 
             {/* Fog for depth */}
-            <fog attach="fog" args={[isNight ? "#10002B" : "#E0AAFF", 10, 30]} />
+            <fog attach="fog" args={[isNight ? "#0B1026" : "#B0D4F1", 10, 30]} />
 
-            {/* Ambient Particles (Fireflies/Stars) */}
-            <Particles count={isNight ? 150 : 0} isNight={isNight} />
+            {/* Ambient Particles (Stars at Night) */}
+            <Particles count={isNight ? 200 : 0} isNight={isNight} />
 
             {/* Day Clouds */}
             <Clouds count={8} isNight={isNight} />

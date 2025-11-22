@@ -51,8 +51,8 @@ export function Particles({ count = 100, isNight = false }: { count?: number; is
 
     return (
         <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-            <dodecahedronGeometry args={[0.2, 0]} />
-            <meshStandardMaterial color="#F0ABFC" emissive="#F0ABFC" emissiveIntensity={2} toneMapped={false} />
+            <sphereGeometry args={[0.05, 8, 8]} />
+            <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} />
         </instancedMesh>
     );
 }
