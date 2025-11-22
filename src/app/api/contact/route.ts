@@ -12,6 +12,7 @@ export async function POST(request: Request) {
         }
 
         // Send Email via Resend
+        console.log("Attempting to send email to:", 'ruchinAudichya09@gmail.com');
         const data = await resend.emails.send({
             from: 'Portfolio Contact <onboarding@resend.dev>', // Default Resend sender
             to: 'ruchinAudichya09@gmail.com',
@@ -27,7 +28,10 @@ export async function POST(request: Request) {
             `,
         });
 
+        console.log("Resend API response:", data);
+
         if (data.error) {
+            console.error("Resend Error:", data.error);
             return NextResponse.json({ error: data.error.message }, { status: 400 });
         }
 
