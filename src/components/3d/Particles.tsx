@@ -50,11 +50,11 @@ export function Particles({ count = 100, isNight = false }: { count?: number; is
 
     return (
         <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-            <sphereGeometry args={[0.08, 8, 8]} />
+            <sphereGeometry args={[0.12, 8, 8]} />
             <meshBasicMaterial
                 color="#FFFFFF"
                 transparent
-                opacity={0.8}
+                opacity={0.95}
                 toneMapped={false}
             />
         </instancedMesh>

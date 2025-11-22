@@ -69,15 +69,15 @@ export default function World({ onNodeClick }: WorldProps) {
                 </div>
             </Html>
 
-            {/* Lighting changes based on Day/Night with realistic colors */}
-            <ambientLight intensity={isNight ? 0.2 : 0.6} />
+            {/* Brighter lighting for night mode */}
+            <ambientLight intensity={isNight ? 0.5 : 0.6} />
             <directionalLight
                 position={[10, 10, 5]}
-                intensity={isNight ? 0.3 : 1.5}
-                color={isNight ? "#7B9FD3" : "#FFF4E6"}
+                intensity={isNight ? 0.8 : 1.5}
+                color={isNight ? "#9DB4D3" : "#FFF4E6"}
                 castShadow
             />
-            {isNight && <pointLight position={[0, 5, 0]} intensity={1} color="#A7C7E7" distance={15} />}
+            {isNight && <pointLight position={[0, 8, 0]} intensity={2} color="#B8CFEA" distance={20} />}
 
             {/* The Rotating World */}
             <group ref={groupRef} position={[0, -2, 0]}>
@@ -101,8 +101,8 @@ export default function World({ onNodeClick }: WorldProps) {
             {/* Fog for depth */}
             <fog attach="fog" args={[isNight ? "#0B1026" : "#B0D4F1", 10, 30]} />
 
-            {/* Ambient Particles (Stars at Night) */}
-            <Particles count={isNight ? 100 : 0} isNight={isNight} />
+            {/* More visible stars at night */}
+            <Particles count={isNight ? 150 : 0} isNight={isNight} />
 
             {/* Day Clouds */}
             <Clouds count={8} isNight={isNight} />
