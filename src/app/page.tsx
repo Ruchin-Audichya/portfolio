@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import World from "@/components/3d/World";
+import Scene from "@/components/3d/Scene";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
@@ -27,7 +27,7 @@ export default function Home() {
 
             {/* 3D World Section */}
             <section id="world" className="h-screen w-full relative">
-              <World />
+              <Scene />
               <div className="absolute inset-0 pointer-events-none">
                 <Hero />
               </div>
