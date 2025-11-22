@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Hand } from "lucide-react";
 import { Trees, SceneElements } from "./Elements";
 import { LoadingProgress } from "./LoadingProgress";
 import { Particles } from "./Particles";
@@ -17,15 +17,24 @@ interface WorldProps {
     onNodeClick?: (id: any) => void;
 }
 
+function SafeOrbitControls(props: any) {
+    const { gl, camera } = useThree();
+    if (!gl || !gl.domElement) return null;
+    return <OrbitControls {...props} args={[camera, gl.domElement]} />;
+}
+
 export default function World({ onNodeClick }: WorldProps) {
     const groupRef = useRef<THREE.Group>(null);
     const [isNight, setIsNight] = useState(false);
+    const [isInteracting, setIsInteracting] = useState(false);
     const isManualRef = useRef(false);
 
     useFrame((state, delta) => {
         if (groupRef.current) {
-            // Continuous slow rotation
-            groupRef.current.rotation.y += delta * 0.05;
+            // Continuous slow rotation if not interacting
+            if (!isInteracting) {
+                groupRef.current.rotation.y += delta * 0.05;
+            }
 
             // Check rotation for Day/Night cycle (simple logic)
             // Only update if not manually overridden
@@ -40,6 +49,10 @@ export default function World({ onNodeClick }: WorldProps) {
     const toggleTheme = () => {
         setIsNight((prev) => !prev);
         isManualRef.current = true;
+    };
+
+    const toggleInteraction = () => {
+        setIsInteracting((prev) => !prev);
     };
 
     // Keyboard shortcut 'N'
@@ -59,7 +72,20 @@ export default function World({ onNodeClick }: WorldProps) {
 
             {/* UI Controls - Mobile Friendly */}
             <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }} zIndexRange={[100, 0]}>
-                <div className="absolute bottom-6 right-6 pointer-events-auto z-50">
+                <div className="absolute bottom-6 right-6 pointer-events-auto z-50 flex flex-col gap-4">
+                    {/* Interaction Toggle (Mobile Optimization) */}
+                    <button
+                        onClick={toggleInteraction}
+                        className={`p-3 rounded-full backdrop-blur-md border shadow-lg transition-all active:scale-95 ${isInteracting
+                                ? "bg-blue-500/80 border-blue-400 text-white"
+                                : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                            }`}
+                        aria-label={isInteracting ? "Disable 3D Interaction" : "Enable 3D Interaction"}
+                    >
+                        <Hand className="w-6 h-6" />
+                    </button>
+
+                    {/* Theme Toggle */}
                     <button
                         onClick={toggleTheme}
                         className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-white hover:bg-white/20 transition-all active:scale-95"
@@ -69,6 +95,26 @@ export default function World({ onNodeClick }: WorldProps) {
                     </button>
                 </div>
             </Html>
+
+            {/* Controls - Only enabled when interacting */}
+            <SafeOrbitControls
+                enabled={isInteracting}
+                enableZoom={true}
+                enablePan={false}
+                minDistance={5}
+                maxDistance={20}
+                minPolarAngle={Math.PI / 6}
+                maxPolarAngle={Math.PI / 2.2}
+                enableDamping={true}
+                dampingFactor={0.05}
+                rotateSpeed={0.6}
+                zoomSpeed={0.8}
+                touches={{
+                    ONE: 2, // TOUCH_ROTATE
+                    TWO: 1  // TOUCH_DOLLY_PAN
+                }}
+                makeDefault
+            />
 
             {/* Brighter lighting for night mode */}
             <ambientLight intensity={isNight ? 0.5 : 0.6} />
