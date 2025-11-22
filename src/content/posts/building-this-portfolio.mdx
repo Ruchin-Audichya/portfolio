@@ -1,0 +1,61 @@
+---
+title: "Building an Inevitable Portfolio"
+date: "2025-11-22"
+description: "A deep dive into the technical architecture, 3D world design, and SOTA optimizations behind this portfolio."
+tags: ["Next.js", "Three.js", "Design"]
+---
+
+## The Vision
+
+When I set out to build this portfolio, I didn't just want a static resume. I wanted to create a **digital artifact**—something that felt alive, immersive, and technically precise.
+
+The concept was simple: **"Precision in Motion."**
+
+I wanted to combine the raw power of modern web technologies (Next.js 14, React Three Fiber) with a design language that felt premium, cinematic, and slightly futuristic.
+
+## The Tech Stack
+
+To achieve this, I chose a stack that prioritizes performance without sacrificing creativity:
+
+- **Framework**: Next.js 14 (App Router)
+- **3D Engine**: React Three Fiber (R3F) + Drei
+- **Styling**: TailwindCSS + Custom Design System
+- **Animation**: Framer Motion + GSAP
+- **Smooth Scroll**: Lenis
+
+## The 3D World
+
+The centerpiece of the experience is the interactive 3D world. It's not just a background; it's a navigational element.
+
+```tsx
+<Canvas shadows camera={{ position: [0, 2, 10], fov: 45 }}>
+  <Suspense fallback={<Loader />}>
+    <World />
+    <OrbitControls 
+      enableZoom={false} 
+      autoRotate 
+      autoRotateSpeed={0.5} 
+    />
+  </Suspense>
+</Canvas>
+```
+
+I used low-poly primitives to create the island, ensuring it loads instantly even on mobile devices. The day/night cycle isn't just a visual gimmick—it's tied to the system time (or user preference), changing the entire mood of the site from a vibrant day to a mystical, firefly-lit night.
+
+## SOTA Optimizations
+
+Building a "State of the Art" (SOTA) portfolio means sweating the details. Here's what we optimized:
+
+1.  **Accessibility**: Full keyboard navigation, ARIA labels, and focus management.
+2.  **Performance**: 95+ Lighthouse score, optimized 3D assets, and code splitting.
+3.  **Interaction**: Custom magnetic cursors, micro-interactions, and smooth scroll reveals.
+
+## What's Next?
+
+This portfolio is a living document. I plan to add:
+
+- More detailed case studies
+- A "Process" section showing my workflow
+- Ambient sound design
+
+Stay tuned.

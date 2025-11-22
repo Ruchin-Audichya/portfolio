@@ -1,9 +1,11 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { profile } from "@/data/profile"
-import { Card, CardContent } from "@/components/ui/card"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { content } from "@/lib/content";
+import { Card, CardContent } from "@/components/ui/card";
+import { Timeline } from "@/components/Timeline";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function About() {
   return (
@@ -13,70 +15,69 @@ export function About() {
       <div className="absolute right-10 bottom-20 h-64 w-64 rounded-full bg-blue-500/5 blur-3xl -z-10" />
 
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row gap-16 items-center"
-        >
-          <div className="flex-1 space-y-8">
-            <div className="space-y-4">
-              <div className="inline-block rounded-full bg-purple-100 dark:bg-purple-900/30 px-3 py-1 text-sm font-semibold text-purple-600 dark:text-purple-300">
-                About Me
+        <ScrollReveal width="100%">
+          <div className="flex flex-col md:flex-row gap-16 items-start">
+            <div className="flex-1 space-y-8">
+              <div className="space-y-4">
+                <div className="inline-block rounded-full bg-accent/10 px-3 py-1 text-sm font-semibold text-accent border border-accent/20">
+                  About Me
+                </div>
+                <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">
+                  {content.profile.bio_title}
+                </h2>
+                <div className="space-y-6">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    {content.profile.bio[0]}
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    {content.profile.bio[1]}
+                  </p>
+                </div>
               </div>
-              <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl">
-                My Journey
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {profile.longBio}
-              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Card className="bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                  <CardContent className="p-6">
+                    <h3 className="font-bold mb-2 text-primary">Mission</h3>
+                    <p className="text-muted-foreground font-medium text-sm leading-relaxed">
+                      {content.profile.mission}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                  <CardContent className="p-6">
+                    <h3 className="font-bold mb-2 text-primary">Focus</h3>
+                    <p className="text-muted-foreground font-medium text-sm">
+                      Cloud Architecture, AI Agents, Interactive 3D Web
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="mt-12">
+                <h3 className="text-2xl font-bold uppercase tracking-widest mb-8 flex items-center gap-3">
+                  <span className="w-8 h-1 bg-accent rounded-full" />
+                  Journey
+                </h3>
+                <Timeline />
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Card className="glass-panel border-0 hover-bounce">
-                <CardContent className="p-6">
-                  <h3 className="font-bold mb-2 text-primary">Location</h3>
-                  <p className="text-muted-foreground font-medium">{profile.location}</p>
-                </CardContent>
-              </Card>
-              <Card className="glass-panel border-0 hover-bounce">
-                <CardContent className="p-6">
-                  <h3 className="font-bold mb-2 text-primary">Education</h3>
-                  <p className="text-muted-foreground font-medium">{profile.education.university}</p>
-                  <p className="text-sm text-muted-foreground/80">{profile.education.degree}</p>
-                </CardContent>
-              </Card>
-              <Card className="glass-panel border-0 hover-bounce">
-                <CardContent className="p-6">
-                  <h3 className="font-bold mb-2 text-primary">Community</h3>
-                  <p className="text-muted-foreground font-medium">AWS Cloud Club JECRC</p>
-                  <p className="text-sm text-muted-foreground/80">Social/Content Head Leader</p>
-                </CardContent>
-              </Card>
-              <Card className="glass-panel border-0 hover-bounce">
-                <CardContent className="p-6">
-                  <h3 className="font-bold mb-2 text-primary">Interests</h3>
-                  <p className="text-muted-foreground font-medium">Cloud, AI, Business, Content</p>
-                </CardContent>
-              </Card>
+            <div className="flex-1 flex justify-center sticky top-24">
+              <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl ring-1 ring-white/30 hover:scale-105 transition-transform duration-500">
+                <Image
+                  src={content.profile.avatar}
+                  alt={content.profile.name}
+                  fill
+                  className="object-cover"
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              </div>
             </div>
           </div>
-
-          <div className="flex-1 flex justify-center">
-            <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl ring-1 ring-white/30 hover:scale-105 transition-transform duration-500">
-              <Image
-                src="/profile.jpeg"
-                alt="Ruchin Audichya"
-                fill
-                className="object-cover"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            </div>
-          </div>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
-  )
+  );
 }
