@@ -19,15 +19,15 @@ export default function LowPolyTree({
     const colors = useMemo(() => {
         if (isNight) {
             return {
-                trunk: "#3C096C",
-                leaves: "#7B2CBF",
-                leavesAccent: "#9D4EDD",
+                trunk: "#3D3027",      // Dark brown
+                leaves: "#2D5016",     // Dark forest green
+                leavesAccent: "#3A6B35", // Medium green
             };
         }
         return {
-            trunk: "#5A189A",
-            leaves: "#7B2CBF",
-            leavesAccent: "#C77DFF",
+            trunk: "#654321",        // Natural brown
+            leaves: "#228B22",       // Forest green
+            leavesAccent: "#32CD32", // Lime green
         };
     }, [isNight]);
 
@@ -59,10 +59,14 @@ export default function LowPolyTree({
 
     return (
         <group position={position} scale={[scale, scale, scale]}>
-            {/* Trunk */}
-            <mesh position={[0, geometry.trunkHeight / 2, 0]} castShadow>
-                <cylinderGeometry args={[geometry.trunkRadius, geometry.trunkRadius, geometry.trunkHeight, 6]} />
-                <meshStandardMaterial color={colors.trunk} />
+            {/* Trunk - Higher poly */}
+            <mesh position={[0, geometry.trunkHeight / 2, 0]} castShadow receiveShadow>
+                <cylinderGeometry args={[geometry.trunkRadius, geometry.trunkRadius * 1.2, geometry.trunkHeight, 16]} />
+                <meshStandardMaterial
+                    color={colors.trunk}
+                    roughness={0.9}
+                    metalness={0}
+                />
             </mesh>
 
             {/* Foliage Layers */}
@@ -71,17 +75,19 @@ export default function LowPolyTree({
                 const layerSize = 1.2 - i * 0.2;
 
                 return geometry.foliageType === "cone" ? (
-                    <mesh key={i} position={[0, layerHeight, 0]} castShadow>
-                        <coneGeometry args={[layerSize * 0.7, 1.2, 6]} />
+                    <mesh key={i} position={[0, layerHeight, 0]} castShadow receiveShadow>
+                        <coneGeometry args={[layerSize * 0.7, 1.2, 16]} />
                         <meshStandardMaterial
                             color={i % 2 === 0 ? colors.leaves : colors.leavesAccent}
+                            roughness={0.8}
                         />
                     </mesh>
                 ) : (
-                    <mesh key={i} position={[0, layerHeight, 0]} castShadow>
-                        <dodecahedronGeometry args={[layerSize * 0.6, 0]} />
+                    <mesh key={i} position={[0, layerHeight, 0]} castShadow receiveShadow>
+                        <sphereGeometry args={[layerSize * 0.6, 16, 16]} />
                         <meshStandardMaterial
                             color={i % 2 === 0 ? colors.leaves : colors.leavesAccent}
+                            roughness={0.8}
                         />
                     </mesh>
                 );

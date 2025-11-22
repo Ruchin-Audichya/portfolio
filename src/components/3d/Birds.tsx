@@ -24,14 +24,28 @@ function Bird({ position, speed, factor }: { position: [number, number, number];
 
     return (
         <group ref={ref} position={position}>
-            {/* Simple Bird Shape */}
-            <mesh position={[0.2, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
-                <coneGeometry args={[0.05, 0.2, 4]} />
-                <meshStandardMaterial color="#333" />
+            {/* Bird Body */}
+            <mesh position={[0, 0, 0]}>
+                <sphereGeometry args={[0.08, 12, 12]} />
+                <meshStandardMaterial color="#1A1A1A" roughness={0.6} />
             </mesh>
-            <mesh position={[-0.2, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
-                <coneGeometry args={[0.05, 0.2, 4]} />
-                <meshStandardMaterial color="#333" />
+
+            {/* Left Wing - Smoother */}
+            <mesh position={[-0.15, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <coneGeometry args={[0.06, 0.25, 8]} />
+                <meshStandardMaterial color="#2B2B2B" roughness={0.5} />
+            </mesh>
+
+            {/* Right Wing - Smoother */}
+            <mesh position={[0.15, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                <coneGeometry args={[0.06, 0.25, 8]} />
+                <meshStandardMaterial color="#2B2B2B" roughness={0.5} />
+            </mesh>
+
+            {/* Beak */}
+            <mesh position={[0, 0, 0.1]} rotation={[Math.PI / 2, 0, 0]}>
+                <coneGeometry args={[0.02, 0.06, 6]} />
+                <meshStandardMaterial color="#FFA500" roughness={0.4} />
             </mesh>
         </group>
     );
