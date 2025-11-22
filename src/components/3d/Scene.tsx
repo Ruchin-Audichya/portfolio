@@ -1,12 +1,34 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useState, useEffect } from "react";
 import { PerformanceMonitor } from "@react-three/drei";
+import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
 import World from "./World";
 
 interface SceneProps {
     onNodeClick?: (id: any) => void;
+}
+
+// Safe wrapper for EffectComposer that only renders when WebGL context is ready
+function SafeEffectComposer({ children }: { children: React.ReactNode }) {
+    const { gl, scene, camera } = useThree();
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+        // Wait for next frame to ensure WebGL context is fully initialized
+        const timer = requestAnimationFrame(() => {
+            if (gl && gl.domElement && scene && camera) {
+                setIsReady(true);
+            }
+        });
+        return () => cancelAnimationFrame(timer);
+    }, [gl, scene, camera]);
+
+    if (!isReady || !gl?.domElement) return null;
+
+    return <EffectComposer multisampling={0}>{children}</EffectComposer>;
 }
 
 export default function Scene({ onNodeClick }: SceneProps) {
@@ -38,6 +60,18 @@ export default function Scene({ onNodeClick }: SceneProps) {
                 <Suspense fallback={null}>
                     <World onNodeClick={onNodeClick} />
                 </Suspense>
+
+                {/* Post Processing Effects with Safe Wrapper */}
+                <SafeEffectComposer>
+                    <Bloom
+                        luminanceThreshold={0.8}
+                        mipmapBlur
+                        intensity={1.2}
+                        radius={0.4}
+                    />
+                    <Noise opacity={0.02} blendFunction={BlendFunction.OVERLAY} />
+                    <Vignette eskil={false} offset={0.1} darkness={0.5} />
+                </SafeEffectComposer>
             </Canvas>
         </div>
     );
