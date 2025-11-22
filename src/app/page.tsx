@@ -7,7 +7,9 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
+import { Achievements } from "@/components/sections/Achievements";
 import { Github } from "@/components/sections/Github";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { Contact } from "@/components/sections/Contact";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { IntroOverlay } from "@/components/IntroOverlay";
@@ -48,7 +50,15 @@ export default function Home() {
               </ScrollReveal>
 
               <ScrollReveal width="100%">
+                <Achievements />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
                 <Github />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
+                <Testimonials />
               </ScrollReveal>
 
               <ScrollReveal width="100%">

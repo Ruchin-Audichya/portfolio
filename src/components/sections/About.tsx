@@ -73,7 +73,7 @@ export function About() {
                   <CardContent className="p-6">
                     <h3 className="font-bold mb-2 text-primary">Focus</h3>
                     <p className="text-muted-foreground font-medium text-sm">
-                      Cloud Architecture, AI Agents, Interactive 3D Web
+                      Cloud Architecture, AI Agents, Interactive 3D Web, Software Licensing (Since 2019)
                     </p>
                   </CardContent>
                 </Card>
