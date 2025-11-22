@@ -6,7 +6,6 @@ import * as THREE from "three";
 
 export function Particles({ count = 100, isNight = false }: { count?: number; isNight: boolean }) {
     const mesh = useRef<THREE.InstancedMesh>(null);
-    const lightMesh = useRef<THREE.InstancedMesh>(null);
 
     const dummy = useMemo(() => new THREE.Object3D(), []);
     const particles = useMemo(() => {
@@ -51,8 +50,13 @@ export function Particles({ count = 100, isNight = false }: { count?: number; is
 
     return (
         <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-            <sphereGeometry args={[0.05, 8, 8]} />
-            <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} />
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshBasicMaterial
+                color="#FFFFFF"
+                transparent
+                opacity={0.8}
+                toneMapped={false}
+            />
         </instancedMesh>
     );
 }

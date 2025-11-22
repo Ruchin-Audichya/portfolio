@@ -2,6 +2,7 @@
 
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
 interface NavigationGemProps {
@@ -36,7 +37,7 @@ function NavigationGem({ position, label, targetSection, color }: NavigationGemP
                 onClick={handleClick}
                 onPointerOver={() => setHovered(true)}
                 onPointerOut={() => setHovered(false)}
-                scale={hovered ? 1.2 : 1}
+                scale={hovered ? 1.3 : 1}
             >
                 <octahedronGeometry args={[0.5, 0]} />
                 <meshPhysicalMaterial
@@ -46,15 +47,19 @@ function NavigationGem({ position, label, targetSection, color }: NavigationGemP
                     transmission={0.4}
                     thickness={2}
                     emissive={color}
-                    emissiveIntensity={hovered ? 1 : 0.5}
+                    emissiveIntensity={hovered ? 1.5 : 0.5}
                 />
             </mesh>
-            {hovered && (
-                <mesh position={[0, 1, 0]}>
-                    <planeGeometry args={[2, 0.5]} />
-                    <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
-                </mesh>
-            )}
+
+            <Html position={[0, -1, 0]} center style={{ pointerEvents: "none" }} zIndexRange={[100, 0]}>
+                <div className={`
+                    px-3 py-1.5 rounded-full backdrop-blur-md border transition-all duration-300 whitespace-nowrap
+                    ${hovered ? "scale-110" : "scale-100"}
+                    bg-black/70 border-white/30 text-white font-bold shadow-lg
+                `}>
+                    <span className="text-sm tracking-wide">{label}</span>
+                </div>
+            </Html>
         </group>
     );
 }

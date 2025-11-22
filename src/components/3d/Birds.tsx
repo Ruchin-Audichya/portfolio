@@ -13,11 +13,9 @@ function Bird({ position, speed, factor }: { position: [number, number, number];
             ref.current.position.y = position[1] + Math.sin(t) * 0.5;
             ref.current.rotation.z = Math.sin(t * 2) * 0.1;
 
-            // Circular motion
             ref.current.position.x = position[0] + Math.cos(t * 0.5) * 5;
             ref.current.position.z = position[2] + Math.sin(t * 0.5) * 5;
 
-            // Face direction of movement
             ref.current.rotation.y = -t * 0.5 + Math.PI / 2;
         }
     });
@@ -30,13 +28,13 @@ function Bird({ position, speed, factor }: { position: [number, number, number];
                 <meshStandardMaterial color="#1A1A1A" roughness={0.6} />
             </mesh>
 
-            {/* Left Wing - Smoother */}
+            {/* Left Wing */}
             <mesh position={[-0.15, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
                 <coneGeometry args={[0.06, 0.25, 8]} />
                 <meshStandardMaterial color="#2B2B2B" roughness={0.5} />
             </mesh>
 
-            {/* Right Wing - Smoother */}
+            {/* Right Wing */}
             <mesh position={[0.15, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
                 <coneGeometry args={[0.06, 0.25, 8]} />
                 <meshStandardMaterial color="#2B2B2B" roughness={0.5} />
@@ -59,8 +57,6 @@ export function Birds({ count = 5, isNight = false }: { count?: number; isNight:
             factor: i * 2
         }));
     }, [count]);
-
-    if (isNight) return null;
 
     return (
         <group>

@@ -13,10 +13,8 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        // Sequence timing
         const t1 = setTimeout(() => setStep("bio"), 1500);
         const t2 = setTimeout(() => setStep("explore"), 3500);
-
         return () => {
             clearTimeout(t1);
             clearTimeout(t2);
@@ -25,15 +23,14 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
 
     const handleExplore = () => {
         setStep("loading");
-        // Simulate loading progress
         const interval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(interval);
-                    setTimeout(onComplete, 500); // Wait a bit after 100% before finishing
+                    setTimeout(onComplete, 500);
                     return 100;
                 }
-                return prev + 2; // Speed of loading
+                return prev + 2;
             });
         }, 20);
     };
@@ -65,7 +62,7 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
                             className="space-y-6"
                         >
                             <h1 className="text-4xl md:text-6xl font-black tracking-tighter">
-                                I&apos;m <span className="text-accent">Ruchin Audichya</span>
+                                I&apos;m <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600 bg-clip-text text-transparent">Ruchin Audichya</span>
                             </h1>
                             <p className="text-xl md:text-2xl text-muted-foreground font-mono">
                                 Cloud Architect. AI Engineer. Digital Craftsman.
@@ -84,7 +81,7 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
                         >
                             <button
                                 onClick={handleExplore}
-                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background font-mono font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors rounded-sm overflow-hidden"
+                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background font-mono font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors rounded-sm"
                             >
                                 <span>Explore My World</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -99,14 +96,13 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
                             className="w-full max-w-xs mx-auto pt-8"
                         >
                             <div className="flex justify-between text-xs font-mono uppercase tracking-widest mb-2 text-muted-foreground">
-                                <span>Initializing Environment</span>
+                                <span>Initializing</span>
                                 <span>{progress}%</span>
                             </div>
                             <div className="h-2 w-full bg-muted overflow-hidden rounded-full">
                                 <motion.div
                                     className="h-full bg-accent"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${progress}%` }}
+                                    style={{ width: `${progress}%` }}
                                     transition={{ ease: "linear" }}
                                 />
                             </div>
