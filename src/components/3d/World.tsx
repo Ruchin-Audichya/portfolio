@@ -56,8 +56,8 @@ export default function World({ onNodeClick }: WorldProps) {
             <LoadingProgress />
 
             {/* UI Controls - Mobile Friendly */}
-            <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }}>
-                <div className="absolute bottom-6 right-6 pointer-events-auto z-10">
+            <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }} zIndexRange={[100, 0]}>
+                <div className="absolute bottom-6 right-6 pointer-events-auto z-50">
                     <button
                         onClick={toggleTheme}
                         className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-white hover:bg-white/20 transition-all active:scale-95"
