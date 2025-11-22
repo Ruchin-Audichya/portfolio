@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useState } from "react";
 import { OrbitControls, PerformanceMonitor } from "@react-three/drei";
 import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
@@ -9,6 +9,12 @@ import World from "./World";
 
 interface SceneProps {
     onNodeClick?: (id: any) => void;
+}
+
+function SafeOrbitControls(props: any) {
+    const { gl, camera } = useThree();
+    if (!gl || !gl.domElement) return null;
+    return <OrbitControls {...props} args={[camera, gl.domElement]} />;
 }
 
 export default function Scene({ onNodeClick }: SceneProps) {
@@ -41,7 +47,7 @@ export default function Scene({ onNodeClick }: SceneProps) {
                     <Vignette eskil={false} offset={0.1} darkness={0.5} />
                 </EffectComposer>
 
-                <OrbitControls
+                <SafeOrbitControls
                     enableZoom={true}
                     enablePan={false}
                     minDistance={5}
