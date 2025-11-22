@@ -1,36 +1,36 @@
-import { Metadata } from 'next'
-import { content } from '@/lib/content'
+import type { Metadata } from "next";
+import { content } from "@/lib/content";
 
-const siteUrl = 'https://ruchinaudichya.in'
+const siteUrl = "https://ruchinaudichya.in";
 
 export const defaultMetadata: Metadata = {
     metadataBase: new URL(siteUrl),
     title: {
-        default: `${content.profile.name} - ${content.profile.title}`,
+        default: `${content.profile.name} - ${content.profile.role}`,
         template: `%s | ${content.profile.name}`,
     },
-    description: content.profile.bio.join(' ').slice(0, 160),
+    description: content.profile.bio.join(" ").slice(0, 160),
     keywords: [
-        'Full Stack Developer',
-        'Web Developer',
-        'React',
-        'Next.js',
-        'TypeScript',
-        'Three.js',
-        'Frontend',
-        'Backend',
-        'Portfolio',
+        "Full Stack Developer",
+        "Web Developer",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Three.js",
+        "Frontend",
+        "Backend",
+        "Portfolio",
         content.profile.name,
     ],
     authors: [{ name: content.profile.name }],
     creator: content.profile.name,
     openGraph: {
-        type: 'website',
-        locale: 'en_US',
+        type: "website",
+        locale: "en_US",
         url: siteUrl,
         siteName: `${content.profile.name} Portfolio`,
-        title: `${content.profile.name} - ${content.profile.title}`,
-        description: content.profile.bio.join(' ').slice(0, 160),
+        title: `${content.profile.name} - ${content.profile.role}`,
+        description: content.profile.bio.join(" ").slice(0, 160),
         images: [
             {
                 url: `${siteUrl}/og-image.png`,
@@ -41,10 +41,10 @@ export const defaultMetadata: Metadata = {
         ],
     },
     twitter: {
-        card: 'summary_large_image',
-        title: `${content.profile.name} - ${content.profile.title}`,
-        description: content.profile.bio.join(' ').slice(0, 160),
-        creator: '@ruchinaudichya',
+        card: "summary_large_image",
+        title: `${content.profile.name} - ${content.profile.role}`,
+        description: content.profile.bio.join(" ").slice(0, 160),
+        creator: "@ruchinaudichya",
         images: [`${siteUrl}/og-image.png`],
     },
     robots: {
@@ -53,25 +53,24 @@ export const defaultMetadata: Metadata = {
         googleBot: {
             index: true,
             follow: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
         },
     },
     icons: {
-        icon: '/favicon.ico',
-        shortcut: '/favicon-16x16.png',
-        apple: '/apple-touch-icon.png',
+        icon: "/favicon.ico",
+        shortcut: "/favicon-16x16.png",
+        apple: "/apple-touch-icon.png",
     },
-    manifest: '/site.webmanifest',
-}
+    manifest: "/site.webmanifest",
+};
 
-// JSON-LD Structured Data
 export const generatePersonSchema = () => ({
-    '@context': 'https://schema.org',
-    '@type': 'Person',
+    "@context": "https://schema.org",
+    "@type": "Person",
     name: content.profile.name,
-    jobTitle: content.profile.title,
+    jobTitle: content.profile.role,
     url: siteUrl,
     sameAs: [
         content.profile.socials.github,
@@ -80,16 +79,16 @@ export const generatePersonSchema = () => ({
     ],
     image: content.profile.avatar,
     email: content.profile.socials.email,
-})
+});
 
 export const generateWebsiteSchema = () => ({
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
+    "@context": "https://schema.org",
+    "@type": "WebSite",
     name: `${content.profile.name} Portfolio`,
     url: siteUrl,
-    description: content.profile.bio.join(' '),
+    description: content.profile.bio.join(" "),
     author: {
-        '@type': 'Person',
+        "@type": "Person",
         name: content.profile.name,
     },
-})
+});

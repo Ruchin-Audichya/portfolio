@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { content } from "@/lib/content";
 import { Github, Linkedin, Twitter, Mail, ArrowRight, Instagram } from "lucide-react";
+import Magnetic from "./Magnetic";
 
 export default function Contact() {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -99,14 +100,16 @@ export default function Contact() {
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={status === "loading" || status === "success"}
-                            className="group flex items-center gap-4 text-xl font-bold uppercase tracking-widest hover:text-accent transition-colors disabled:opacity-50"
-                        >
-                            {status === "loading" ? "Transmitting..." : status === "success" ? "Signal Received" : "Transmit Signal"}
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                        </button>
+                        <Magnetic>
+                            <button
+                                type="submit"
+                                disabled={status === "loading" || status === "success"}
+                                className="group flex items-center gap-4 text-xl font-bold uppercase tracking-widest hover:text-accent transition-colors disabled:opacity-50"
+                            >
+                                {status === "loading" ? "Transmitting..." : status === "success" ? "Signal Received" : "Transmit Signal"}
+                                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                            </button>
+                        </Magnetic>
 
                         {status === "success" && (
                             <p className="text-accent-teal font-mono text-sm">Message received. I will respond shortly.</p>

@@ -65,16 +65,28 @@ export function ProjectNode({ id, position, label, onClick, isNight }: ProjectNo
       />
 
       {/* Label */}
+      {/* Label - Accessible Button */}
       <Html
         position={[0, 0.8, 0]}
         center
-        className={clsx(
-          "pointer-events-none whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest transition-all duration-300",
-          isNight ? "bg-black/50 text-purple-200" : "bg-white/80 text-purple-900",
-          hovered ? "scale-110 opacity-100" : "opacity-70"
-        )}
+        className="pointer-events-auto" // Enable pointer events for the button
       >
-        {label}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick(id);
+          }}
+          onFocus={() => setHovered(true)}
+          onBlur={() => setHovered(false)}
+          className={clsx(
+            "whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2",
+            isNight ? "bg-black/50 text-purple-200 focus:ring-offset-black" : "bg-white/80 text-purple-900 focus:ring-offset-white",
+            hovered ? "scale-110 opacity-100" : "opacity-70"
+          )}
+          aria-label={`View ${label}`}
+        >
+          {label}
+        </button>
       </Html>
     </group>
   );

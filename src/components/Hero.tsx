@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { content } from "@/lib/content";
+import Magnetic from "./Magnetic";
 
 export default function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -52,13 +53,15 @@ export default function Hero() {
                 </p>
 
                 <div className="mt-12 opacity-0 animate-fade-in-up" style={{ animationDelay: "1s", animationFillMode: "forwards" }}>
-                    <a
-                        href={content.profile.resume}
-                        download
-                        className="px-8 py-4 border border-white/20 rounded-full text-sm font-mono uppercase tracking-widest hover:bg-white/5 hover:border-accent hover:text-accent transition-all duration-300"
-                    >
-                        Download Resume
-                    </a>
+                    <Magnetic>
+                        <a
+                            href={content.profile.resume}
+                            download
+                            className="px-8 py-4 border border-white/20 rounded-full text-sm font-mono uppercase tracking-widest hover:bg-white/5 hover:border-accent hover:text-accent transition-all duration-300 inline-block"
+                        >
+                            Download Resume
+                        </a>
+                    </Magnetic>
                 </div>
             </div>
         </section>

@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import { Overlay } from "@/components/Overlay";
 import type { ProjectNodeId } from "@/components/World/ProjectNode";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 const Scene = dynamic(() => import("@/components/World/Scene"), {
   ssr: false,
@@ -53,12 +54,12 @@ export default function Home() {
       <Hero />
       {/* 3D world inserted just after hero to act as the bridge into the rest of the story */}
       <Scene onNodeClick={handleNodeClick} />
-      <About />
-      <Skills />
-      <Projects />
-      <Github />
-      <Gallery />
-      <Testimonials />
+      <ScrollReveal width="100%"><About /></ScrollReveal>
+      <ScrollReveal width="100%"><Skills /></ScrollReveal>
+      <ScrollReveal width="100%"><Projects /></ScrollReveal>
+      <ScrollReveal width="100%"><Github /></ScrollReveal>
+      <ScrollReveal width="100%"><Gallery /></ScrollReveal>
+      <ScrollReveal width="100%"><Testimonials /></ScrollReveal>
       <Contact />
       <Overlay activeId={activeNode} onClose={handleCloseOverlay} />
     </>

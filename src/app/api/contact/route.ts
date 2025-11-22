@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { resend } from "@/lib/resend";
 
 export async function POST(request: Request) {
     try {
@@ -10,17 +11,27 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Missing fields" }, { status: 400 });
         }
 
-        // Send to n8n Webhook
-        const webhookUrl = process.env.N8N_WEBHOOK_URL;
-        if (webhookUrl) {
-            await fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, message, timestamp: new Date().toISOString() }),
-            });
+        // Send Email via Resend
+        const data = await resend.emails.send({
+            from: 'Portfolio Contact <onboarding@resend.dev>', // Default Resend sender
+            to: 'ruchinAudichya09@gmail.com',
+            subject: `New Message from ${name}`,
+            replyTo: email,
+            text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+            html: `
+                <h1>New Message from Portfolio</h1>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Message:</strong></p>
+                <p>${message.replace(/\n/g, '<br>')}</p>
+            `,
+        });
+
+        if (data.error) {
+            return NextResponse.json({ error: data.error.message }, { status: 400 });
         }
 
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ success: true, data });
     } catch (error) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }

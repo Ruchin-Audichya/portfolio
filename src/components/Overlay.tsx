@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { ProjectNodeId } from "./World/ProjectNode";
 import { X, ExternalLink, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,8 @@ const content: Record<ProjectNodeId, { title: string; body: string; href?: strin
 };
 
 export function Overlay({ activeId, onClose }: OverlayProps) {
+  const overlayRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!activeId) return;
 
@@ -45,10 +47,46 @@ export function Overlay({ activeId, onClose }: OverlayProps) {
       if (event.key === "Escape") {
         onClose();
       }
+
+      // Focus Trap
+      if (event.key === "Tab" && overlayRef.current) {
+        const focusableElements = overlayRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (event.shiftKey) {
+          if (document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     };
 
+    // Focus the first element when opened
+    if (overlayRef.current) {
+      const focusableElements = overlayRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0] as HTMLElement;
+      if (firstElement) firstElement.focus();
+    }
+
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    // Lock body scroll
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "unset";
+    };
   }, [activeId, onClose]);
 
   if (!activeId) return null;
@@ -56,11 +94,11 @@ export function Overlay({ activeId, onClose }: OverlayProps) {
   const { title, body, href } = content[activeId];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md glass-panel rounded-3xl p-8 text-foreground shadow-2xl animate-fade-in-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm animate-fade-in" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+      <div ref={overlayRef} className="relative w-full max-w-md glass-panel rounded-3xl p-8 text-foreground shadow-2xl animate-fade-in-up">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+          className="absolute right-4 top-4 rounded-full p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
           aria-label="Close overlay"
         >
           <X className="h-4 w-4" />
@@ -71,7 +109,7 @@ export function Overlay({ activeId, onClose }: OverlayProps) {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2">
               Ruchin&apos;s world
             </p>
-            <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
+            <h3 id="overlay-title" className="text-2xl font-bold tracking-tight">{title}</h3>
           </div>
 
           <p className="text-base leading-relaxed text-muted-foreground">{body}</p>

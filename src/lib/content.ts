@@ -51,7 +51,8 @@ export const content = {
             description: "First release of my personal website; now evolving into a cinematic, motion-designed experience.",
             tech: ["Next.js", "Tailwind", "Motion"],
             image: "/projects/portfolio.jpg", // Placeholder
-            year: "2025"
+            year: "2025",
+            metrics: "95+ Lighthouse Score"
         },
         {
             slug: "linux-productivity",
@@ -60,7 +61,8 @@ export const content = {
             description: "Turned Ubuntu into a clean, macOS-like developer OS with GNOME extensions & performance tweaks.",
             tech: ["Linux", "Bash", "GNOME"],
             image: "/projects/linux.jpg",
-            year: "2024"
+            year: "2024",
+            metrics: "30% Faster Workflow"
         },
         {
             slug: "n8n-automations",
@@ -69,7 +71,8 @@ export const content = {
             description: "Built everyday automations using triggers, APIs, and modular workflows for personal logs and notifications.",
             tech: ["n8n", "Webhooks", "JSON"],
             image: "/projects/n8n.jpg",
-            year: "2024"
+            year: "2024",
+            metrics: "10+ Hours Saved/Week"
         },
         {
             slug: "ai-podcast-host",
@@ -78,7 +81,8 @@ export const content = {
             description: "Designed a UI/UX concept for an AI-driven interactive podcast host with expression analysis.",
             tech: ["AI", "React", "Concept"],
             image: "/projects/podcast.jpg",
-            year: "2025"
+            year: "2025",
+            metrics: "Interactive AI Demo"
         },
         {
             slug: "cloud-mini-projects",
@@ -87,7 +91,8 @@ export const content = {
             description: "Hands-on with AWS basics: S3 static hosting, IAM permissions, EC2 instances, and DynamoDB patterns.",
             tech: ["AWS", "Cloud", "Infrastructure"],
             image: "/projects/cloud.jpg",
-            year: "2024"
+            year: "2024",
+            metrics: "AWS Certified"
         },
         {
             slug: "system-optimization",
@@ -96,7 +101,8 @@ export const content = {
             description: "A structured approach to daily alignment, supplements, focus, and discipline.",
             tech: ["Framework", "Optimization"],
             image: "/projects/system.jpg",
-            year: "Ongoing"
+            year: "Ongoing",
+            metrics: "Daily Consistency"
         }
     ]
 };
