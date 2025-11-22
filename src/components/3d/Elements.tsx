@@ -61,19 +61,6 @@ export function SceneElements({ isNight = false }: ElementsProps) {
             <Bench position={[2, 0, -4]} rotation={[0, Math.PI / 6, 0]} />
             <Bench position={[-4, 0, 2]} rotation={[0, -Math.PI / 4, 0]} />
 
-            <LampPost position={[5, 0, -2]} isNight={isNight} />
-            <LampPost position={[-2, 0, 5]} isNight={isNight} />
-            <LampPost position={[-5, 0, -3]} isNight={isNight} />
-
-            {isNight && (
-                <>
-                    <pointLight position={[5, 2, -2]} intensity={2} distance={6} color="#FFD700" cast Shadow />
-                    <pointLight position={[-2, 2, 5]} intensity={2} distance={6} color="#FFD700" castShadow />
-                    <pointLight position={[-5, 2, -3]} intensity={2} distance={6} color="#FFD700" castShadow />
-                    <pointLight position={[0, 1, 0]} intensity={1} distance={8} color="#A7C7E7" />
-                </>
-            )}
-
             <SignPost position={[0, 0, -7]} rotation={[0, 0, 0]} text="PROJECTS" />
             <SignPost position={[6, 0, 0]} rotation={[0, Math.PI / 2, 0]} text="STORY" />
             <SignPost position={[-6, 0, -1]} rotation={[0, -Math.PI / 2, 0]} text="SKILLS" />

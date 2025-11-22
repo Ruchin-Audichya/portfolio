@@ -25,12 +25,13 @@ export default function Scene({ onNodeClick }: SceneProps) {
                     maxPolarAngle={Math.PI / 2.2}
                     enableDamping={true}
                     dampingFactor={0.05}
-                    rotateSpeed={0.5}
+                    rotateSpeed={0.6}
                     zoomSpeed={0.8}
                     touches={{
                         ONE: 2, // TOUCH_ROTATE
                         TWO: 1  // TOUCH_DOLLY_PAN
                     }}
+                    makeDefault
                 />
             </Canvas>
         </div>

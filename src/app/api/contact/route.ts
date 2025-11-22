@@ -12,13 +12,13 @@ export async function POST(request: Request) {
         }
 
         // Send Email via Resend
-        console.log("Attempting to send email to:", 'ruchinAudichya09@gmail.com');
+        console.log("Attempting to send email to:", 'ruchinaudichya09@gmail.com');
+
         const data = await resend.emails.send({
-            from: 'Portfolio Contact <onboarding@resend.dev>', // Default Resend sender
-            to: 'ruchinAudichya09@gmail.com',
+            from: 'onboarding@resend.dev',
+            to: 'ruchinaudichya09@gmail.com',
             subject: `New Message from ${name}`,
             replyTo: email,
-            text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
             html: `
                 <h1>New Message from Portfolio</h1>
                 <p><strong>Name:</strong> ${name}</p>
@@ -37,6 +37,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: true, data });
     } catch (error) {
+        console.error("Contact form error:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
