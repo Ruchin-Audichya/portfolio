@@ -27,6 +27,11 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = defaultMetadata;
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+// ... existing imports
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -65,6 +70,8 @@ export default function RootLayout({
               {children}
             </main>
           </SmoothScroll>
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

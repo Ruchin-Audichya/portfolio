@@ -59,8 +59,8 @@ export const defaultMetadata: Metadata = {
         },
     },
     icons: {
-        icon: "/favicon.ico",
-        shortcut: "/favicon-16x16.png",
+        icon: "/icon.svg",
+        shortcut: "/icon.svg",
         apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",

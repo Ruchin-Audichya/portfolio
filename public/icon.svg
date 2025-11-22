@@ -1,0 +1,12 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 5 L95 25 L95 75 L50 95 L5 75 L5 25 Z" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="stroke-current dark:stroke-white" />
+  <path d="M50 25 L75 37.5 L75 62.5 L50 75 L25 62.5 L25 37.5 Z" fill="#7B2CBF" />
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .stroke-current { stroke: white; }
+    }
+    @media (prefers-color-scheme: light) {
+      .stroke-current { stroke: black; }
+    }
+  </style>
+</svg>

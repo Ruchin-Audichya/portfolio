@@ -1,67 +1,67 @@
 "use client";
 
-import { useCallback, useState } from "react";
-
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import World from "@/components/3d/World";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
 import { Github } from "@/components/sections/Github";
-import { Gallery } from "@/components/sections/Gallery";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { Contact } from "@/components/sections/Contact";
-import dynamic from "next/dynamic";
-import { Overlay } from "@/components/Overlay";
-import type { ProjectNodeId } from "@/components/World/ProjectNode";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { ScrollReveal } from "@/components/ScrollReveal";
-
-const Scene = dynamic(() => import("@/components/World/Scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 flex items-center justify-center bg-neutral-950">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-500 border-t-transparent"></div>
-    </div>
-  ),
-});
+import { IntroOverlay } from "@/components/IntroOverlay";
+import { Navbar } from "@/components/Navbar";
 
 export default function Home() {
-  const [activeNode, setActiveNode] = useState<ProjectNodeId | null>(null);
-
-  const handleNodeClick = useCallback((id: ProjectNodeId) => {
-    setActiveNode(id);
-    // Optional: scroll related section into view to keep portfolio storytelling connected.
-    const sectionIdMap: Record<ProjectNodeId, string> = {
-      journey: "about",
-      skills: "skills",
-      projects: "projects",
-      testimonials: "testimonials",
-    };
-    const sectionId = sectionIdMap[id];
-    if (sectionId) {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  }, []);
-
-  const handleCloseOverlay = useCallback(() => setActiveNode(null), []);
+  const [showIntro, setShowIntro] = useState(true);
 
   return (
-    <>
-      <ThemeToggle />
-      <Hero />
-      {/* 3D world inserted just after hero to act as the bridge into the rest of the story */}
-      <Scene onNodeClick={handleNodeClick} />
-      <ScrollReveal width="100%"><About /></ScrollReveal>
-      <ScrollReveal width="100%"><Skills /></ScrollReveal>
-      <ScrollReveal width="100%"><Projects /></ScrollReveal>
-      <ScrollReveal width="100%"><Github /></ScrollReveal>
-      <ScrollReveal width="100%"><Gallery /></ScrollReveal>
-      <ScrollReveal width="100%"><Testimonials /></ScrollReveal>
-      <Contact />
-      <Overlay activeId={activeNode} onClose={handleCloseOverlay} />
-    </>
+    <main className="relative min-h-screen">
+      <AnimatePresence mode="wait">
+        {showIntro ? (
+          <IntroOverlay key="intro" onComplete={() => setShowIntro(false)} />
+        ) : (
+          <>
+            <Navbar />
+
+            {/* 3D World Section */}
+            <section id="world" className="h-screen w-full relative">
+              <World />
+              <div className="absolute inset-0 pointer-events-none">
+                <Hero />
+              </div>
+            </section>
+
+            {/* Content Sections */}
+            <div className="relative z-10 bg-background">
+              <ScrollReveal width="100%">
+                <About />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
+                <Skills />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
+                <Projects />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
+                <Github />
+              </ScrollReveal>
+
+              <ScrollReveal width="100%">
+                <Contact />
+              </ScrollReveal>
+
+              <footer className="py-8 text-center text-sm text-muted-foreground border-t border-white/10">
+                <p>© {new Date().getFullYear()} Ruchin Audichya. Engineered with precision.</p>
+              </footer>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+    </main>
   );
 }
