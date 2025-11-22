@@ -1,30 +1,18 @@
-import { MetadataRoute } from 'next'
-import { content } from '@/lib/content'
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://ruchinaudichya.in'
+    const baseUrl = 'https://ruchinaudichya.in';
 
-    // Get all project URLs
-    const projectUrls = content.projects.map((project) => ({
-        url: `${baseUrl}/work/${project.slug}`,
+    // Static routes
+    const routes = [
+        '',
+        '/blog',
+    ].map((route) => ({
+        url: `${baseUrl}${route}`,
         lastModified: new Date(),
         changeFrequency: 'monthly' as const,
-        priority: 0.8,
-    }))
+        priority: route === '' ? 1 : 0.8,
+    }));
 
-    return [
-        {
-            url: baseUrl,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/blog`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        ...projectUrls,
-    ]
+    return routes;
 }

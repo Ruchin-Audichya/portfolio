@@ -1,62 +1,124 @@
-"use client";
-
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export function Particles({ count = 100, isNight = false }: { count?: number; isNight: boolean }) {
-    const mesh = useRef<THREE.InstancedMesh>(null);
+const StarShader = {
+    vertexShader: `
+    attribute float size;
+    attribute float speed;
+    attribute float offset;
+    varying float vOpacity;
+    uniform float time;
+    
+    void main() {
+      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+      
+      // Twinkle logic: Sine wave based on time, speed, and random offset
+      float twinkle = sin(time * speed + offset) * 0.5 + 0.5;
+      vOpacity = 0.5 + 0.5 * twinkle; // Min opacity 0.5, max 1.0
+      
+      gl_PointSize = size * (300.0 / -mvPosition.z);
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `,
+    fragmentShader: `
+    varying float vOpacity;
+    
+    void main() {
+      // Circular particle
+      vec2 xy = gl_PointCoord.xy - vec2(0.5);
+      float ll = length(xy);
+      if(ll > 0.5) discard;
+      
+      gl_FragColor = vec4(1.0, 1.0, 1.0, vOpacity);
+    }
+  `
+};
 
-    const dummy = useMemo(() => new THREE.Object3D(), []);
-    const particles = useMemo(() => {
-        const temp = [];
+interface ParticlesProps {
+    count: number;
+    isNight: boolean;
+}
+
+export function Particles({ count, isNight }: ParticlesProps) {
+    const meshRef = useRef<THREE.Points>(null);
+
+    // Generate random positions and attributes
+    const { positions, sizes, speeds, offsets } = useMemo(() => {
+        const positions = new Float32Array(count * 3);
+        const sizes = new Float32Array(count);
+        const speeds = new Float32Array(count);
+        const offsets = new Float32Array(count);
+
         for (let i = 0; i < count; i++) {
-            const t = Math.random() * 100;
-            const factor = 20 + Math.random() * 100;
-            const speed = 0.01 + Math.random() / 200;
-            const xFactor = -50 + Math.random() * 100;
-            const yFactor = -50 + Math.random() * 100;
-            const zFactor = -50 + Math.random() * 100;
-            temp.push({ t, factor, speed, xFactor, yFactor, zFactor, mx: 0, my: 0 });
+            // Random position in a sphere
+            const r = 20 + Math.random() * 30; // Distance from center
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+
+            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i * 3 + 2] = r * Math.cos(phi);
+
+            sizes[i] = Math.random() * 2 + 1; // Base size
+            speeds[i] = Math.random() * 2 + 1; // Twinkle speed
+            offsets[i] = Math.random() * 100; // Random start time
         }
-        return temp;
+
+        return { positions, sizes, speeds, offsets };
     }, [count]);
 
-    useFrame((state) => {
-        if (!mesh.current) return;
-
-        particles.forEach((particle, i) => {
-            let { t, factor, speed, xFactor, yFactor, zFactor } = particle;
-            t = particle.t += speed / 2;
-            const a = Math.cos(t) + Math.sin(t * 1) / 10;
-            const b = Math.sin(t) + Math.cos(t * 2) / 10;
-            const s = Math.cos(t);
-
-            dummy.position.set(
-                (particle.mx / 10) * a + xFactor + Math.cos((t / 10) * factor) + (Math.sin(t * 1) * factor) / 10,
-                (particle.my / 10) * b + yFactor + Math.sin((t / 10) * factor) + (Math.cos(t * 2) * factor) / 10,
-                (particle.my / 10) * b + zFactor + Math.cos((t / 10) * factor) + (Math.sin(t * 3) * factor) / 10
-            );
-            dummy.scale.set(s, s, s);
-            dummy.rotation.set(s * 5, s * 5, s * 5);
-            dummy.updateMatrix();
-
-            mesh.current!.setMatrixAt(i, dummy.matrix);
+    const shaderMaterial = useMemo(() => {
+        return new THREE.ShaderMaterial({
+            uniforms: {
+                time: { value: 0 }
+            },
+            vertexShader: StarShader.vertexShader,
+            fragmentShader: StarShader.fragmentShader,
+            transparent: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
         });
-        mesh.current.instanceMatrix.needsUpdate = true;
+    }, []);
+
+    useFrame((state) => {
+        if (meshRef.current && isNight) {
+            const material = meshRef.current.material as THREE.ShaderMaterial;
+            material.uniforms.time.value = state.clock.elapsedTime;
+        }
     });
 
     if (!isNight) return null;
 
     return (
-        <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-            <sphereGeometry args={[0.12, 8, 8]} />
-            <meshBasicMaterial
-                color="#FFFFFF"
-                transparent
-                opacity={0.95}
-                toneMapped={false}
-            />
-        </instancedMesh>
+        <points ref={meshRef}>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={count}
+                    array={positions}
+                    itemSize={3}
+                />
+                <bufferAttribute
+                    attach="attributes-size"
+                    count={count}
+                    array={sizes}
+                    itemSize={1}
+                />
+                <bufferAttribute
+                    attach="attributes-speed"
+                    count={count}
+                    array={speeds}
+                    itemSize={1}
+                />
+                <bufferAttribute
+                    attach="attributes-offset"
+                    count={count}
+                    array={offsets}
+                    itemSize={1}
+                />
+            </bufferGeometry>
+            <primitive object={shaderMaterial} attach="material" />
+        </points>
     );
 }

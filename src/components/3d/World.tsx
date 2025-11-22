@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
@@ -11,6 +11,7 @@ import { Particles } from "./Particles";
 import { Clouds } from "./Clouds";
 import { Birds } from "./Birds";
 import { NavigationGems } from "./NavigationGems";
+import { LightManager } from "./LightManager";
 
 interface WorldProps {
     onNodeClick?: (id: any) => void;
@@ -42,7 +43,7 @@ export default function World({ onNodeClick }: WorldProps) {
     };
 
     // Keyboard shortcut 'N'
-    useState(() => {
+    useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key.toLowerCase() === 'n') {
                 toggleTheme();
@@ -50,7 +51,7 @@ export default function World({ onNodeClick }: WorldProps) {
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    });
+    }, []);
 
     return (
         <>
@@ -90,6 +91,9 @@ export default function World({ onNodeClick }: WorldProps) {
                 {/* Elements */}
                 <Trees count={20} radius={9} isNight={isNight} />
                 <SceneElements isNight={isNight} />
+
+                {/* GTA 2DFX Light Manager */}
+                <LightManager isNight={isNight} />
 
                 {/* Navigation Gems */}
                 <NavigationGems />

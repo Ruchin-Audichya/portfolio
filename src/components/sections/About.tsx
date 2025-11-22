@@ -94,6 +94,8 @@ export function About() {
                   src={content.profile.avatar}
                   alt={content.profile.name}
                   fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
                 {/* Overlay gradient */}
