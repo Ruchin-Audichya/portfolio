@@ -75,11 +75,48 @@ export default function TechStack() {
             });
         });
 
-        // Create some cross-links for "SOTA" complexity (optional, can be refined)
-        // For now, simple hub-spoke model
         setNodes(newNodes);
         setLinks(newLinks);
     }, []);
+
+    // D3 Simulation
+    useEffect(() => {
+        if (!containerRef.current || nodes.length === 0) return;
+
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+
+        // Deep clone to prevent mutation issues with React Strict Mode or re-renders
+        const simulationNodes = JSON.parse(JSON.stringify(nodes));
+        const simulationLinks = JSON.parse(JSON.stringify(links));
+
+        const simulation = d3.forceSimulation(simulationNodes)
+            .force("link", d3.forceLink(simulationLinks).id((d: any) => d.id).distance(70))
+            .force("charge", d3.forceManyBody().strength(-200))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide().radius((d: any) => d.radius + 10).iterations(2));
+
+        // Use a ref to throttle updates to 30fps to save resources
+        let lastUpdate = 0;
+        simulation.on("tick", () => {
+            const now = Date.now();
+            if (now - lastUpdate > 32) { // ~30fps
+                setNodes([...simulationNodes]);
+                lastUpdate = now;
+            }
+        });
+
+        return () => {
+            simulation.stop();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nodes.length, links.length]); // Re-run if data changes
+
+    // Filter Logic
+    const filteredNodes = useMemo(() => {
+        if (activeCategory === "All") return nodes;
+        return nodes.filter(n => n.group === activeCategory || n.group === "hub" && n.id === activeCategory);
+    }, [activeCategory, nodes]);
 
     return (
         <section className="relative w-full min-h-screen py-20 overflow-hidden" ref={containerRef}>
@@ -276,33 +313,29 @@ export default function TechStack() {
 
                             <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-sm font-semibold text-white mb-2">Proficiency</h4>
+                                    <h4 className="text-sm font-bold text-white mb-2">Description</h4>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {selectedNode.group === "hub"
+                                            ? `Core competency in ${selectedNode.id}. This cluster represents my proficiency and projects in this domain.`
+                                            : `Advanced proficiency in ${selectedNode.id}. Used in multiple production projects for scalability and performance.`}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-sm font-bold text-white mb-2">Proficiency</h4>
                                     <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                                         <motion.div
                                             initial={{ width: 0 }}
-                                            animate={{ width: "85%" }}
-                                            className="h-full bg-accent"
+                                            animate={{ width: "90%" }}
+                                            className="h-full bg-white"
                                         />
                                     </div>
                                 </div>
 
-                                <div>
-                                    <h4 className="text-sm font-semibold text-white mb-2">Related Skills</h4>
-                                    <div className="flex flex-wrap gap-2">
-                                        {links
-                                            .filter(l => (typeof l.source === 'object' ? l.source.id : l.source) === selectedNode.id || (typeof l.target === 'object' ? l.target.id : l.target) === selectedNode.id)
-                                            .map(l => {
-                                                const relatedId = (typeof l.source === 'object' ? l.source.id : l.source) === selectedNode.id
-                                                    ? (typeof l.target === 'object' ? l.target.id : l.target)
-                                                    : (typeof l.source === 'object' ? l.source.id : l.source);
-                                                return (
-                                                    <span key={relatedId as string} className="text-xs px-2 py-1 rounded bg-white/5 border border-white/10">
-                                                        {relatedId as string}
-                                                    </span>
-                                                )
-                                            })
-                                        }
-                                    </div>
+                                <div className="pt-4 border-t border-white/10">
+                                    <button className="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-white/90 transition-colors">
+                                        View Related Projects
+                                    </button>
                                 </div>
                             </div>
                         </motion.div>
