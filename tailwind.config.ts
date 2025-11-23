@@ -16,6 +16,11 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["var(--font-clash)", "sans-serif"],
+        sans: ["var(--font-satoshi)", "sans-serif"],
+        serif: ["var(--font-fraunces)", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -113,13 +113,24 @@ export function Neon999() {
                 decay={2}
             />
 
-            {/* Subtle Glow Halo */}
+            {/* Spinning Halo Ring */}
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[3.5, 0.05, 16, 100]} />
+                <meshStandardMaterial
+                    color="#FF10F0"
+                    emissive="#FF10F0"
+                    emissiveIntensity={2}
+                    toneMapped={false}
+                />
+            </mesh>
+
+            {/* Inner Glow Halo */}
             <mesh position={[0, 0, -0.5]}>
-                <circleGeometry args={[2.8, 32]} />
+                <circleGeometry args={[3, 32]} />
                 <meshBasicMaterial
                     color="#FF10F0"
                     transparent
-                    opacity={0.08}
+                    opacity={0.15}
                     toneMapped={false}
                 />
             </mesh>

@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Html, OrbitControls } from "@react-three/drei";
+import { Html, OrbitControls, MeshReflectorMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { Hand } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -72,8 +72,8 @@ export default function World({ onNodeClick }: WorldProps) {
                     <button
                         onClick={toggleInteraction}
                         className={`pointer-events-auto p-4 rounded-full backdrop-blur-md border shadow-2xl transition-all duration-300 active:scale-95 ${isInteracting
-                                ? "bg-gradient-to-br from-pink-500 to-purple-600 border-pink-400 text-white shadow-pink-500/50 animate-pulse"
-                                : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                            ? "bg-gradient-to-br from-pink-500 to-purple-600 border-pink-400 text-white shadow-pink-500/50 animate-pulse"
+                            : "bg-white/10 border-white/20 text-white hover:bg-white/20"
                             }`}
                         aria-label={isInteracting ? "Disable 3D Interaction" : "Enable 3D Interaction"}
                     >
@@ -132,7 +132,19 @@ export default function World({ onNodeClick }: WorldProps) {
                 {/* Ground - Natural colors */}
                 <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
                     <circleGeometry args={[10, 64]} />
-                    <meshStandardMaterial color={isNight ? "#1a2332" : "#4A7C59"} />
+                    <MeshReflectorMaterial
+                        blur={[300, 100]}
+                        resolution={1024}
+                        mixBlur={1}
+                        mixStrength={40}
+                        roughness={1}
+                        depthScale={1.2}
+                        minDepthThreshold={0.4}
+                        maxDepthThreshold={1.4}
+                        color={isNight ? "#1a2332" : "#4A7C59"}
+                        metalness={0.5}
+                        mirror={0} // 0 for non-mirror like reflection
+                    />
                 </mesh>
 
                 {/* Elements */}
@@ -155,8 +167,8 @@ export default function World({ onNodeClick }: WorldProps) {
             {/* Fog for depth */}
             <fog attach="fog" args={[isNight ? "#0B1026" : "#B0D4F1", 10, 30]} />
 
-            {/* More visible stars at night */}
-            <Particles count={isNight ? 150 : 0} isNight={isNight} />
+            {/* More visible stars at night - Game-like Skybox */}
+            <Particles count={isNight ? 1500 : 0} isNight={isNight} />
 
             {/* Day Clouds */}
             <Clouds count={8} isNight={isNight} />

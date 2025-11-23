@@ -51,8 +51,8 @@ export function Particles({ count, isNight }: ParticlesProps) {
         const offsets = new Float32Array(count);
 
         for (let i = 0; i < count; i++) {
-            // Random position in a sphere
-            const r = 20 + Math.random() * 30; // Distance from center
+            // Random position in a large sphere (Skybox)
+            const r = 60 + Math.random() * 60; // Distance from center (60 to 120)
             const theta = Math.random() * Math.PI * 2;
             const phi = Math.acos(2 * Math.random() - 1);
 

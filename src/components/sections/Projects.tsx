@@ -44,11 +44,11 @@ export function Projects() {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="group h-full flex flex-col glass-panel border-0 relative overflow-hidden card-hover-glow">
+                <Card className="group h-full flex flex-col glass-panel border-0 relative overflow-hidden card-hover-glow" role="article" aria-label={`Project: ${project.title}`}>
                   <CardHeader className="pb-4">
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                      <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors md:group-hover:translate-x-1 md:group-hover:-translate-y-1 duration-300" />
+                      <CardTitle className="text-xl font-display font-bold">{project.title}</CardTitle>
+                      <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors md:group-hover:translate-x-1 md:group-hover:-translate-y-1 duration-300" aria-hidden="true" />
                     </div>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {project.tags.map((tag) => (
@@ -59,22 +59,22 @@ export function Projects() {
                     </div>
                   </CardHeader>
                   <CardContent className="flex-grow">
-                    <CardDescription className="text-base leading-relaxed">
+                    <CardDescription className="text-base leading-relaxed font-sans">
                       {project.description}
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="flex gap-3 pt-4 border-t border-border/50">
                     {project.github && (
                       <Button asChild variant="outline" size="sm" className="flex-1 gap-2 hover-bounce rounded-full">
-                        <Link href={project.github} target="_blank">
-                          <Github className="h-4 w-4" /> Code
+                        <Link href={project.github} target="_blank" aria-label={`View source code for ${project.title}`}>
+                          <Github className="h-4 w-4" aria-hidden="true" /> Code
                         </Link>
                       </Button>
                     )}
                     {project.link && (
                       <Button asChild size="sm" className="flex-1 gap-2 hover-bounce rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-primary/25">
-                        <Link href={project.link} target="_blank">
-                          <ExternalLink className="h-4 w-4" /> Live Demo
+                        <Link href={project.link} target="_blank" aria-label={`Visit live demo of ${project.title}`}>
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" /> Live Demo
                         </Link>
                       </Button>
                     )}

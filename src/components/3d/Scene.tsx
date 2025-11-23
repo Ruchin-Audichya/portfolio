@@ -3,6 +3,7 @@
 import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useState, useEffect } from "react";
 import { PerformanceMonitor } from "@react-three/drei";
+import { EffectComposer, Bloom, Vignette, Noise } from "@react-three/postprocessing";
 import World from "./World";
 
 interface SceneProps {
@@ -59,6 +60,11 @@ export default function Scene({ onNodeClick }: SceneProps) {
                 <ResponsiveCamera />
                 <Suspense fallback={null}>
                     <World onNodeClick={onNodeClick} />
+                    <EffectComposer>
+                        <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} radius={0.6} />
+                        <Vignette eskil={false} offset={0.1} darkness={1.1} />
+                        <Noise opacity={0.05} />
+                    </EffectComposer>
                 </Suspense>
             </Canvas>
         </div>
