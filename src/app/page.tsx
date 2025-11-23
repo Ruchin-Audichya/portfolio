@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Scene from "@/components/3d/Scene";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
-import TechStack from "@/components/TechStack";
+import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/sections/Projects";
 import { Achievements } from "@/components/sections/Achievements";
 import { Github } from "@/components/sections/Github";
@@ -42,7 +42,7 @@ export default function Home() {
               </ScrollReveal>
 
               <ScrollReveal width="100%">
-                <TechStack />
+                <Skills />
               </ScrollReveal>
 
               <ScrollReveal width="100%">

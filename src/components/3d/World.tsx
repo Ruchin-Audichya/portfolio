@@ -168,7 +168,7 @@ export default function World({ onNodeClick }: WorldProps) {
             <fog attach="fog" args={[isNight ? "#0B1026" : "#B0D4F1", 10, 30]} />
 
             {/* More visible stars at night - Game-like Skybox */}
-            <Particles count={isNight ? 500 : 0} isNight={isNight} />
+            <Particles count={isNight ? 150 : 0} isNight={isNight} />
 
             {/* Day Clouds */}
             <Clouds count={8} isNight={isNight} />
