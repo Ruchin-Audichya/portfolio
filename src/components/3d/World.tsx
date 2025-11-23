@@ -28,9 +28,17 @@ function SafeOrbitControls(props: any) {
 export default function World({ onNodeClick }: WorldProps) {
     const groupRef = useRef<THREE.Group>(null);
     const { resolvedTheme } = useTheme();
-    const isNight = resolvedTheme === 'dark';
     const [isInteracting, setIsInteracting] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const { gl } = useThree();
+
+    // Prevent hydration mismatch - only use theme after mount
+    const isNight = mounted ? resolvedTheme === 'dark' : false;
+
+    // Wait for client-side mount
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (gl.domElement) {
