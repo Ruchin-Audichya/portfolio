@@ -13,6 +13,7 @@ import { Clouds } from "./Clouds";
 import { Birds } from "./Birds";
 import { NavigationGems } from "./NavigationGems";
 import { LightManager } from "./LightManager";
+import { Neon999 } from "./Neon999";
 
 interface WorldProps {
     onNodeClick?: (id: any) => void;
@@ -59,37 +60,59 @@ export default function World({ onNodeClick }: WorldProps) {
 
             {/* UI Controls - Mobile Friendly */}
             <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }} zIndexRange={[100, 0]}>
-                <div className="absolute bottom-6 right-6 pointer-events-auto z-50 flex flex-col gap-4">
-                    {/* Interaction Toggle (Mobile Optimization) */}
+                <div className="absolute bottom-6 left-0 right-0 pointer-events-none z-50 flex flex-col items-center gap-4">
+                    {/* Mobile Hint - Only show when not interacting */}
+                    {!isInteracting && (
+                        <div className="px-4 py-2 rounded-full backdrop-blur-md bg-white/10 border border-white/20 text-white text-sm md:text-base animate-pulse">
+                            👆 Tap the hand icon to rotate the world
+                        </div>
+                    )}
+
+                    {/* Interaction Toggle */}
                     <button
                         onClick={toggleInteraction}
-                        className={`p-3 rounded-full backdrop-blur-md border shadow-lg transition-all active:scale-95 ${isInteracting
-                            ? "bg-blue-500/80 border-blue-400 text-white"
-                            : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                        className={`pointer-events-auto p-4 rounded-full backdrop-blur-md border shadow-2xl transition-all duration-300 active:scale-95 ${isInteracting
+                                ? "bg-gradient-to-br from-pink-500 to-purple-600 border-pink-400 text-white shadow-pink-500/50 animate-pulse"
+                                : "bg-white/10 border-white/20 text-white hover:bg-white/20"
                             }`}
                         aria-label={isInteracting ? "Disable 3D Interaction" : "Enable 3D Interaction"}
                     >
-                        <Hand className="w-6 h-6" />
+                        <Hand className="w-6 h-6 md:w-7 md:h-7" />
                     </button>
+
+                    {/* Touch Instructions - When interacting */}
+                    {isInteracting && (
+                        <div className="px-6 py-3 rounded-2xl backdrop-blur-md bg-gradient-to-br from-pink-500/20 to-purple-600/20 border border-pink-400/30 text-white text-xs md:text-sm text-center shadow-lg max-w-xs">
+                            <p className="font-semibold mb-1">🎮 Touch Controls Active</p>
+                            <p className="text-white/80">
+                                1 finger: Rotate • 2 fingers: Zoom
+                            </p>
+                        </div>
+                    )}
                 </div>
             </Html>
 
-            {/* Controls - Only enabled when interacting */}
+            {/* Controls - Enhanced for Mobile Touch */}
             <SafeOrbitControls
                 enabled={isInteracting}
                 enableZoom={true}
                 enablePan={false}
                 minDistance={5}
-                maxDistance={20}
+                maxDistance={25}
                 minPolarAngle={Math.PI / 6}
                 maxPolarAngle={Math.PI / 2.2}
                 enableDamping={true}
-                dampingFactor={0.05}
-                rotateSpeed={0.6}
-                zoomSpeed={0.8}
+                dampingFactor={0.08}
+                rotateSpeed={1.2} // Increased for better mobile response
+                zoomSpeed={1.0}
                 touches={{
-                    ONE: 2, // TOUCH_ROTATE
-                    TWO: 1  // TOUCH_DOLLY_PAN
+                    ONE: THREE.TOUCH.ROTATE, // Single finger rotation
+                    TWO: THREE.TOUCH.DOLLY_PAN  // Two finger zoom/pan
+                }}
+                mouseButtons={{
+                    LEFT: THREE.MOUSE.ROTATE,
+                    MIDDLE: THREE.MOUSE.DOLLY,
+                    RIGHT: THREE.MOUSE.PAN
                 }}
                 makeDefault
             />
@@ -121,6 +144,9 @@ export default function World({ onNodeClick }: WorldProps) {
 
                 {/* Navigation Gems */}
                 <NavigationGems />
+
+                {/* Neon 999 Tribute - Juice WRLD */}
+                <Neon999 />
             </group>
 
             {/* Background Color - Realistic sky */}
