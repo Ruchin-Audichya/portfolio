@@ -27,7 +27,7 @@ export function Hero() {
               e.preventDefault();
               document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/25 touch-manipulation relative z-50 min-h-[44px] min-w-[44px]"
+            className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/25 touch-manipulation relative z-50 min-h-[44px] min-w-[44px] pointer-events-auto"
           >
             Explore my world
             <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />

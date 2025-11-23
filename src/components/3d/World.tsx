@@ -4,7 +4,8 @@ import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { Sun, Moon, Hand } from "lucide-react";
+import { Hand } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Trees, SceneElements } from "./Elements";
 import { LoadingProgress } from "./LoadingProgress";
 import { Particles } from "./Particles";
@@ -25,9 +26,19 @@ function SafeOrbitControls(props: any) {
 
 export default function World({ onNodeClick }: WorldProps) {
     const groupRef = useRef<THREE.Group>(null);
-    const [isNight, setIsNight] = useState(false);
+    const { resolvedTheme } = useTheme();
+    const isNight = resolvedTheme === 'dark';
     const [isInteracting, setIsInteracting] = useState(false);
-    const isManualRef = useRef(false);
+    const { gl } = useThree();
+
+    // Handle touch action for mobile scrolling
+    useEffect(() => {
+        if (gl.domElement) {
+            // 'none' prevents browser scrolling (allows 3D interaction)
+            // 'auto' allows browser scrolling (passes through clicks)
+            gl.domElement.style.touchAction = isInteracting ? 'none' : 'auto';
+        }
+    }, [isInteracting, gl.domElement]);
 
     useFrame((state, delta) => {
         if (groupRef.current) {
@@ -35,36 +46,12 @@ export default function World({ onNodeClick }: WorldProps) {
             if (!isInteracting) {
                 groupRef.current.rotation.y += delta * 0.05;
             }
-
-            // Check rotation for Day/Night cycle (simple logic)
-            // Only update if not manually overridden
-            if (!isManualRef.current) {
-                const rotationY = groupRef.current.rotation.y % (Math.PI * 2);
-                if (rotationY > Math.PI && !isNight) setIsNight(true);
-                if (rotationY <= Math.PI && isNight) setIsNight(false);
-            }
         }
     });
-
-    const toggleTheme = () => {
-        setIsNight((prev) => !prev);
-        isManualRef.current = true;
-    };
 
     const toggleInteraction = () => {
         setIsInteracting((prev) => !prev);
     };
-
-    // Keyboard shortcut 'N'
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key.toLowerCase() === 'n') {
-                toggleTheme();
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
 
     return (
         <>
@@ -77,21 +64,12 @@ export default function World({ onNodeClick }: WorldProps) {
                     <button
                         onClick={toggleInteraction}
                         className={`p-3 rounded-full backdrop-blur-md border shadow-lg transition-all active:scale-95 ${isInteracting
-                                ? "bg-blue-500/80 border-blue-400 text-white"
-                                : "bg-white/10 border-white/20 text-white hover:bg-white/20"
+                            ? "bg-blue-500/80 border-blue-400 text-white"
+                            : "bg-white/10 border-white/20 text-white hover:bg-white/20"
                             }`}
                         aria-label={isInteracting ? "Disable 3D Interaction" : "Enable 3D Interaction"}
                     >
                         <Hand className="w-6 h-6" />
-                    </button>
-
-                    {/* Theme Toggle */}
-                    <button
-                        onClick={toggleTheme}
-                        className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-white hover:bg-white/20 transition-all active:scale-95"
-                        aria-label={isNight ? "Switch to Day Mode" : "Switch to Night Mode"}
-                    >
-                        {isNight ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
                     </button>
                 </div>
             </Html>
