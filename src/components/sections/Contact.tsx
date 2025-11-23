@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { profile } from "@/data/profile"
+import confetti from "canvas-confetti"
+import { useSound } from "@/components/SoundManager"
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -31,7 +33,10 @@ export function Contact() {
     },
   })
 
+  const { playSuccess, playClick } = useSound();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    playClick();
     setIsSubmitting(true)
     // TODO: Wire up actual API route here
     console.log("Form submitted:", values)
@@ -41,6 +46,33 @@ export function Contact() {
 
     setIsSubmitting(false)
     setIsSuccess(true)
+    playSuccess();
+
+    // Confetti Explosion
+    const end = Date.now() + 1000;
+    const colors = ['#FF10F0', '#00FFFF', '#ffffff'];
+
+    (function frame() {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+
     form.reset()
 
     setTimeout(() => setIsSuccess(false), 3000)

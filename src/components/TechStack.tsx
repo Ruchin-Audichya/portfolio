@@ -81,39 +81,6 @@ export default function TechStack() {
         setLinks(newLinks);
     }, []);
 
-    // D3 Simulation
-    useEffect(() => {
-        if (!containerRef.current || nodes.length === 0) return;
-
-        const width = containerRef.current.clientWidth;
-        const height = containerRef.current.clientHeight;
-
-        const simulation = d3.forceSimulation(nodes)
-            .force("link", d3.forceLink(links).id((d: any) => d.id).distance(70))
-            .force("charge", d3.forceManyBody().strength(-200))
-            .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collide", d3.forceCollide().radius((d: any) => d.radius + 10).iterations(2));
-
-        simulation.on("tick", () => {
-            // Trigger re-render on tick to update positions
-            // Optimization: Use a ref or direct DOM manipulation for high perf, 
-            // but for < 50 nodes, React state is usually fine if optimized.
-            // Here we'll just force a re-render by cloning the nodes array shallowly
-            setNodes([...nodes]);
-        });
-
-        return () => {
-            simulation.stop();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [nodes.length, links.length]); // Re-run if data changes
-
-    // Filter Logic
-    const filteredNodes = useMemo(() => {
-        if (activeCategory === "All") return nodes;
-        return nodes.filter(n => n.group === activeCategory || n.group === "hub" && n.id === activeCategory);
-    }, [activeCategory, nodes]);
-
     return (
         <section className="relative w-full min-h-screen py-20 overflow-hidden" ref={containerRef}>
             {/* Background Elements */}
