@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { SkipNav } from "@/components/SkipNav";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Fraunces, Outfit, Manrope } from "next/font/google";
@@ -6,6 +6,8 @@ import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ThemeProvider } from "@/components/theme-provider";
 import { defaultMetadata, generatePersonSchema, generateWebsiteSchema } from "./metadata";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const clash = Outfit({
   subsets: ["latin"],
@@ -27,22 +29,18 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   ...defaultMetadata,
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
 };
-
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
-// ... existing imports
 
 export default function RootLayout({
   children,
