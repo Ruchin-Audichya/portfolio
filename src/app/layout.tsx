@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { defaultMetadata, generatePersonSchema, generateWebsiteSchema } from "./metadata";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SoundManager } from "@/components/SoundManager";
 
 const clash = Outfit({
   subsets: ["latin"],
@@ -73,15 +74,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CustomCursor />
-          <SkipNav />
-          <SmoothScroll>
-            <main id="main-content">
-              {children}
-            </main>
-          </SmoothScroll>
-          <Analytics />
-          <SpeedInsights />
+          <SoundManager>
+            <CustomCursor />
+            <SkipNav />
+            <SmoothScroll>
+              <main id="main-content">
+                {children}
+              </main>
+            </SmoothScroll>
+            <Analytics />
+            <SpeedInsights />
+          </SoundManager>
         </ThemeProvider>
       </body>
     </html>

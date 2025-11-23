@@ -39,36 +39,53 @@ export function SoundManager({ children }: { children: React.ReactNode }) {
     const successRef = useRef<Howl | null>(null);
 
     useEffect(() => {
-        // Initialize sounds
-        ambientRef.current = new Howl({
-            src: ['/sounds/ambient-loop.mp3'], // We'll need to ensure these exist or use placeholders
-            loop: true,
-            volume: 0.3,
-            autoplay: false,
-        });
+        // Initialize sounds with error handling
+        try {
+            ambientRef.current = new Howl({
+                src: ['/sounds/ambient-loop.mp3'],
+                loop: true,
+                volume: 0.3,
+                autoplay: false,
+                html5: true, // Use HTML5 Audio for better compatibility
+                onloaderror: () => console.warn('Failed to load ambient sound'),
+            });
 
-        hoverRef.current = new Howl({
-            src: ['/sounds/hover.mp3'],
-            volume: 0.1,
-        });
+            hoverRef.current = new Howl({
+                src: ['/sounds/hover.mp3'],
+                volume: 0.1,
+                html5: true,
+                onloaderror: () => console.warn('Failed to load hover sound'),
+            });
 
-        clickRef.current = new Howl({
-            src: ['/sounds/click.mp3'],
-            volume: 0.2,
-        });
+            clickRef.current = new Howl({
+                src: ['/sounds/click.mp3'],
+                volume: 0.2,
+                html5: true,
+                onloaderror: () => console.warn('Failed to load click sound'),
+            });
 
-        successRef.current = new Howl({
-            src: ['/sounds/success.mp3'],
-            volume: 0.4,
-        });
+            successRef.current = new Howl({
+                src: ['/sounds/success.mp3'],
+                volume: 0.4,
+                html5: true,
+                onloaderror: () => console.warn('Failed to load success sound'),
+            });
 
-        setIsLoaded(true);
+            setIsLoaded(true);
+        } catch (error) {
+            console.warn('Sound initialization failed:', error);
+            setIsLoaded(false);
+        }
 
         return () => {
-            ambientRef.current?.unload();
-            hoverRef.current?.unload();
-            clickRef.current?.unload();
-            successRef.current?.unload();
+            try {
+                ambientRef.current?.unload();
+                hoverRef.current?.unload();
+                clickRef.current?.unload();
+                successRef.current?.unload();
+            } catch (error) {
+                console.warn('Error unloading sounds:', error);
+            }
         };
     }, []);
 
