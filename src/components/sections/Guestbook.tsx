@@ -171,7 +171,7 @@ export function Guestbook() {
                             >
                                 <div className="p-6 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm hover:border-accent/30 transition-colors">
                                     <p className="text-lg leading-relaxed mb-4 text-foreground/90">
-                                        "{msg.message}"
+                                        &quot;{msg.message}&quot;
                                     </p>
                                     <div className="flex items-center justify-between">
                                         <div>

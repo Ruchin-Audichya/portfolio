@@ -318,7 +318,7 @@ function PurchaseModal({ product, onClose }: { product: any; onClose: () => void
                         <Check className="w-16 h-16 text-accent mx-auto mb-4" />
                         <h4 className="text-xl font-bold mb-2">Order Received!</h4>
                         <p className="text-muted">
-                            We'll contact you shortly to complete the purchase.
+                            We&apos;ll contact you shortly to complete the purchase.
                         </p>
                     </div>
                 ) : (
@@ -406,7 +406,7 @@ function PurchaseModal({ product, onClose }: { product: any; onClose: () => void
                         )}
 
                         <p className="text-xs text-muted text-center">
-                            You'll receive payment instructions via email within 5 minutes.
+                            You&apos;ll receive payment instructions via email within 5 minutes.
                             Keys are delivered after payment confirmation.
                         </p>
                     </form>

@@ -15,7 +15,7 @@ export default function NotFound() {
                     </h2>
                     <p className="text-lg text-neutral-400 max-w-md mx-auto">
                         The coordinates you are looking for do not exist in this sector.
-                        Let's get you back to solid ground.
+                        Let&apos;s get you back to solid ground.
                     </p>
                 </div>
 
