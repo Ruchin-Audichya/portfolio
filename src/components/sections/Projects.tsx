@@ -48,7 +48,7 @@ export function Projects() {
                   <CardHeader className="pb-4">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                      <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors group-hover:translate-x-1 group-hover:-translate-y-1 duration-300" />
+                      <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors md:group-hover:translate-x-1 md:group-hover:-translate-y-1 duration-300" />
                     </div>
                     <div className="flex flex-wrap gap-2 mt-3">
                       {project.tags.map((tag) => (

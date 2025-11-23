@@ -86,19 +86,25 @@ export default function ShopPage() {
             {/* Categories */}
             <section className="sticky top-16 z-40 bg-background/80 backdrop-blur-md border-b border-white/5">
                 <div className="container mx-auto px-6 py-4">
-                    <div className="flex gap-4 overflow-x-auto">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat.id}
-                                onClick={() => setSelectedCategory(cat.id)}
-                                className={`px-6 py-2 rounded-full font-mono text-sm uppercase tracking-widest transition-all whitespace-nowrap ${selectedCategory === cat.id
-                                        ? "bg-accent text-background"
-                                        : "bg-surface/50 border border-white/10 hover:border-accent/50"
-                                    }`}
-                            >
-                                {cat.label}
-                            </button>
-                        ))}
+                    <div className="relative group">
+                        {/* Fade gradients for scroll indication */}
+                        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none md:hidden" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none md:hidden" />
+
+                        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => setSelectedCategory(cat.id)}
+                                    className={`px-6 py-2 rounded-full font-mono text-sm uppercase tracking-widest transition-all whitespace-nowrap snap-center flex-shrink-0 ${selectedCategory === cat.id
+                                        ? "bg-accent text-background scale-105"
+                                        : "bg-surface/50 border border-white/10 hover:border-accent/50 active:scale-95"
+                                        }`}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -284,11 +290,11 @@ function PurchaseModal({ product, onClose }: { product: any; onClose: () => void
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-background border border-white/10 p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="bg-background border border-white/10 p-6 md:p-8 max-w-md w-full my-auto rounded-2xl shadow-2xl relative"
             >
                 <div className="flex justify-between items-start mb-6">
                     <div>

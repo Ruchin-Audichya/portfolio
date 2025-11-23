@@ -78,29 +78,15 @@
   }
 }
 
-/* Playful Utilities */
-@layer utilities {
-  .glass-panel {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 dark:bg-black/20 dark:border-white/10 shadow-xl;
-  }
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
 
-  .hover-bounce {
-    @apply transition-transform duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95;
-  }
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
 
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-
-  .lenis.lenis-stopped {
-    overflow: hidden;
-  }
-
-  .lenis.lenis-scrolling iframe {
-    pointer-events: none;
-  }
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
 }

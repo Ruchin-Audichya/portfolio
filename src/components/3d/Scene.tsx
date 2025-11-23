@@ -1,12 +1,28 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useState, useEffect } from "react";
 import { PerformanceMonitor } from "@react-three/drei";
 import World from "./World";
 
 interface SceneProps {
     onNodeClick?: (id: any) => void;
+}
+
+function ResponsiveCamera() {
+    const { camera, size } = useThree();
+
+    useEffect(() => {
+        const isMobile = size.width < 768;
+        // Move camera back on mobile to see more of the world
+        const targetZ = isMobile ? 16 : 10;
+        const targetY = isMobile ? 4 : 2;
+
+        camera.position.set(0, targetY, targetZ);
+        camera.updateProjectionMatrix();
+    }, [camera, size]);
+
+    return null;
 }
 
 export default function Scene({ onNodeClick }: SceneProps) {
@@ -40,7 +56,7 @@ export default function Scene({ onNodeClick }: SceneProps) {
                 }}
             >
                 <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
-
+                <ResponsiveCamera />
                 <Suspense fallback={null}>
                     <World onNodeClick={onNodeClick} />
                 </Suspense>

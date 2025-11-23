@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { content } from "@/lib/content";
@@ -11,6 +11,8 @@ import { skills as dataSkills } from "@/data/skills";
 const GemGeometry = ({ position, color, label, type }: { position: [number, number, number], color: string, label: string, type: 'skill' | 'cert' }) => {
     const meshRef = useRef<THREE.Mesh>(null);
     const [hovered, setHovered] = useState(false);
+    const { size } = useThree();
+    const isMobile = size.width < 768;
 
     useFrame((state, delta) => {
         if (meshRef.current) {
@@ -19,7 +21,8 @@ const GemGeometry = ({ position, color, label, type }: { position: [number, numb
         }
     });
 
-    const size = type === 'cert' ? 0.4 : 0.3;
+    const sizeScale = type === 'cert' ? 0.4 : 0.3;
+    const showLabel = hovered || isMobile;
 
     return (
         <group position={position}>
@@ -29,8 +32,7 @@ const GemGeometry = ({ position, color, label, type }: { position: [number, numb
                 onPointerOut={() => setHovered(false)}
                 scale={hovered ? 1.4 : 1}
             >
-                {/* Smooth spheres instead of jagged polygons */}
-                <sphereGeometry args={[size, 16, 16]} />
+                <sphereGeometry args={[sizeScale, 16, 16]} />
                 <meshStandardMaterial
                     color={hovered ? "#ffffff" : color}
                     roughness={0.2}
@@ -40,7 +42,6 @@ const GemGeometry = ({ position, color, label, type }: { position: [number, numb
                 />
             </mesh>
 
-            {/* GTA-style point light glow */}
             {hovered && (
                 <pointLight
                     position={[0, 0, 0]}
@@ -50,16 +51,15 @@ const GemGeometry = ({ position, color, label, type }: { position: [number, numb
                 />
             )}
 
-            {/* Show label only on hover for performance */}
-            {hovered && (
+            {showLabel && (
                 <Html position={[0, type === 'cert' ? -0.9 : -0.7, 0]} center style={{ pointerEvents: "none" }} zIndexRange={[100, 0]}>
                     <div className={`
-                        px-3 py-2 rounded-lg backdrop-blur-md border transition-all duration-300 whitespace-nowrap
+                        px-2 py-1 md:px-3 md:py-2 rounded-lg backdrop-blur-md border transition-all duration-300 whitespace-nowrap
                         ${type === 'cert'
                             ? "bg-yellow-500/20 border-yellow-500/50 text-yellow-100 font-bold shadow-[0_0_20px_rgba(234,179,8,0.4)]"
                             : "bg-purple-500/20 border-purple-500/40 text-purple-100 font-medium shadow-[0_0_15px_rgba(168,85,247,0.3)]"}
                     `}>
-                        <span className="text-xs tracking-wide">{label}</span>
+                        <span className="text-[10px] md:text-xs tracking-wide">{label}</span>
                     </div>
                 </Html>
             )}
@@ -132,9 +132,9 @@ export function SkillsGalaxy() {
 
     return (
         <div className="h-[600px] w-full relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-black/50 to-purple-900/20 backdrop-blur-sm">
-            <Canvas camera={{ position: [0, 0, 14], fov: 45 }}>
-                <ambientLight intensity={0.4} />
-                <pointLight position={[10, 10, 10]} intensity={0.8} />
+            <Canvas camera={{ position: [0, 0, 16], fov: 50 }}>
+                <ambientLight intensity={0.6} />
+                <pointLight position={[10, 10, 10]} intensity={1} />
                 <pointLight position={[-10, -10, -10]} intensity={0.5} color="#a855f7" />
                 <pointLight position={[0, 10, -10]} intensity={0.4} color="#3b82f6" />
                 <Galaxy skills={allSkills} certs={certs} />

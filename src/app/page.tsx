@@ -9,7 +9,7 @@ import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
 import { Achievements } from "@/components/sections/Achievements";
 import { Github } from "@/components/sections/Github";
-import { Testimonials } from "@/components/sections/Testimonials";
+import { Guestbook } from "@/components/sections/Guestbook";
 import { Contact } from "@/components/sections/Contact";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { IntroOverlay } from "@/components/IntroOverlay";
@@ -58,7 +58,7 @@ export default function Home() {
               </ScrollReveal>
 
               <ScrollReveal width="100%">
-                <Testimonials />
+                <Guestbook />
               </ScrollReveal>
 
               <ScrollReveal width="100%">

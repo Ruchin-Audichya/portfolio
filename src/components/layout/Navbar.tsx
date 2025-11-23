@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu } from "lucide-react"
+import { Menu, ArrowUpRight } from "lucide-react"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -16,7 +16,9 @@ const navItems = [
   { title: "Shop", href: "/shop" },
   { title: "GitHub", href: "#github" },
   { title: "Gallery", href: "#gallery" },
-  { title: "Testimonials", href: "#testimonials" },
+  { title: "Gallery", href: "#gallery" },
+  { title: "Guestbook", href: "#guestbook" },
+  { title: "Contact", href: "#contact" },
   { title: "Contact", href: "#contact" },
 ]
 
@@ -74,17 +76,19 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t bg-background p-4">
-          <nav className="flex flex-col gap-4">
+        <div className="fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-xl md:hidden animate-in slide-in-from-top-5 duration-200">
+          <nav className="flex flex-col p-6 gap-2 h-[calc(100vh-4rem)] overflow-y-auto">
             {navItems.map((item) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="flex items-center justify-between p-4 text-lg font-medium text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-xl transition-all active:scale-98"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.title}
+                <ArrowUpRight className="h-4 w-4 opacity-50" />
               </Link>
             ))}
           </nav>

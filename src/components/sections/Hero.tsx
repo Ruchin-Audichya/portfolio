@@ -10,24 +10,24 @@ export function Hero() {
       <div className="absolute -left-20 bottom-20 h-72 w-72 rounded-full bg-blue-200/50 blur-[80px] dark:bg-blue-900/20" />
 
       <div className="z-10 flex max-w-4xl flex-col gap-6">
-        <h1 className="animate-fade-in text-5xl font-bold leading-tight tracking-tighter text-neutral-900 dark:text-neutral-100 md:text-7xl lg:text-8xl">
+        <h1 className="animate-fade-in text-4xl font-bold leading-tight tracking-tighter text-neutral-900 dark:text-neutral-100 sm:text-5xl md:text-7xl lg:text-8xl">
           Ruchin Audichya
           <span className="block bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
             Building in Cloud, Business
           </span>
         </h1>
-        <p className="animate-fade-in-up max-w-2xl text-lg text-neutral-700 dark:text-neutral-300 delay-100 md:text-xl font-medium">
+        <p className="animate-fade-in-up max-w-2xl text-base text-neutral-700 dark:text-neutral-300 delay-100 sm:text-lg md:text-xl font-medium">
           Crafting digital experiences with code and cloud architecture.
         </p>
 
         <div className="animate-fade-in-up delay-200">
           <a
-            href="#world"
+            href="#about"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("world")?.scrollIntoView({ behavior: "smooth" });
+              document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/25 touch-manipulation"
+            className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/25 touch-manipulation relative z-50 min-h-[44px] min-w-[44px]"
           >
             Explore my world
             <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />

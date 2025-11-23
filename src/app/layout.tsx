@@ -25,7 +25,19 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-export const metadata: Metadata = defaultMetadata;
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
 
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
