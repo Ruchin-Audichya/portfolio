@@ -3,7 +3,6 @@
 import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useState, useEffect } from "react";
 import { PerformanceMonitor } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette, Noise } from "@react-three/postprocessing";
 import World from "./World";
 
 interface SceneProps {
@@ -15,7 +14,6 @@ function ResponsiveCamera() {
 
     useEffect(() => {
         const isMobile = size.width < 768;
-        // Move camera back on mobile to see more of the world
         const targetZ = isMobile ? 16 : 10;
         const targetY = isMobile ? 4 : 2;
 
@@ -30,7 +28,6 @@ export default function Scene({ onNodeClick }: SceneProps) {
     const [dpr, setDpr] = useState(1.5);
     const [isReady, setIsReady] = useState(false);
 
-    // Delay rendering to ensure DOM is ready after transition
     useEffect(() => {
         const timer = setTimeout(() => setIsReady(true), 100);
         return () => clearTimeout(timer);
@@ -59,12 +56,7 @@ export default function Scene({ onNodeClick }: SceneProps) {
                 <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)} />
                 <ResponsiveCamera />
                 <Suspense fallback={null}>
-                    <World onNodeClick={onNodeClick} />
-                    <EffectComposer>
-                        <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} radius={0.6} />
-                        <Vignette eskil={false} offset={0.1} darkness={1.1} />
-                        <Noise opacity={0.05} />
-                    </EffectComposer>
+                    <World />
                 </Suspense>
             </Canvas>
         </div>
