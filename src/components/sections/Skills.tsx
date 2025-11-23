@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { skills } from "@/data/skills"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { SkillsGalaxy } from "@/components/3d/SkillsGalaxy"
+import { SkillsGalaxy } from "@/components/3d/SkillsGalaxyWrapper"
 
 export function Skills() {
   return (
