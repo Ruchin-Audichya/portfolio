@@ -27,7 +27,7 @@ export function Achievements() {
 
                     {/* Achievements Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {achievements.map((achievement, index) => (
+                        {Array.isArray(achievements) && achievements.map((achievement, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}

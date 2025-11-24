@@ -32,7 +32,7 @@ export function Gallery() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {images.map((img, index) => (
+            {Array.isArray(images) && images.map((img, index) => (
               <Card key={index} className="overflow-hidden">
                 <CardContent className="p-0 aspect-square relative bg-muted flex items-center justify-center text-muted-foreground">
                   {/* Replace with actual Image component when images are available */}

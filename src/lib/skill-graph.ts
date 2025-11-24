@@ -30,6 +30,11 @@ export const generateSkillGraph = (): SkillGraph => {
     const nodes: SkillNode[] = [];
     const edges: { source: string; target: string }[] = [];
 
+    // Defensive guard: prevent crash if content.skills is undefined
+    if (!content.skills || !Array.isArray(content.skills)) {
+        return { nodes, edges };
+    }
+
     // 1. Create Category Nodes (Central Hubs)
     const categories = content.skills.map((cat, i) => {
         const radius = 2; // Inner core

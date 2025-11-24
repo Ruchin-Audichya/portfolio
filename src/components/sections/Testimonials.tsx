@@ -26,7 +26,7 @@ export function Testimonials() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
+            {Array.isArray(testimonials) && testimonials.map((testimonial, index) => (
               <Card key={index} className="relative overflow-hidden">
                 <CardHeader className="pb-2">
                   <Quote className="h-8 w-8 text-primary/20 mb-2" />
