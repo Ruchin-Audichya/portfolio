@@ -46,30 +46,32 @@ export function Skills() {
             <SkillsGalaxy />
 
             {/* 2D Skill List (Synced) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {content.skills.map((category) => (
-                <Card key={category.category} className="bg-black/20 border-white/10 backdrop-blur-sm">
-                  <CardHeader>
-                    <CardTitle className="text-lg font-semibold text-purple-300">{category.category}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-wrap gap-2">
-                    {category.items.map((skill) => {
-                      const isSelected = selectedSkillId === skill;
-                      return (
-                        <Badge
-                          key={skill}
-                          variant={isSelected ? "default" : "secondary"}
-                          className={`cursor-pointer transition-all hover:scale-105 ${isSelected ? "bg-purple-600 hover:bg-purple-700" : "hover:bg-white/20"}`}
-                          onClick={() => setSelectedSkillId(skill)}
-                        >
-                          {skill}
-                        </Badge>
-                      );
-                    })}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {content.skills && Array.isArray(content.skills) && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                {content.skills.map((category) => (
+                  <Card key={category.category} className="bg-black/20 border-white/10 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="text-lg font-semibold text-purple-300">{category.category}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap gap-2">
+                      {category.items && Array.isArray(category.items) && category.items.map((skill) => {
+                        const isSelected = selectedSkillId === skill;
+                        return (
+                          <Badge
+                            key={skill}
+                            variant={isSelected ? "default" : "secondary"}
+                            className={`cursor-pointer transition-all hover:scale-105 ${isSelected ? "bg-purple-600 hover:bg-purple-700" : "hover:bg-white/20"}`}
+                            onClick={() => setSelectedSkillId(skill)}
+                          >
+                            {skill}
+                          </Badge>
+                        );
+                      })}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
         </motion.div>
       </div>

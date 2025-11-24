@@ -35,7 +35,7 @@ export function SkillMesh() {
     return (
         <group ref={groupRef}>
             {/* Render edges first (behind nodes) */}
-            {edges.map((edge) => {
+            {edges && edges.length > 0 && edges.map((edge) => {
                 const sourceNode = nodes.find((n) => n.id === edge.source);
                 const targetNode = nodes.find((n) => n.id === edge.target);
 
@@ -85,7 +85,7 @@ export function SkillMesh() {
             })}
 
             {/* Render nodes */}
-            {nodes.map((node) => {
+            {nodes && nodes.length > 0 && nodes.map((node) => {
                 const isHovered = hoveredSkillId === node.id;
                 const isSelected = selectedSkillId === node.id;
                 const isConnected = edges.some(

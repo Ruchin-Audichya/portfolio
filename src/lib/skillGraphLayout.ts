@@ -41,6 +41,11 @@ export function computeForceDirectedLayout(
     skills: Skill[],
     iterations: number = 100
 ): { nodes: SkillGraphNode[]; edges: SkillEdge[] } {
+    // Validate input
+    if (!skills || !Array.isArray(skills) || skills.length === 0) {
+        return { nodes: [], edges: [] };
+    }
+
     // Initialize nodes with random positions
     const nodes: SkillGraphNode[] = skills.map((skill) => ({
         ...skill,

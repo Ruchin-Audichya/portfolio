@@ -19,23 +19,27 @@ export function SkillList() {
     const listRef = useRef<HTMLDivElement>(null);
     const categoryRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-    // Fuzzy search filter
+    // Fuzzy search filter with safety check
     const filteredSkills = useMemo(() => {
-        if (!searchQuery.trim()) return skills;
+        if (!skills || !Array.isArray(skills) || skills.length === 0) return [];
+        if (!searchQuery?.trim()) return skills;
 
         const query = searchQuery.toLowerCase();
         return skills.filter(
             (skill) =>
-                skill.displayName.toLowerCase().includes(query) ||
-                skill.category.toLowerCase().includes(query) ||
-                skill.shortDescription.toLowerCase().includes(query)
+                skill?.displayName?.toLowerCase().includes(query) ||
+                skill?.category?.toLowerCase().includes(query) ||
+                skill?.shortDescription?.toLowerCase().includes(query)
         );
     }, [searchQuery]);
 
-    // Group by category
+    // Group by category with safety check
     const skillsByCategory = useMemo(() => {
         const grouped = new Map<string, typeof skills>();
+        if (!filteredSkills || filteredSkills.length === 0) return grouped;
+
         filteredSkills.forEach((skill) => {
+            if (!skill || !skill.category) return;
             const existing = grouped.get(skill.category) || [];
             grouped.set(skill.category, [...existing, skill]);
         });
@@ -44,7 +48,7 @@ export function SkillList() {
 
     // Auto-scroll to selected skill
     useEffect(() => {
-        if (selectedSkillId) {
+        if (selectedSkillId && skills) {
             const selectedSkill = skills.find((s) => s.id === selectedSkillId);
             if (selectedSkill) {
                 const categoryEl = categoryRefs.current.get(selectedSkill.category);
@@ -52,6 +56,10 @@ export function SkillList() {
             }
         }
     }, [selectedSkillId]);
+
+    if (!skills || !Array.isArray(skills)) {
+        return <div className="text-center py-12 text-muted-foreground">No skills data available</div>;
+    }
 
     return (
         <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -87,32 +95,32 @@ export function SkillList() {
                             {category}
                         </h3>
                         <div className="flex flex-wrap gap-2">
-                            {categorySkills.map((skill) => {
-                                const isSelected = selectedSkillId === skill.id;
+                            {categorySkills && categorySkills.map((skill) => {
+                                const isSelected = selectedSkillId === skill?.id;
 
                                 return (
                                     <Badge
-                                        key={skill.id}
+                                        key={skill?.id}
                                         variant={isSelected ? "default" : "secondary"}
                                         className={`
                       cursor-pointer transition-all hover:scale-105
                       ${isSelected ? "ring-2 ring-accent" : "hover:bg-white/20"}
                     `}
                                         style={{
-                                            backgroundColor: isSelected ? skill.colorAccent : undefined,
-                                            borderColor: skill.colorAccent,
+                                            backgroundColor: isSelected ? skill?.colorAccent : undefined,
+                                            borderColor: skill?.colorAccent,
                                         }}
-                                        onClick={() => setSelectedSkillId(skill.id)}
-                                        onMouseEnter={() => setHoveredSkillId(skill.id)}
+                                        onClick={() => setSelectedSkillId(skill?.id || null)}
+                                        onMouseEnter={() => setHoveredSkillId(skill?.id || null)}
                                         onMouseLeave={() => setHoveredSkillId(null)}
-                                        onFocus={() => setHoveredSkillId(skill.id)}
+                                        onFocus={() => setHoveredSkillId(skill?.id || null)}
                                         onBlur={() => setHoveredSkillId(null)}
                                         tabIndex={0}
                                         role="button"
                                         aria-pressed={isSelected}
-                                        aria-label={`${skill.displayName}: ${skill.shortDescription}`}
+                                        aria-label={`${skill?.displayName}: ${skill?.shortDescription}`}
                                     >
-                                        {skill.displayName}
+                                        {skill?.displayName}
                                     </Badge>
                                 );
                             })}
@@ -129,7 +137,7 @@ export function SkillList() {
             )}
 
             {/* Selected skill details */}
-            {selectedSkillId && (
+            {selectedSkillId && skills && (
                 <div className="mt-6 p-4 rounded-xl bg-black/20 border border-white/10">
                     {(() => {
                         const skill = skills.find((s) => s.id === selectedSkillId);
@@ -153,7 +161,7 @@ export function SkillList() {
                                         Example Uses:
                                     </div>
                                     <ul className="text-sm space-y-1">
-                                        {skill.exampleUses.map((use, i) => (
+                                        {skill.exampleUses && skill.exampleUses.map((use, i) => (
                                             <li key={i} className="text-muted-foreground">• {use}</li>
                                         ))}
                                     </ul>
