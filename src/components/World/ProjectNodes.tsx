@@ -7,6 +7,14 @@ interface ProjectNodesProps {
 }
 
 export function ProjectNodes({ onNodeClick, isNight }: ProjectNodesProps) {
+    // Defensive guard: Return null if projects data is not available
+    if (!projects || !Array.isArray(projects) || projects.length === 0) {
+        if (process.env.NODE_ENV === 'development') {
+            console.debug('[ProjectNodes] Projects data not available');
+        }
+        return null;
+    }
+
     const radius = 6;
     const startAngle = Math.PI; // Start from back/side
     const angleStep = Math.PI / (projects.length + 1);
