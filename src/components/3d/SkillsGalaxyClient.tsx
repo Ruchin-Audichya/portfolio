@@ -6,6 +6,7 @@ import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { content } from "@/lib/content";
 import { skills as dataSkills } from "@/data/skills";
+import { achievements } from "@/data/achievements";
 
 // Smooth Gem Geometry with GTA-style glow
 const GemGeometry = ({ position, color, label, type }: { position: [number, number, number], color: string, label: string, type: 'skill' | 'cert' }) => {
@@ -139,10 +140,6 @@ function CanvasLoader() {
         </div>
     );
 }
-
-import { achievements } from "@/data/achievements";
-
-// ...
 
 export function SkillsGalaxyClient() {
     const allSkills = content.skills.flatMap(cat => cat.items);

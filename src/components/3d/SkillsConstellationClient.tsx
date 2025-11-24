@@ -6,6 +6,7 @@ import { Html, OrbitControls, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { content } from "@/lib/content";
 import { skills as dataSkills } from "@/data/skills";
+import { achievements } from "@/data/achievements";
 
 // Skill Orb with always-visible label
 const SkillOrb = ({
@@ -143,102 +144,86 @@ const CategoryRing = ({
         </group>
     );
 };
-
-// Main Constellation Scene
-function SkillConstellation() {
-    const groupRef = useRef<THREE.Group>(null);
-    const [isInteracting, setIsInteracting] = useState(false);
-
-    import { achievements } from "@/data/achievements";
-
-    // ...
-
-    // Get skills by category
-    const cloudSkills = content.skills.find(c => c.category === "Cloud & AWS")?.items || [];
-    const aiSkills = content.skills.find(c => c.category === "AI-Driven Dev")?.items || [];
-    const frontendSkills = content.skills.find(c => c.category === "Frontend & Motion")?.items || [];
-    const certs = achievements;
-
-    // Certifications at top
-    const certPositions = useMemo(() => {
-        if (!Array.isArray(certs)) return [];
-        return certs.map((cert, i) => {
-            const angle = (i / certs.length) * Math.PI * 2;
-            const x = Math.cos(angle) * 1.5;
-            const z = Math.sin(angle) * 1.5;
-            return { cert, position: [x, 3.5, z] as [number, number, number] };
-        });
-    }, [certs]);
-
-    useFrame((state, delta) => {
-        if (groupRef.current && !isInteracting) {
-            groupRef.current.rotation.y += delta * 0.05;
-        }
+// Certifications at top
+const certPositions = useMemo(() => {
+    if (!Array.isArray(certs)) return [];
+    return certs.map((cert, i) => {
+        const angle = (i / certs.length) * Math.PI * 2;
+        const x = Math.cos(angle) * 1.5;
+        const z = Math.sin(angle) * 1.5;
+        return { cert, position: [x, 3.5, z] as [number, number, number] };
     });
+}, [certs]);
 
-    return (
-        <>
-            <group ref={groupRef}>
-                {/* Certifications (Top) */}
-                <Html position={[0, 4.5, 0]} center>
-                    <div className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/30 to-orange-500/30 border border-yellow-500/60 backdrop-blur-md">
-                        <span className="text-sm font-bold text-yellow-100 uppercase tracking-widest">
-                            ⭐ Certifications
-                        </span>
-                    </div>
-                </Html>
-                {Array.isArray(certPositions) && certPositions.map(({ cert, position }, i) => (
-                    <SkillOrb
-                        key={i}
-                        position={position}
-                        color="#fbbf24"
-                        label={cert.title}
-                        type="cert"
-                        size={0.2}
-                    />
-                ))}
+useFrame((state, delta) => {
+    if (groupRef.current && !isInteracting) {
+        groupRef.current.rotation.y += delta * 0.05;
+    }
+});
 
-                {/* Cloud & AWS Ring (Outer) */}
-                <CategoryRing
-                    radius={4}
-                    skills={cloudSkills}
-                    color="#3b82f6"
-                    label="Cloud & AWS"
-                    yPosition={1.5}
+return (
+    <>
+        <group ref={groupRef}>
+            {/* Certifications (Top) */}
+            <Html position={[0, 4.5, 0]} center>
+                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/30 to-orange-500/30 border border-yellow-500/60 backdrop-blur-md">
+                    <span className="text-sm font-bold text-yellow-100 uppercase tracking-widest">
+                        ⭐ Certifications
+                    </span>
+                </div>
+            </Html>
+            {Array.isArray(certPositions) && certPositions.map(({ cert, position }, i) => (
+                <SkillOrb
+                    key={i}
+                    position={position}
+                    color="#fbbf24"
+                    label={cert.title}
+                    type="cert"
+                    size={0.2}
                 />
+            ))}
 
-                {/* AI/ML Ring (Middle) */}
-                <CategoryRing
-                    radius={3}
-                    skills={aiSkills}
-                    color="#a855f7"
-                    label="AI-Driven Dev"
-                    yPosition={0}
-                />
-
-                {/* Frontend Ring (Inner) */}
-                <CategoryRing
-                    radius={2}
-                    skills={frontendSkills}
-                    color="#10b981"
-                    label="Frontend & Motion"
-                    yPosition={-1.5}
-                />
-            </group>
-
-            <OrbitControls
-                enableZoom={false}
-                autoRotate={!isInteracting}
-                autoRotateSpeed={0.3}
-                enablePan={false}
-                minPolarAngle={Math.PI / 6}
-                maxPolarAngle={Math.PI * 0.7}
-                onStart={() => setIsInteracting(true)}
-                onEnd={() => setTimeout(() => setIsInteracting(false), 3000)}
-                makeDefault
+            {/* Cloud & AWS Ring (Outer) */}
+            <CategoryRing
+                radius={4}
+                skills={cloudSkills}
+                color="#3b82f6"
+                label="Cloud & AWS"
+                yPosition={1.5}
             />
-        </>
-    );
+
+            {/* AI/ML Ring (Middle) */}
+            <CategoryRing
+                radius={3}
+                skills={aiSkills}
+                color="#a855f7"
+                label="AI-Driven Dev"
+                yPosition={0}
+            />
+
+            {/* Frontend Ring (Inner) */}
+            <CategoryRing
+                radius={2}
+                skills={frontendSkills}
+                color="#10b981"
+                label="Frontend & Motion"
+                yPosition={-1.5}
+            />
+        </group>
+
+        <OrbitControls
+            enableZoom={false}
+            autoRotate={!isInteracting}
+            autoRotateSpeed={0.3}
+            enablePan={false}
+            minPolarAngle={Math.PI / 6}
+            maxPolarAngle={Math.PI * 0.7}
+            onStart={() => setIsInteracting(true)}
+            onEnd={() => setTimeout(() => setIsInteracting(false), 3000)}
+            makeDefault
+        />
+    </>
+);
 }
 
 // Loading component
