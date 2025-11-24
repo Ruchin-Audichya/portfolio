@@ -50,6 +50,9 @@ export default function TechStack() {
         const newNodes: Node[] = [];
         const newLinks: Link[] = [];
 
+        // Defensive guard: prevent crash if content.skills is undefined
+        if (!content.skills || !Array.isArray(content.skills)) return;
+
         content.skills.forEach((group) => {
             // Add Category Node (Hub)
             newNodes.push({
@@ -144,7 +147,7 @@ export default function TechStack() {
                             </span>
                         </button>
 
-                        {content.skills.map(group => (
+                        {Array.isArray(content.skills) && content.skills.map(group => (
                             <button
                                 key={group.category}
                                 onClick={() => setActiveCategory(group.category)}
@@ -197,7 +200,7 @@ export default function TechStack() {
 
                     {/* SVG Layer for Links */}
                     <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                        {links.map((link, i) => {
+                        {Array.isArray(links) && links.map((link, i) => {
                             const source = typeof link.source === 'object' ? link.source : nodes.find(n => n.id === link.source);
                             const target = typeof link.target === 'object' ? link.target : nodes.find(n => n.id === link.target);
 
@@ -227,7 +230,7 @@ export default function TechStack() {
 
                     {/* Nodes */}
                     <AnimatePresence>
-                        {nodes.map((node) => {
+                        {Array.isArray(nodes) && nodes.map((node) => {
                             const isHub = node.group === "hub";
                             const isVisible = activeCategory === "All" || node.group === activeCategory || (isHub && node.id === activeCategory);
                             const color = categoryColors[isHub ? node.id : node.group] || "#fff";
