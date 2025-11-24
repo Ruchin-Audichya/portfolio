@@ -104,6 +104,7 @@ const CategoryRing = ({
 
     // Arrange skills in a circle
     const skillPositions = useMemo(() => {
+        if (!Array.isArray(skills)) return [];
         return skills.map((skill, i) => {
             const angle = (i / skills.length) * Math.PI * 2;
             const x = Math.cos(angle) * radius;
@@ -130,7 +131,7 @@ const CategoryRing = ({
             </mesh>
 
             {/* Skills */}
-            {skillPositions.map(({ skill, position }, i) => (
+            {Array.isArray(skillPositions) && skillPositions.map(({ skill, position }, i) => (
                 <SkillOrb
                     key={i}
                     position={position}
@@ -156,6 +157,7 @@ function SkillConstellation() {
 
     // Certifications at top
     const certPositions = useMemo(() => {
+        if (!Array.isArray(certs)) return [];
         return certs.map((cert, i) => {
             const angle = (i / certs.length) * Math.PI * 2;
             const x = Math.cos(angle) * 1.5;
@@ -181,7 +183,7 @@ function SkillConstellation() {
                         </span>
                     </div>
                 </Html>
-                {certPositions.map(({ cert, position }, i) => (
+                {Array.isArray(certPositions) && certPositions.map(({ cert, position }, i) => (
                     <SkillOrb
                         key={i}
                         position={position}

@@ -22,7 +22,7 @@ export default function SkillsGridView() {
                     <h3 className="text-xl font-bold text-yellow-100">Certifications</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {certs.map((cert, index) => (
+                    {Array.isArray(certs) && certs.map((cert, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, x: -20 }}
@@ -39,7 +39,7 @@ export default function SkillsGridView() {
 
             {/* Skills by Category */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {allSkillCategories.map((category, catIndex) => {
+                {Array.isArray(allSkillCategories) && allSkillCategories.map((category, catIndex) => {
                     const colors = {
                         "Cloud & AWS": { bg: "from-blue-500/10 to-blue-600/10", border: "border-blue-500/30", text: "text-blue-100", dot: "bg-blue-500" },
                         "AI-Driven Dev": { bg: "from-purple-500/10 to-purple-600/10", border: "border-purple-500/30", text: "text-purple-100", dot: "bg-purple-500" },
@@ -62,7 +62,7 @@ export default function SkillsGridView() {
                                 {category.category}
                             </h3>
                             <ul className="space-y-2">
-                                {category.items.map((skill, skillIndex) => (
+                                {Array.isArray(category.items) && category.items.map((skill, skillIndex) => (
                                     <motion.li
                                         key={skillIndex}
                                         initial={{ opacity: 0, x: -10 }}

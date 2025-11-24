@@ -73,9 +73,12 @@ function Galaxy({ skills, certs }: { skills: string[], certs: any[] }) {
 
     // Arrange items in a sphere
     const nodes = useMemo(() => {
+        const safeCerts = Array.isArray(certs) ? certs : [];
+        const safeSkills = Array.isArray(skills) ? skills : [];
+
         const allItems = [
-            ...certs.map(c => ({ label: c.name, type: 'cert' as const })),
-            ...skills.map(s => ({ label: s, type: 'skill' as const }))
+            ...safeCerts.map(c => ({ label: c.name, type: 'cert' as const })),
+            ...safeSkills.map(s => ({ label: s, type: 'skill' as const }))
         ];
 
         return allItems.map((item, i) => {
@@ -100,7 +103,7 @@ function Galaxy({ skills, certs }: { skills: string[], certs: any[] }) {
     return (
         <>
             <group ref={groupRef}>
-                {nodes.map((node, i) => (
+                {Array.isArray(nodes) && nodes.map((node, i) => (
                     <GemGeometry
                         key={i}
                         position={node.pos}
