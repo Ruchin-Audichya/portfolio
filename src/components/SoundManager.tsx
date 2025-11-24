@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useState, createContext, useContext, useRef } from "react";
-import { Howl } from "howler";
+import { createContext, useContext } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+
+/**
+ * NO-OP Sound Manager
+ * All audio functionality disabled to prevent 404 errors and resource exhaustion.
+ * Maintains API compatibility with the rest of the codebase.
+ */
 
 interface SoundContextType {
     playHover: () => void;
@@ -17,6 +22,7 @@ const SoundContext = createContext<SoundContextType | null>(null);
 export function useSound() {
     const context = useContext(SoundContext);
     if (!context) {
+        // Return no-op functions if used outside provider
         return {
             playHover: () => { },
             playClick: () => { },
@@ -29,114 +35,28 @@ export function useSound() {
 }
 
 export function SoundManager({ children }: { children: React.ReactNode }) {
-    const [isMuted, setIsMuted] = useState(true);
-    const [isLoaded, setIsLoaded] = useState(false);
+    // All audio disabled - no Howl, no audio loading, no side effects
+    const isMuted = true; // Always muted
 
-    // Refs for sound instances
-    const ambientRef = useRef<Howl | null>(null);
-    const hoverRef = useRef<Howl | null>(null);
-    const clickRef = useRef<Howl | null>(null);
-    const successRef = useRef<Howl | null>(null);
-
-    useEffect(() => {
-        // Initialize sounds with error handling
-        try {
-            ambientRef.current = new Howl({
-                src: ['/sounds/ambient-loop.mp3'],
-                loop: true,
-                volume: 0.3,
-                autoplay: false,
-                html5: true, // Use HTML5 Audio for better compatibility
-                onloaderror: () => console.warn('Failed to load ambient sound'),
-            });
-
-            hoverRef.current = new Howl({
-                src: ['/sounds/hover.mp3'],
-                volume: 0.1,
-                html5: true,
-                onloaderror: () => console.warn('Failed to load hover sound'),
-            });
-
-            clickRef.current = new Howl({
-                src: ['/sounds/click.mp3'],
-                volume: 0.2,
-                html5: true,
-                onloaderror: () => console.warn('Failed to load click sound'),
-            });
-
-            successRef.current = new Howl({
-                src: ['/sounds/success.mp3'],
-                volume: 0.4,
-                html5: true,
-                onloaderror: () => console.warn('Failed to load success sound'),
-            });
-
-            setIsLoaded(true);
-        } catch (error) {
-            console.warn('Sound initialization failed:', error);
-            setIsLoaded(false);
-        }
-
-        return () => {
-            try {
-                ambientRef.current?.unload();
-                hoverRef.current?.unload();
-                clickRef.current?.unload();
-                successRef.current?.unload();
-            } catch (error) {
-                console.warn('Error unloading sounds:', error);
-            }
-        };
-    }, []);
-
-    useEffect(() => {
-        if (!isLoaded || !ambientRef.current) return;
-
-        if (isMuted) {
-            ambientRef.current.pause();
-        } else {
-            ambientRef.current.play();
-            ambientRef.current.fade(0, 0.3, 2000);
-        }
-    }, [isMuted, isLoaded]);
-
-    const playHover = () => {
-        if (!isMuted && hoverRef.current) {
-            hoverRef.current.stop();
-            hoverRef.current.play();
-        }
-    };
-
-    const playClick = () => {
-        if (!isMuted && clickRef.current) {
-            clickRef.current.stop();
-            clickRef.current.play();
-        }
-    };
-
-    const playSuccess = () => {
-        if (!isMuted && successRef.current) {
-            successRef.current.play();
-        }
-    };
-
-    const toggleMute = () => setIsMuted(!isMuted);
+    // No-op functions - maintains API compatibility
+    const playHover = () => { };
+    const playClick = () => { };
+    const playSuccess = () => { };
+    const toggleMute = () => { };
 
     return (
         <SoundContext.Provider value={{ playHover, playClick, playSuccess, toggleMute, isMuted }}>
             {children}
 
-            {/* Sound Toggle Button - Fixed to bottom right */}
+            {/* Sound Toggle Button - Shows disabled state */}
             <button
                 onClick={toggleMute}
-                className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-background/80 backdrop-blur-md border border-white/10 shadow-lg hover:scale-110 transition-transform group"
-                aria-label={isMuted ? "Unmute" : "Mute"}
+                disabled
+                className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-background/80 backdrop-blur-md border border-white/10 shadow-lg opacity-50 cursor-not-allowed"
+                aria-label="Sound disabled"
+                title="Sound system disabled"
             >
-                {isMuted ? (
-                    <VolumeX className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                ) : (
-                    <Volume2 className="w-5 h-5 text-primary animate-pulse" />
-                )}
+                <VolumeX className="w-5 h-5 text-muted-foreground" />
             </button>
         </SoundContext.Provider>
     );
