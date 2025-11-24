@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import * as THREE from "three";
+import { Instances, Instance, Detailed } from "@react-three/drei";
 
 interface IslandProps {
     isNight: boolean;
@@ -19,10 +20,12 @@ export function Island({ isNight }: IslandProps) {
             grass: new THREE.MeshStandardMaterial({
                 color: isNight ? "#2d1b4e" : "#4ade80", // Darker purple vs Green
                 flatShading: true,
+                roughness: 0.8,
             }),
             rock: new THREE.MeshStandardMaterial({
                 color: isNight ? "#4c1d95" : "#94a3b8", // Deep purple vs Gray
                 flatShading: true,
+                roughness: 0.6,
             }),
             treeTrunk: new THREE.MeshStandardMaterial({
                 color: isNight ? "#3b0764" : "#78350f", // Very dark purple vs Brown
@@ -37,72 +40,91 @@ export function Island({ isNight }: IslandProps) {
 
     return (
         <group>
-            {/* Main Base Cylinder */}
-            <mesh position={[0, -1, 0]} receiveShadow>
-                <cylinderGeometry args={[12, 10, 2, 8]} /> {/* Low poly cylinder */}
-                <primitive object={materials.ground} attach="material" />
-            </mesh>
+            {/* Main Base Cylinder - LOD */}
+            <Detailed distances={[0, 30, 60]}>
+                {/* High Detail */}
+                <group>
+                    <mesh position={[0, -1, 0]} receiveShadow>
+                        <cylinderGeometry args={[12, 10, 2, 8]} />
+                        <primitive object={materials.ground} attach="material" />
+                    </mesh>
+                    <mesh position={[0, 0.1, 0]} receiveShadow>
+                        <cylinderGeometry args={[11.5, 11.5, 0.4, 8]} />
+                        <primitive object={materials.grass} attach="material" />
+                    </mesh>
+                </group>
 
-            {/* Top Grass Layer */}
-            <mesh position={[0, 0.1, 0]} receiveShadow>
-                <cylinderGeometry args={[11.5, 11.5, 0.4, 8]} />
-                <primitive object={materials.grass} attach="material" />
-            </mesh>
-
-            {/* Decorative Rocks */}
-            <group position={[-4, 0.5, 3]}>
-                <mesh castShadow receiveShadow rotation={[0, 0.5, 0]}>
-                    <dodecahedronGeometry args={[0.8, 0]} />
-                    <primitive object={materials.rock} attach="material" />
+                {/* Medium Detail - No grass layer */}
+                <mesh position={[0, -1, 0]} receiveShadow>
+                    <cylinderGeometry args={[12, 10, 2, 8]} />
+                    <primitive object={materials.ground} attach="material" />
                 </mesh>
-                <mesh position={[1.2, -0.2, 0.5]} castShadow receiveShadow>
-                    <dodecahedronGeometry args={[0.5, 0]} />
-                    <primitive object={materials.rock} attach="material" />
-                </mesh>
-            </group>
 
-            <group position={[5, 0.5, -2]}>
-                <mesh castShadow receiveShadow rotation={[0.2, 0.2, 0]}>
-                    <dodecahedronGeometry args={[1, 0]} />
-                    <primitive object={materials.rock} attach="material" />
+                {/* Low Detail - Lower poly cylinder */}
+                <mesh position={[0, -1, 0]}>
+                    <cylinderGeometry args={[12, 10, 2, 6]} />
+                    <primitive object={materials.ground} attach="material" />
                 </mesh>
-            </group>
+            </Detailed>
 
-            {/* Trees */}
-            <Tree position={[-3, 0, -4]} materials={materials} scale={1.2} />
-            <Tree position={[4, 0, 4]} materials={materials} scale={0.9} />
-            <Tree position={[-5, 0, 2]} materials={materials} scale={0.8} />
-            <Tree position={[2, 0, -5]} materials={materials} scale={1.1} />
-            <Tree position={[6, 0, 1]} materials={materials} scale={0.7} />
+            {/* Decorative Rocks - Hide at distance */}
+            <Detailed distances={[0, 25]}>
+                <group>
+                    <group position={[-4, 0.5, 3]}>
+                        <mesh castShadow receiveShadow rotation={[0, 0.5, 0]}>
+                            <dodecahedronGeometry args={[0.8, 0]} />
+                            <primitive object={materials.rock} attach="material" />
+                        </mesh>
+                        <mesh position={[1.2, -0.2, 0.5]} castShadow receiveShadow>
+                            <dodecahedronGeometry args={[0.5, 0]} />
+                            <primitive object={materials.rock} attach="material" />
+                        </mesh>
+                    </group>
+
+                    <group position={[5, 0.5, -2]}>
+                        <mesh castShadow receiveShadow rotation={[0.2, 0.2, 0]}>
+                            <dodecahedronGeometry args={[1, 0]} />
+                            <primitive object={materials.rock} attach="material" />
+                        </mesh>
+                    </group>
+                </group>
+                <group /> {/* Empty group for far distance */}
+            </Detailed>
+
+            {/* Trees - Instanced for performance */}
+            <Instances range={5} material={materials.treeTrunk} geometry={new THREE.CylinderGeometry(0.2, 0.3, 2, 5)} castShadow receiveShadow>
+                <group position={[0, 1, 0]}>
+                    <TreeInstance position={[-3, 0, -4]} scale={1.2} />
+                    <TreeInstance position={[4, 0, 4]} scale={0.9} />
+                    <TreeInstance position={[-5, 0, 2]} scale={0.8} />
+                    <TreeInstance position={[2, 0, -5]} scale={1.1} />
+                    <TreeInstance position={[6, 0, 1]} scale={0.7} />
+                </group>
+            </Instances>
+
+            <Instances range={5} material={materials.treeLeaves} geometry={new THREE.ConeGeometry(1.2, 2, 5)} castShadow receiveShadow>
+                <group position={[0, 2.5, 0]}>
+                    <TreeInstance position={[-3, 0, -4]} scale={1.2} />
+                    <TreeInstance position={[4, 0, 4]} scale={0.9} />
+                    <TreeInstance position={[-5, 0, 2]} scale={0.8} />
+                    <TreeInstance position={[2, 0, -5]} scale={1.1} />
+                    <TreeInstance position={[6, 0, 1]} scale={0.7} />
+                </group>
+            </Instances>
+
+            <Instances range={5} material={materials.treeLeaves} geometry={new THREE.ConeGeometry(0.9, 1.5, 5)} castShadow receiveShadow>
+                <group position={[0, 3.5, 0]}>
+                    <TreeInstance position={[-3, 0, -4]} scale={1.2} />
+                    <TreeInstance position={[4, 0, 4]} scale={0.9} />
+                    <TreeInstance position={[-5, 0, 2]} scale={0.8} />
+                    <TreeInstance position={[2, 0, -5]} scale={1.1} />
+                    <TreeInstance position={[6, 0, 1]} scale={0.7} />
+                </group>
+            </Instances>
         </group>
     );
 }
 
-function Tree({
-    position,
-    materials,
-    scale = 1,
-}: {
-    position: [number, number, number];
-    materials: any;
-    scale?: number;
-}) {
-    return (
-        <group position={position} scale={scale}>
-            {/* Trunk */}
-            <mesh position={[0, 1, 0]} castShadow receiveShadow>
-                <cylinderGeometry args={[0.2, 0.3, 2, 5]} />
-                <primitive object={materials.treeTrunk} attach="material" />
-            </mesh>
-            {/* Leaves (Cone layers) */}
-            <mesh position={[0, 2.5, 0]} castShadow receiveShadow>
-                <coneGeometry args={[1.2, 2, 5]} />
-                <primitive object={materials.treeLeaves} attach="material" />
-            </mesh>
-            <mesh position={[0, 3.5, 0]} castShadow receiveShadow>
-                <coneGeometry args={[0.9, 1.5, 5]} />
-                <primitive object={materials.treeLeaves} attach="material" />
-            </mesh>
-        </group>
-    );
+function TreeInstance({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+    return <Instance position={position} scale={scale} />;
 }

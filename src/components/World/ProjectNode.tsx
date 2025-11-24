@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { clsx } from "clsx";
 
-export type ProjectNodeId = "journey" | "skills" | "projects" | "testimonials";
+export type ProjectNodeId = "journey" | "skills" | "projects" | "testimonials" | string;
 
 interface ProjectNodeProps {
   id: ProjectNodeId;

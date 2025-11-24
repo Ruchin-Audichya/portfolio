@@ -1,10 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { skills } from "@/data/skills"
+import { content } from "@/lib/content"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SkillsGalaxy } from "@/components/3d/SkillsGalaxyWrapper"
+import { useSkillStore } from "@/lib/skill-store"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
 
 export function Skills() {
   return (
@@ -26,8 +29,44 @@ export function Skills() {
             </p>
           </div>
 
-          <div className="w-full">
+          <div className="w-full space-y-8">
+            {/* Search and Filter */}
+            <div className="max-w-md mx-auto relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Search skills (e.g. React, AWS, Python)..."
+                className="pl-10 bg-white/5 border-white/10"
+                onChange={(e) => useSkillStore.getState().setSearchQuery(e.target.value)}
+              />
+            </div>
+
             <SkillsGalaxy />
+
+            {/* 2D Skill List (Synced) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              {content.skills.map((category) => (
+                <Card key={category.category} className="bg-black/20 border-white/10 backdrop-blur-sm">
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold text-purple-300">{category.category}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap gap-2">
+                    {category.items.map((skill) => {
+                      const isSelected = useSkillStore((state) => state.selectedSkill === skill);
+                      return (
+                        <Badge
+                          key={skill}
+                          variant={isSelected ? "default" : "secondary"}
+                          className={`cursor-pointer transition-all hover:scale-105 ${isSelected ? "bg-purple-600 hover:bg-purple-700" : "hover:bg-white/20"}`}
+                          onClick={() => useSkillStore.getState().setSelectedSkill(skill)}
+                        >
+                          {skill}
+                        </Badge>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

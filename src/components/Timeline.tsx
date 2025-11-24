@@ -6,27 +6,33 @@ import { ScrollReveal } from "./ScrollReveal";
 const milestones = [
     {
         year: "2025",
-        title: "SOTA Portfolio",
-        description: "Launched a high-performance, 3D interactive portfolio using Next.js 14 and React Three Fiber.",
-        tech: ["Next.js", "R3F", "AI"]
+        title: "Cloud & AI Focus",
+        description: "Deepening expertise in AWS, Agentic AI workflows, and building high-performance 3D web experiences. Seeking internships.",
+        tech: ["AWS", "Gemini 3.0", "Next.js 14"]
     },
     {
         year: "2024",
-        title: "Cloud & Automation",
-        description: "Deep dive into AWS infrastructure and n8n automation workflows. Built scalable systems for personal productivity.",
-        tech: ["AWS", "n8n", "Linux"]
+        title: "Automation & Advanced Frontend",
+        description: "Mastered n8n for personal automation and pushed frontend limits with GSAP, Framer Motion, and Tailwind.",
+        tech: ["n8n", "GSAP", "Linux"]
     },
     {
         year: "2023",
-        title: "Frontend Mastery",
-        description: "Focused on advanced React patterns, animation libraries (GSAP, Framer Motion), and modern CSS architecture.",
-        tech: ["React", "GSAP", "Tailwind"]
+        title: "University & Cloud Entry",
+        description: "Joined JECRC University. Shifted focus from general web dev to Cloud Computing and scalable backend architectures.",
+        tech: ["Cloud Computing", "React", "System Design"]
     },
     {
-        year: "2022",
-        title: "The Beginning",
-        description: "Started the journey into software engineering. Built foundational projects and learned the core web stack.",
-        tech: ["HTML/CSS", "JS", "Git"]
+        year: "2020-2022",
+        title: "The Builder Phase",
+        description: "Learned the core web stack (HTML/CSS/JS) while building small projects and exploring the software landscape.",
+        tech: ["HTML/CSS", "JavaScript", "Web Basics"]
+    },
+    {
+        year: "2019",
+        title: "Digital Entrepreneurship",
+        description: "Started by buying/selling PC hardware and digital keys on Facebook groups. Built a reputation and learned market dynamics.",
+        tech: ["Commerce", "Hardware", "Networking"]
     }
 ];
 

@@ -2,8 +2,13 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import Scene from "@/components/3d/Scene";
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
+
+const Scene = dynamic(() => import("@/components/3d/Scene"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-background" />,
+});
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
@@ -18,6 +23,22 @@ import { Navbar } from "@/components/Navbar";
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
 
+  const handleNodeClick = (id: string) => {
+    // Map IDs to section IDs
+    const sectionMap: Record<string, string> = {
+      journey: "about",
+      skills: "skills",
+      projects: "projects",
+      testimonials: "guestbook", // Assuming testimonials maps to guestbook or similar
+    };
+
+    const sectionId = sectionMap[id] || id; // Fallback to ID if not in map (for dynamic projects)
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <main className="relative min-h-screen">
       <AnimatePresence mode="wait">
@@ -29,7 +50,7 @@ export default function Home() {
 
             {/* 3D World Section */}
             <section id="world" className="h-screen w-full relative">
-              <Scene />
+              <Scene onNodeClick={handleNodeClick} />
               <div className="absolute inset-0 pointer-events-none">
                 <Hero />
               </div>

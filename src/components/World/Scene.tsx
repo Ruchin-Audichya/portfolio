@@ -1,9 +1,10 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Html, Loader } from "@react-three/drei";
-import { World } from "./World";
+// Lazy load World to reduce initial bundle impact
+const World = lazy(() => import("./World").then(module => ({ default: module.World })));
 import type { ProjectNodeId } from "./ProjectNode";
 
 interface SceneProps {
@@ -21,15 +22,37 @@ function LoaderFallback() {
   );
 }
 
+import { usePerf, getAdaptiveDpr, useFPSMonitor } from "@/lib/three/perf";
+
+function FPSLogger() {
+  useFPSMonitor();
+  return null;
+}
+
 export default function Scene({ onNodeClick }: SceneProps) {
+  const dpr = usePerf((state) => state.dpr);
+  const setDpr = usePerf((state) => state.setDpr);
+
   return (
     <div className="absolute inset-0 z-0 h-screen w-full overflow-hidden" id="world">
       <Canvas
-        shadows
+        shadows="soft"
         camera={{ position: [0, 5, 14], fov: 45 }}
-        dpr={[1, 2]} // Optimization for high DPI screens
-        gl={{ antialias: true, toneMappingExposure: 1.1 }}
+        dpr={dpr}
+        gl={{
+          antialias: false, // FXAA or SMAA is better for performance usually, but let's stick to false for now and maybe add EffectComposer later
+          powerPreference: "high-performance",
+          stencil: false,
+          depth: true,
+          toneMappingExposure: 1.1
+        }}
+        onCreated={({ gl, viewport }) => {
+          const initialDpr = getAdaptiveDpr(window.devicePixelRatio);
+          setDpr(initialDpr);
+          gl.setPixelRatio(initialDpr);
+        }}
       >
+        <FPSLogger />
         <Suspense fallback={<LoaderFallback />}>
           <World onNodeClick={onNodeClick} />
         </Suspense>

@@ -2,10 +2,14 @@
 
 import { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars, Cloud } from "@react-three/drei";
+import { OrbitControls, Stars, Cloud, BakeShadows } from "@react-three/drei";
 import * as THREE from "three";
 import { Island } from "./Island";
 import { ProjectNode, type ProjectNodeId } from "./ProjectNode";
+import { SceneElements } from "../3d/Elements";
+import { ProjectNodes } from "./ProjectNodes";
+import { ScrollSync } from "./ScrollSync";
+import { usePerf } from "@/lib/three/perf";
 
 interface WorldProps {
   onNodeClick?: (id: ProjectNodeId) => void;
@@ -15,6 +19,13 @@ export function World({ onNodeClick }: WorldProps) {
   const groupRef = useRef<THREE.Group>(null);
   const [isNight, setIsNight] = useState(false);
   const { camera } = useThree();
+  const tier = usePerf((state) => state.tier);
+
+  // Quality Settings
+  const shadowMapSize = tier === "high" ? 1024 : 512;
+  const castShadows = tier !== "low";
+  const starCount = tier === "high" ? 5000 : tier === "medium" ? 3000 : 1000;
+  const showClouds = tier !== "low";
 
   // Keyboard toggle for Day/Night
   useEffect(() => {
@@ -52,15 +63,19 @@ export function World({ onNodeClick }: WorldProps) {
         dampingFactor={0.05}
       />
 
+      <ScrollSync />
+
       {/* Lighting */}
       <ambientLight intensity={isNight ? 0.2 : 0.6} />
       <directionalLight
         position={[10, 10, 5]}
         intensity={isNight ? 0.2 : 1.5}
         color={isNight ? "#8b5cf6" : "#fff7ed"}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
+        castShadow={castShadows}
+        shadow-mapSize={[shadowMapSize, shadowMapSize]}
+        shadow-bias={-0.0001}
       />
+      {castShadows && <BakeShadows />}
       {isNight && (
         <pointLight position={[-5, 5, -5]} intensity={1} color="#4c1d95" distance={20} />
       )}
@@ -69,13 +84,15 @@ export function World({ onNodeClick }: WorldProps) {
       <color attach="background" args={[isNight ? "#0f0518" : "#dbeafe"]} />
       <fog attach="fog" args={[isNight ? "#0f0518" : "#dbeafe", 10, 35]} />
 
-      {isNight && <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />}
-      {!isNight && <Cloud position={[-10, 5, -10]} opacity={0.5} speed={0.2} />}
-      {!isNight && <Cloud position={[10, 2, -15]} opacity={0.4} speed={0.2} />}
+      {isNight && <Stars radius={100} depth={50} count={starCount} factor={4} saturation={0} fade speed={1} />}
+      {!isNight && showClouds && <Cloud position={[-10, 5, -10]} opacity={0.5} speed={0.2} />}
+      {!isNight && showClouds && <Cloud position={[10, 2, -15]} opacity={0.4} speed={0.2} />}
 
       {/* The Island World */}
       <group ref={groupRef} position={[0, -2, 0]}>
         <Island isNight={isNight} />
+        <SceneElements isNight={isNight} />
+        <ProjectNodes onNodeClick={handleNodeClick} isNight={isNight} />
 
         {/* Interactive Nodes */}
         <ProjectNode

@@ -70,9 +70,9 @@ export default function FoodVan({
                 />
             </mesh>
 
-            {/* Wheels - Higher poly for smoothness */}
+            {/* Wheels - Optimized poly count */}
             <mesh position={[-0.6, 0.2, 0.7]} castShadow rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.2, 0.2, 0.1, 32]} />
+                <cylinderGeometry args={[0.2, 0.2, 0.1, 12]} />
                 <meshStandardMaterial
                     color={colors.wheels}
                     roughness={0.7}
@@ -80,15 +80,15 @@ export default function FoodVan({
                 />
             </mesh>
             <mesh position={[-0.6, 0.2, -0.7]} castShadow rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.2, 0.2, 0.1, 32]} />
+                <cylinderGeometry args={[0.2, 0.2, 0.1, 12]} />
                 <meshStandardMaterial color={colors.wheels} roughness={0.7} metalness={0.3} />
             </mesh>
             <mesh position={[0.6, 0.2, 0.7]} castShadow rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.2, 0.2, 0.1, 32]} />
+                <cylinderGeometry args={[0.2, 0.2, 0.1, 12]} />
                 <meshStandardMaterial color={colors.wheels} roughness={0.7} metalness={0.3} />
             </mesh>
             <mesh position={[0.6, 0.2, -0.7]} castShadow rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.2, 0.2, 0.1, 32]} />
+                <cylinderGeometry args={[0.2, 0.2, 0.1, 12]} />
                 <meshStandardMaterial color={colors.wheels} roughness={0.7} metalness={0.3} />
             </mesh>
 

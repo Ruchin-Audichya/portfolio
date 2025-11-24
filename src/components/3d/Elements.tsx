@@ -5,6 +5,10 @@ import LowPolyTree from "./assets/LowPolyTree";
 import FoodVan from "./assets/FoodVan";
 import Cyclist from "./assets/Cyclist";
 import { Bench, LampPost, SignPost } from "./assets/StreetElements";
+import { Rocket } from "./assets/Rocket";
+import { Laptop } from "./assets/Laptop";
+
+import { usePerf } from "@/lib/three/perf";
 
 interface ElementsProps {
     isNight?: boolean;
@@ -42,6 +46,9 @@ export function Trees({ count, radius, isNight = false }: { count: number; radiu
 }
 
 export function SceneElements({ isNight = false }: ElementsProps) {
+    const tier = usePerf((state) => state.tier);
+    const showDetailLights = tier === "high";
+
     return (
         <group>
             {/* Food Van with individual GTA-style lights */}
@@ -51,7 +58,7 @@ export function SceneElements({ isNight = false }: ElementsProps) {
                     rotation={[0, -Math.PI / 4, 0]}
                     isNight={isNight}
                 />
-                {isNight && (
+                {isNight && showDetailLights && (
                     <>
                         <pointLight position={[4, 1, 2]} intensity={1.5} distance={4} color="#FFD700" />
                         <pointLight position={[4.5, 0.5, 2.5]} intensity={0.8} distance={2} color="#FF4500" />
@@ -89,7 +96,7 @@ export function SceneElements({ isNight = false }: ElementsProps) {
             </group>
 
             {/* Additional ambient city lights at night (GTA 3DFX style) */}
-            {isNight && (
+            {isNight && showDetailLights && (
                 <>
                     {/* Red traffic/building lights */}
                     <pointLight position={[6, 1, 1]} intensity={0.8} distance={3} color="#FF0000" />
@@ -108,6 +115,10 @@ export function SceneElements({ isNight = false }: ElementsProps) {
             <SignPost position={[0, 0, -7]} rotation={[0, 0, 0]} text="PROJECTS" />
             <SignPost position={[6, 0, 0]} rotation={[0, Math.PI / 2, 0]} text="STORY" />
             <SignPost position={[-6, 0, -1]} rotation={[0, -Math.PI / 2, 0]} text="SKILLS" />
+
+            {/* Story Elements */}
+            <Rocket position={[-5, 0, 5]} scale={0.8} />
+            <Laptop position={[2, 0.6, -4]} scale={0.4} />
         </group>
     );
 }

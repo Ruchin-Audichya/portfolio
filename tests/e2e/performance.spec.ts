@@ -61,8 +61,8 @@ test.describe('Performance Tests', () => {
         console.log(`Average FPS: ${avgFPS.toFixed(2)}`);
         console.log(`FPS Samples: ${fpsValues.join(', ')}`);
 
-        // Assert FPS is above a reasonable threshold (30 FPS minimum for smooth experience)
-        expect(avgFPS).toBeGreaterThan(30);
+        // Assert FPS is above a reasonable threshold (55 FPS minimum for smooth experience on optimized build)
+        expect(avgFPS).toBeGreaterThan(55);
     });
 
     test('should ensure no Three.js scene errors', async () => {
