@@ -149,11 +149,15 @@ function SkillConstellation() {
     const groupRef = useRef<THREE.Group>(null);
     const [isInteracting, setIsInteracting] = useState(false);
 
+    import { achievements } from "@/data/achievements";
+
+    // ...
+
     // Get skills by category
     const cloudSkills = content.skills.find(c => c.category === "Cloud & AWS")?.items || [];
     const aiSkills = content.skills.find(c => c.category === "AI-Driven Dev")?.items || [];
     const frontendSkills = content.skills.find(c => c.category === "Frontend & Motion")?.items || [];
-    const certs = dataSkills.certifications;
+    const certs = achievements;
 
     // Certifications at top
     const certPositions = useMemo(() => {
@@ -188,7 +192,7 @@ function SkillConstellation() {
                         key={i}
                         position={position}
                         color="#fbbf24"
-                        label={cert.name}
+                        label={cert.title}
                         type="cert"
                         size={0.2}
                     />

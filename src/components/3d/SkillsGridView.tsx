@@ -5,9 +5,13 @@ import { skills as dataSkills } from "@/data/skills";
 import { motion } from "framer-motion";
 import { Award } from "lucide-react";
 
+import { achievements } from "@/data/achievements";
+
+// ...
+
 export default function SkillsGridView() {
     const allSkillCategories = content.skills;
-    const certs = dataSkills.certifications;
+    const certs = achievements;
 
     return (
         <div className="space-y-8">
@@ -30,7 +34,7 @@ export default function SkillsGridView() {
                             transition={{ delay: index * 0.1 }}
                             className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 hover:bg-yellow-500/20 transition-all"
                         >
-                            <p className="font-semibold text-yellow-100">{cert.name}</p>
+                            <p className="font-semibold text-yellow-100">{cert.title}</p>
                             <p className="text-sm text-yellow-200/70 mt-1">{cert.issuer}</p>
                         </motion.div>
                     ))}

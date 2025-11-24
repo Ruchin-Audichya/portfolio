@@ -77,7 +77,7 @@ function Galaxy({ skills, certs }: { skills: string[], certs: any[] }) {
         const safeSkills = Array.isArray(skills) ? skills : [];
 
         const allItems = [
-            ...safeCerts.map(c => ({ label: c.name, type: 'cert' as const })),
+            ...safeCerts.map(c => ({ label: c.title, type: 'cert' as const })),
             ...safeSkills.map(s => ({ label: s, type: 'skill' as const }))
         ];
 
@@ -140,9 +140,13 @@ function CanvasLoader() {
     );
 }
 
+import { achievements } from "@/data/achievements";
+
+// ...
+
 export function SkillsGalaxyClient() {
     const allSkills = content.skills.flatMap(cat => cat.items);
-    const certs = dataSkills.certifications;
+    const certs = achievements;
 
     return (
         <div className="h-[600px] w-full relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-black/50 to-purple-900/20 backdrop-blur-sm">
