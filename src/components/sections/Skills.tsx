@@ -10,6 +10,9 @@ import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 
 export function Skills() {
+  const selectedSkillId = useSkillStore((state) => state.selectedSkill);
+  const setSelectedSkillId = useSkillStore((state) => state.setSelectedSkill);
+
   return (
     <section id="skills" className="py-20">
       <div className="container mx-auto px-4">
@@ -51,13 +54,13 @@ export function Skills() {
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-2">
                     {category.items.map((skill) => {
-                      const isSelected = useSkillStore((state) => state.selectedSkill === skill);
+                      const isSelected = selectedSkillId === skill;
                       return (
                         <Badge
                           key={skill}
                           variant={isSelected ? "default" : "secondary"}
                           className={`cursor-pointer transition-all hover:scale-105 ${isSelected ? "bg-purple-600 hover:bg-purple-700" : "hover:bg-white/20"}`}
-                          onClick={() => useSkillStore.getState().setSelectedSkill(skill)}
+                          onClick={() => setSelectedSkillId(skill)}
                         >
                           {skill}
                         </Badge>

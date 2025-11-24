@@ -124,7 +124,7 @@ export function SkillList() {
             {/* No results */}
             {filteredSkills.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
-                    No skills found matching "{searchQuery}"
+                    No skills found matching &quot;{searchQuery}&quot;
                 </div>
             )}
 

@@ -79,5 +79,5 @@ export const useAdaptiveQuality = () => {
         }, 3000)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [setTier])
 }
