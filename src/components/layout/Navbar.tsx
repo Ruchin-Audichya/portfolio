@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import { Menu, ArrowUpRight } from "lucide-react"
-import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -16,9 +15,7 @@ const navItems = [
   { title: "Shop", href: "/shop" },
   { title: "GitHub", href: "#github" },
   { title: "Gallery", href: "#gallery" },
-  { title: "Gallery", href: "#gallery" },
   { title: "Guestbook", href: "#guestbook" },
-  { title: "Contact", href: "#contact" },
   { title: "Contact", href: "#contact" },
 ]
 
@@ -59,12 +56,10 @@ export function Navbar() {
               {item.title}
             </Link>
           ))}
-          <ModeToggle />
         </nav>
 
         {/* Mobile Nav Toggle */}
         <div className="flex items-center gap-4 md:hidden">
-          <ModeToggle />
           <Button
             variant="ghost"
             size="icon"

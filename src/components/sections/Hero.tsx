@@ -13,11 +13,11 @@ export function Hero() {
         <h1 className="animate-fade-in text-4xl font-bold leading-tight tracking-tighter text-neutral-900 dark:text-neutral-100 sm:text-5xl md:text-7xl lg:text-8xl">
           Ruchin Audichya
           <span className="block bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-            Building in Cloud, Business
+            Builds systems, stories, and cities in code
           </span>
         </h1>
         <p className="animate-fade-in-up max-w-2xl text-base text-neutral-700 dark:text-neutral-300 delay-100 sm:text-lg md:text-xl font-medium">
-          Crafting digital experiences with code and cloud architecture.
+          From dorm dropshipping to cloud-native worlds. Calm, cinematic, intentional.
         </p>
 
         <div className="animate-fade-in-up delay-200">

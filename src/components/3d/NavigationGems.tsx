@@ -66,9 +66,9 @@ function NavigationGem({ position, label, targetSection, color }: NavigationGemP
 
 export function NavigationGems() {
     const gems = useMemo(() => [
-        { position: [2.5, 1.5, -4] as [number, number, number], label: "Skills", targetSection: "skills", color: "#3B82F6" },
-        { position: [-3, 1.5, -2.5] as [number, number, number], label: "Projects", targetSection: "projects", color: "#8B5CF6" },
-        { position: [4, 1.5, 1.5] as [number, number, number], label: "Contact", targetSection: "contact", color: "#10B981" },
+        { position: [8, 3, -8] as [number, number, number], label: "Skills", targetSection: "skills", color: "#3B82F6" },
+        { position: [-8, 3, -8] as [number, number, number], label: "Projects", targetSection: "projects", color: "#8B5CF6" },
+        { position: [0, 3, 12] as [number, number, number], label: "Contact", targetSection: "contact", color: "#10B981" },
     ], []);
 
     return (

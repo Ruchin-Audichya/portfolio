@@ -88,7 +88,7 @@ export function Island({ isNight }: IslandProps) {
                         </mesh>
                     </group>
                 </group>
-                <group /> {/* Empty group for far distance */}
+                <group name="lod-far" />
             </Detailed>
 
             {/* Trees - Instanced for performance */}

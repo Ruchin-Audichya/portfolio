@@ -1,67 +1,59 @@
-# ⚡ Ruchin Audichya | SOTA Portfolio
+# Ruchin Audichya — Interactive 3D Portfolio (ruchinaudichya.in)
 
-![Portfolio Hero](/readme-hero.png)
+Premium 3D portfolio built with Next.js, React Three Fiber, and TailwindCSS. Optimized for Core Web Vitals, fast Vercel delivery, and search visibility so recruiters and clients quickly see the work.
 
-> "Engineered with precision. Designed for the future."
+## Features
+- Immersive 3D world with guided story stops, minimap, and cinematic camera transitions.
+- Day/night palette blending, WebGL fallback overlay, and responsive WASD/orbit controls.
+- Asset pipeline ready for DRACO/KTX2; shared Suspense loader with progress UI.
+- Sections for projects, skills, achievements, GitHub activity, guestbook, and contact.
+- SEO-first routing with sitemap, robots, canonical, and descriptive headings.
 
-A State-of-the-Art (SOTA) 3D interactive portfolio built with **Next.js 14**, **React Three Fiber**, and **TailwindCSS**. This project pushes the boundaries of web performance and visual fidelity, featuring a custom physics-based tech stack, immersive 3D environments, and premium glassmorphism UI.
+## Stack
+- Framework: Next.js (App Router)
+- 3D: React Three Fiber, Drei
+- Styling: TailwindCSS
+- Animations: Framer Motion
+- Testing: Playwright, Jest
+- Deploy: Vercel
 
-## 🚀 Features
+## Run Locally
+```bash
+npm install
+npm run dev
+```
 
-### 🌌 Immersive 3D World
-- **Interactive Scene**: A living, breathing low-poly world with day/night cycles.
-- **Skybox & Atmosphere**: Realistic volumetric fog, 1500+ star particle system, and dynamic lighting.
-- **Juice WRLD Tribute**: A neon-pulsing "999" memorial with a spinning halo and divine glow.
-- **Post-Processing**: Cinematic Bloom, Vignette, and Noise effects for that "Unreal Engine" look.
+## Build and Test
+```bash
+npm run build
+npm run test       # Jest
+npm run test:e2e   # Playwright
+npm run analyze    # Bundle analyzer (ANALYZE=true)
+npm run export     # Static export (if needed)
+```
 
-### 🕸️ Interactive Tech Stack
-- **Force-Directed Graph**: A physics-based visualization of skills using `d3-force`.
-- **Hexagon Nodes**: Custom SVG/Canvas rendered nodes with neon glass effects.
-- **Smart Filtering**: Filter skills by category (Cloud, AI, Frontend) with smooth layout transitions.
+## SEO Checklist (Google & Vercel)
+- Domain: https://ruchinaudichya.in/ with canonical set in `app/metadata.ts`.
+- Provide title, description, open graph, and twitter card in `app/metadata.ts`.
+- Keep `public/robots.txt` and `app/sitemap.ts` deployed for crawlability.
+- Use H1 for the main page title and clear H2/H3 section headings.
+- Add meaningful alt text on key images and descriptive link labels.
+- Prefer short, keyword-rich summaries: "3D Portfolio", "Cloud & Frontend Engineer", "Next.js", "React Three Fiber".
 
-### 💎 Premium UI/UX
-- **Glassmorphism**: Real-time backdrop blur and frosted glass effects.
-- **Typography**: Curated font stack using `Clash Display` (Headings) and `Satoshi` (Body).
-- **Accessibility**: Fully accessible with `aria-labels`, keyboard navigation, and reduced motion support.
+## Performance Notes
+- Use Next/Image or pre-optimized assets; avoid oversized textures.
+- Post-processing kept light; scene tuned for mobile and desktop.
+- Avoid blocking network calls in layouts; rely on Suspense for async work.
 
-## 🛠️ Tech Stack
+## Content Editing
+- 3D world orchestration: `src/components/3d/RuchinWorld.tsx` and `src/components/3d/World/*`.
+- Story stops & minimap labels: `src/data/stops.ts`.
+- Loader & overlays: `src/components/ui/LoadingProgress.tsx`, `src/components/ui/StopCard.tsx`.
+- UI sections: `src/components/sections/*`.
+- Data/content: `src/data/*` and `content/`.
 
-- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
-- **3D Engine**: [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) & [Drei](https://github.com/pmndrs/drei)
-- **Styling**: [TailwindCSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) & [GSAP](https://greensock.com/gsap/)
-- **Physics**: [D3.js](https://d3js.org/) (Force Simulation)
-- **Deployment**: [Vercel](https://vercel.com/)
+## Deployment
+Push to main; Vercel auto-builds. Verify Core Web Vitals via Vercel Analytics or Lighthouse before publishing. PWA service worker is auto-registered via `next-pwa` using `public/sw.js`.
 
-## ⚡ Getting Started
-
-1.  **Clone the repository**
-    ```bash
-    git clone https://github.com/Ruchin-Audichya/portfolio.git
-    cd portfolio
-    ```
-
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
-
-3.  **Run the development server**
-    ```bash
-    npm run dev
-    ```
-
-4.  **Build for production**
-    ```bash
-    npm run build
-    ```
-
-## 📈 Performance
-
-- **Lighthouse Score**: 100/100 (Performance, Accessibility, Best Practices, SEO)
-- **Zero Layout Shift**: Optimized font loading and image sizing.
-- **Next-Gen Formats**: Automatic AVIF/WebP image optimization.
-
----
-
-*Crafted with ❤️ by Ruchin Audichya*
+## Contact
+Reach out via the in-site contact form or GitHub for collaborations.

@@ -1,15 +1,16 @@
 export const content = {
     profile: {
         name: "Ruchin Audichya",
-        role: "Cloud, AI & Frontend Engineer",
-        headline: "Precision in Motion",
-        subline: "Orchestrating digital experiences.",
-        mission: "I build digital artifacts that feel inevitable, polished, and alive.",
-        bio_title: "The Architect",
+        role: "Systems, Cloud, Dev Tools",
+        headline: "Calm, cinematic, intentional",
+        subline: "Building proof-of-work worlds",
+        mission: "I build cloud-native systems, automation, and frontends that feel inevitable and alive.",
+        bio_title: "Soft narration. Clear proof.",
         bio: [
-            "A focused, disciplined and creatively technical builder working across Cloud, AI, Automation, and Interactive Frontend experiences. I combine engineering logic with a strong sense of design and simplicity. My workflow blends structured routines, energy alignment, and precision-driven execution.",
-            "I enjoy turning chaotic ideas into clear, elegant systems — from cloud-ready backends to animated, cinematic frontends. My mindset is shaped by consistency, learning, and deep attention to detail.",
-            "At the core, I’m someone who keeps improving — technically, mentally, and creatively — while staying grounded, peaceful, and disciplined."
+            "Started in 2019 selling licenses and fixing PCs before college — learned ops, trust, and shipping fast.",
+            "Chose AWS cloud at JECRC to work on real systems, not theory. Python, APIs, GitHub, 5+ cloud badges, cost-aware design.",
+            "Led content/graphics for AWS Cloud Club, worked with an AWS exec, and helped drive a 50,000-student AICTE x OPPO x 1M1B campaign.",
+            "Internships and ambassador roles taught coordination and delivery. Now focused on automation, dev tools, and a 3D mini-city that tells the story as proof of work."
         ],
         avatar: "/profile.jpg",
         resume: "/resume.pdf", // Updated to point to the local file

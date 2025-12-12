@@ -70,7 +70,7 @@ export default function RootLayout({
       <body className="antialiased selection:bg-accent selection:text-white">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

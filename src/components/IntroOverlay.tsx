@@ -38,7 +38,7 @@ export function IntroOverlay({ onComplete }: IntroOverlayProps) {
     return (
         <motion.div
             className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background text-foreground"
-            exit={{ opacity: 0, transition: { duration: 1, ease: "easeInOut" } }}
+            exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
         >
             <div className="max-w-2xl px-6 text-center space-y-8">
                 <AnimatePresence mode="wait">

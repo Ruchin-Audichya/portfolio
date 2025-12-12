@@ -33,7 +33,7 @@ export function Testimonials() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground italic">
-                    &quot;{testimonial.content}&quot;
+                    &quot;{testimonial.quote}&quot;
                   </p>
                   <div>
                     <p className="font-semibold">{testimonial.name}</p>

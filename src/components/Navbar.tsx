@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Navbar() {
     return (
@@ -28,7 +27,6 @@ export function Navbar() {
                 >
                     Resume
                 </a>
-                <ThemeToggle />
             </div>
         </nav>
     );

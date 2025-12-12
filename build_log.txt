@@ -1,0 +1,55 @@
+
+> ruchin-audichya-portfolio@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.3
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+> [PWA] Compile server
+> [PWA] Compile server
+> [PWA] Compile client (static)
+> [PWA] Auto register service worker with: D:\Portfolio\node_modules\next-pwa\register.js
+> [PWA] Service worker: D:\Portfolio\public\sw.js
+> [PWA]   url: /sw.js
+> [PWA]   scope: /
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Linting ...
+   Collecting page data ...
+   Generating static pages (0/18) ...
+   Generating static pages (4/18) 
+   Generating static pages (8/18) 
+   Generating static pages (13/18) 
+ Γ£ô Generating static pages (18/18)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+Γöî Γùï /                                    60.3 kB         192 kB
+Γö£ Γùï /_not-found                          141 B          87.4 kB
+Γö£ ╞Æ /api/contact                         0 B                0 B
+Γö£ ╞Æ /api/guestbook                       0 B                0 B
+Γö£ ╞Æ /api/purchase                        0 B                0 B
+Γö£ Γùï /blog                                1.68 kB         133 kB
+Γö£ ΓùÅ /blog/[slug]                         431 B           132 kB
+Γö£   Γöö /blog/building-this-portfolio
+Γö£ ΓùÅ /projects/[slug]                     431 B           132 kB
+Γö£   Γö£ /projects/portfolio-v1
+Γö£   Γö£ /projects/linux-productivity
+Γö£   Γö£ /projects/n8n-automations
+Γö£   Γöö [+3 more paths]
+Γö£ Γùï /robots.txt                          0 B                0 B
+Γö£ Γùï /shop                                5.34 kB         130 kB
+Γö£ Γùï /sitemap.xml                         0 B                0 B
+Γöö ╞Æ /work/[slug]                         49.4 kB         143 kB
++ First Load JS shared by all            87.3 kB
+  Γö£ chunks/23-c443e71db951d5c5.js        31.5 kB
+  Γö£ chunks/fd9d1056-2bd362cd904b654f.js  53.6 kB
+  Γöö other shared chunks (total)          2.19 kB
+
+
+Γùï  (Static)   prerendered as static content
+ΓùÅ  (SSG)      prerendered as static HTML (uses getStaticProps)
+╞Æ  (Dynamic)  server-rendered on demand
+

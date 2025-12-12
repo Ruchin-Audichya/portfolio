@@ -16,6 +16,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  transpilePackages: ["troika-three-text", "three-stdlib", "@react-three/drei", "@react-three/fiber"],
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
