@@ -402,18 +402,6 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
     gl.setClearColor(tmpBgColor);
     gl.toneMappingExposure = THREE.MathUtils.lerp(1.1, 1.18, b);
 
-    // Cinematic night follow spot (dark world + bright pool around cyclist).
-    if (isNight && followSpotRef.current && cyclistRef && cyclistRef.current) {
-      const c = cyclistRef.current.position;
-      tmpForward.set(0, 0, 1).applyQuaternion(cyclistRef.current.quaternion).setY(0).normalize();
-      tmpTarget.copy(c).add(tmpForward.multiplyScalar(1.4));
-      followTarget.position.copy(tmpTarget);
-
-      const height = isMobile ? 7.0 : 8.5;
-      followSpotRef.current.position.set(c.x, height, c.z);
-      followSpotRef.current.intensity = 48;
-    }
-
     if (cyclistRef.current) {
       const scrollValue = scrollProgressRef.current;
       const fallbackAngle = state.clock.elapsedTime * 0.10;
