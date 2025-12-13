@@ -9,6 +9,7 @@ import { defaultMetadata, generatePersonSchema, generateWebsiteSchema, generateP
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SoundManager } from "@/components/SoundManager";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 const clash = Outfit({
   subsets: ["latin"],
@@ -117,6 +118,7 @@ export default function RootLayout({
           themes={["light", "dark"]}
         >
           <SoundManager>
+            <ScrollProgress />
             <CustomCursor />
             <SkipNav />
             <SmoothScroll>

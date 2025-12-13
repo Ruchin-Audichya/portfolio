@@ -1,15 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Send, Coffee, Linkedin, Github } from "lucide-react"
+import { useState, useRef } from "react"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { Send, Coffee, Linkedin, Github, Mail, MapPin, ArrowRight } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { profile } from "@/data/profile"
 import confetti from "canvas-confetti"
 import { useSound } from "@/components/SoundManager"
@@ -19,6 +18,69 @@ const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 })
+
+// Magnetic input field component
+function MagneticInput({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.1);
+    y.set((e.clientY - centerY) * 0.1);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Portal ring animation
+function PortalRings() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      {[1, 2, 3].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border border-purple-500/20"
+          style={{
+            width: `${300 + i * 150}px`,
+            height: `${300 + i * 150}px`,
+          }}
+          animate={{
+            scale: [1, 1.05, 1],
+            opacity: [0.2, 0.4, 0.2],
+            rotate: i % 2 === 0 ? 360 : -360,
+          }}
+          transition={{
+            duration: 20 + i * 5,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -89,7 +151,13 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Portal background effects */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-purple-500/10 via-transparent to-transparent rounded-full blur-3xl" />
+        <PortalRings />
+      </div>
+
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -98,129 +166,208 @@ export function Contact() {
           transition={{ duration: 0.5 }}
           className="max-w-4xl mx-auto space-y-12"
         >
+          {/* Section Header */}
           <div className="text-center space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              transition={{ type: "spring", delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4"
+            >
+              <Mail className="w-4 h-4 text-purple-400" />
+              <span className="text-sm text-purple-300 font-medium">Let&apos;s Connect</span>
+            </motion.div>
+            
+            <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
               Get in Touch
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white/50 max-w-2xl mx-auto">
               Have a project in mind or just want to say hi? I&apos;d love to hear from you.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
-                <CardDescription>
-                  Fill out the form below and I&apos;ll get back to you as soon as possible.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <div className="space-y-2">
-                    <Input
-                      placeholder="Your Name"
-                      {...form.register("name")}
-                      disabled={isSubmitting}
-                    />
-                    {form.formState.errors.name && (
-                      <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Input
-                      placeholder="Your Email"
-                      type="email"
-                      {...form.register("email")}
-                      disabled={isSubmitting}
-                    />
-                    {form.formState.errors.email && (
-                      <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Textarea
-                      placeholder="Your Message"
-                      className="min-h-[120px]"
-                      {...form.register("message")}
-                      disabled={isSubmitting}
-                    />
-                    {form.formState.errors.message && (
-                      <p className="text-sm text-destructive">{form.formState.errors.message.message}</p>
-                    )}
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : isSuccess ? "Sent!" : "Send Message"}
-                    {!isSubmitting && !isSuccess && <Send className="ml-2 h-4 w-4" />}
-                  </Button>
+            {/* Enhanced Form Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl opacity-50" />
+              
+              <div className="relative p-8 rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 backdrop-blur-xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+                
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                  <MagneticInput>
+                    <div className="space-y-2">
+                      <Input
+                        placeholder="Your Name"
+                        {...form.register("name")}
+                        disabled={isSubmitting}
+                        className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 focus:bg-white/[0.08] rounded-xl py-6 transition-all"
+                      />
+                      {form.formState.errors.name && (
+                        <p className="text-sm text-pink-400">{form.formState.errors.name.message}</p>
+                      )}
+                    </div>
+                  </MagneticInput>
+                  
+                  <MagneticInput>
+                    <div className="space-y-2">
+                      <Input
+                        placeholder="Your Email"
+                        type="email"
+                        {...form.register("email")}
+                        disabled={isSubmitting}
+                        className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 focus:bg-white/[0.08] rounded-xl py-6 transition-all"
+                      />
+                      {form.formState.errors.email && (
+                        <p className="text-sm text-pink-400">{form.formState.errors.email.message}</p>
+                      )}
+                    </div>
+                  </MagneticInput>
+                  
+                  <MagneticInput>
+                    <div className="space-y-2">
+                      <Textarea
+                        placeholder="Your Message"
+                        className="min-h-[140px] bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 focus:bg-white/[0.08] rounded-xl resize-none transition-all"
+                        {...form.register("message")}
+                        disabled={isSubmitting}
+                      />
+                      {form.formState.errors.message && (
+                        <p className="text-sm text-pink-400">{form.formState.errors.message.message}</p>
+                      )}
+                    </div>
+                  </MagneticInput>
+                  
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-purple-500/25 disabled:opacity-50 transition-all group"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {isSubmitting ? (
+                        <motion.div
+                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                      ) : isSuccess ? (
+                        <>✨ Message Sent!</>
+                      ) : (
+                        <>
+                          Send Message 
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                      )}
+                    </span>
+                  </motion.button>
                 </form>
-              </CardContent>
-            </Card>
+              </div>
+            </motion.div>
 
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Contact Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold mb-1">Email</h4>
-                    <a href={`mailto:${profile.email}`} className="text-muted-foreground hover:text-primary transition-colors">
-                      {profile.email}
-                    </a>
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              {/* Info Card */}
+              <div className="p-8 rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 backdrop-blur-xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Contact Info</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                      <Mail className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white mb-1">Email</h4>
+                      <a href={`mailto:${profile.email}`} className="text-white/60 hover:text-purple-400 transition-colors">
+                        {profile.email}
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Location</h4>
-                    <p className="text-muted-foreground">{profile.location}</p>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+                      <MapPin className="w-5 h-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white mb-1">Location</h4>
+                      <p className="text-white/60">{profile.location}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Socials</h4>
-                    <div className="flex gap-4 mt-2">
-                      <a
+                  
+                  <div className="pt-4 border-t border-white/10">
+                    <h4 className="font-semibold text-white mb-3">Socials</h4>
+                    <div className="flex gap-3">
+                      <motion.a
                         href={profile.socials.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-[#0077b5] transition-colors hover:scale-110 transform duration-200"
-                        title="LinkedIn"
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-[#0077b5] hover:border-[#0077b5]/50 hover:bg-[#0077b5]/10 transition-all"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <Linkedin className="h-5 w-5" />
-                      </a>
-                      <a
+                        <Linkedin className="w-5 h-5" />
+                      </motion.a>
+                      <motion.a
                         href={profile.socials.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-black dark:hover:text-white transition-colors hover:scale-110 transform duration-200"
-                        title="GitHub"
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <Github className="h-5 w-5" />
-                      </a>
+                        <Github className="w-5 h-5" />
+                      </motion.a>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card className="bg-gradient-to-br from-[#FFDD00]/20 to-[#FFDD00]/5 border-[#FFDD00]/50 overflow-hidden relative group">
+              {/* Buy Me Coffee Card - Enhanced */}
+              <motion.div
+                className="relative p-8 rounded-3xl overflow-hidden group"
+                whileHover={{ scale: 1.02 }}
+              >
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FFDD00]/30 via-[#FF6B00]/20 to-[#FFDD00]/10" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#FFDD00]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="p-2 bg-[#FFDD00] rounded-full text-black">
-                      <Coffee className="h-5 w-5" />
+                
+                <div className="relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 bg-[#FFDD00] rounded-xl text-black shadow-lg shadow-[#FFDD00]/30">
+                      <Coffee className="w-5 h-5" />
                     </div>
-                    Buy me a coffee
-                  </CardTitle>
-                  <CardDescription>
+                    <h4 className="text-xl font-bold text-white">Buy me a coffee</h4>
+                  </div>
+                  
+                  <p className="text-white/60 mb-6">
                     Fuel my creativity! If you found my work helpful, consider supporting me.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-[#FFDD00] text-black hover:bg-[#FFDD00]/90 font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5" asChild>
-                    <a href={profile.socials.buymeacoffee} target="_blank" rel="noopener noreferrer">
-                      Support My Work
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                  </p>
+                  
+                  <motion.a
+                    href={profile.socials.buymeacoffee}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFDD00] text-black font-bold rounded-xl shadow-lg shadow-[#FFDD00]/25 hover:shadow-xl hover:shadow-[#FFDD00]/30 transition-all"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Support My Work
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.a>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
       </div>

@@ -8,10 +8,10 @@ const Scene = dynamic(() => import("@/components/3d/Scene"), {
   ssr: false,
   loading: () => <div className="absolute inset-0" />,
 });
-import { About } from "@/components/sections/About";
+import { KineticAbout } from "@/components/sections/KineticAbout";
 import { Skills } from "@/components/sections/Skills";
-import { Projects } from "@/components/sections/Projects";
-import { Achievements } from "@/components/sections/Achievements";
+import { KineticProjects } from "@/components/sections/KineticProjects";
+import { KineticAchievements } from "@/components/sections/KineticAchievements";
 import { Github } from "@/components/sections/Github";
 import { Guestbook } from "@/components/sections/Guestbook";
 import { Contact } from "@/components/sections/Contact";
@@ -19,6 +19,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { IntroOverlay } from "@/components/IntroOverlay";
 import { Navbar } from "@/components/Navbar";
 import { DayNightToggle } from "@/components/DayNightToggle";
+import { HotTypeSection } from "@/components/typography";
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
@@ -88,9 +89,9 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
         ) : (
           <>
-            {/* Top controls: Day/Night toggle */}
-            <div className="absolute inset-0 z-30 flex items-start justify-end p-4 pt-20 md:p-6 md:pt-6 pointer-events-none">
-              <div className="pointer-events-auto flex items-center gap-3 md:gap-4" style={{ touchAction: 'manipulation' }}>
+            {/* Top controls: Day/Night toggle - positioned to avoid navbar overlap */}
+            <div className="absolute z-30 right-4 top-20 md:right-6 md:top-20 pointer-events-none">
+              <div className="pointer-events-auto" style={{ touchAction: 'manipulation' }}>
                 <DayNightToggle />
               </div>
             </div>
@@ -127,23 +128,23 @@ export default function Home() {
         )}
       </section>
 
-      {/* Content Sections - Always Dark Theme */}
+      {/* HotType Kinetic Typography Section */}
+      <HotTypeSection />
+
+      {/* Kinetic Sections - Below 3D World */}
       <div className="relative z-10 bg-[#0a0a0f] text-white dark">
-        <ScrollReveal width="100%">
-          <About />
-        </ScrollReveal>
+        {/* Origin / About - Floating fragments, staggered reveals */}
+        <KineticAbout />
 
         <ScrollReveal width="100%">
           <Skills />
         </ScrollReveal>
 
-        <ScrollReveal width="100%">
-          <Projects />
-        </ScrollReveal>
+        {/* Featured Projects - Kinetic typography, scroll-linked motion */}
+        <KineticProjects />
 
-        <ScrollReveal width="100%">
-          <Achievements />
-        </ScrollReveal>
+        {/* Achievements - Milestones with authority, gentle glow */}
+        <KineticAchievements />
 
         <ScrollReveal width="100%">
           <Github />
