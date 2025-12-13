@@ -110,27 +110,13 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
     };
   }, [mounted]);
 
-  // Mobile UX: keep one-finger scrolling working; enable orbit only with 2+ fingers.
+  // Mobile UX: Enable orbit immediately with 1 finger for responsiveness
+  // The page scroll is handled via the "View Portfolio" button, not swipe
   useEffect(() => {
     if (!mounted || !isMobile) return;
-
-    const el = gl.domElement;
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length >= 2) setMobileOrbitEnabled(true);
-    };
-    const onTouchEnd = (e: TouchEvent) => {
-      if (e.touches.length < 2) setMobileOrbitEnabled(false);
-    };
-
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-    el.addEventListener("touchcancel", onTouchEnd, { passive: true });
-    return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchend", onTouchEnd);
-      el.removeEventListener("touchcancel", onTouchEnd);
-    };
-  }, [gl.domElement, isMobile, mounted]);
+    // Enable orbit controls immediately on mobile
+    setMobileOrbitEnabled(true);
+  }, [isMobile, mounted]);
 
   useEffect(() => {
     scrollProgressRef.current = scrollProgress;
@@ -156,16 +142,17 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
       raf = window.requestAnimationFrame(loop);
       if (document.hidden) return;
 
-      // Wait 300ms after mount before rendering to let React settle
-      if (now - startTime < 300) return;
+      // Wait 200ms after mount before rendering (reduced from 300)
+      if (now - startTime < 200) return;
 
       const idleForMs = now - lastUserControlAtRef.current;
-      const isActive = userControllingRef.current || idleForMs < 1400;
+      const isActive = userControllingRef.current || idleForMs < 1200;
 
-      // Target 60 FPS when active for smooth experience
+      // Mobile: target 45 FPS when active (smoother than 30, lighter than 60)
+      // Desktop: 60 FPS active, very low idle
       const targetFps = isActive
-        ? (isLowQuality ? 30 : 60)
-        : (isLowQuality ? 8 : 12);
+        ? (isMobile ? 45 : (isLowQuality ? 45 : 60))
+        : (isMobile ? 10 : (isLowQuality ? 8 : 12));
       const frameInterval = 1000 / targetFps;
 
       if (now - last < frameInterval) return;
@@ -178,7 +165,7 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
       alive = false;
       window.cancelAnimationFrame(raf);
     };
-  }, [invalidate, isLowQuality, renderEnabled]);
+  }, [invalidate, isLowQuality, isMobile, renderEnabled]);
 
   const stops = useMemo<StoryStopData[]>(
     () => [
@@ -309,29 +296,29 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
 
   // IMPORTANT: never change buffer sizes at runtime (Three can't resize GPU attributes).
   // Keep max sizes stable and vary only what's drawn.
-  // Quality tier scaling: high=100%, medium=65%, low=35% of max
-  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.65 : 0.35;
+  // Quality tier scaling: high=100%, medium=65%, low=25% (was 35%)
+  // Mobile gets extra reduction for stable 60fps
+  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.6 : 0.2;
+  const mobileMultiplier = isMobile ? 0.4 : 1.0; // Aggressive mobile reduction
   
-  const coronasMax = isMobile ? 400 : 800;
+  const coronasMax = isMobile ? 200 : 800; // Reduced from 400
   const coronasVisible = deferredReady
-    ? Math.floor((isMobile ? 350 : 700) * qualityScale)
-    : Math.floor((isMobile ? 60 : 120) * qualityScale);
+    ? Math.floor((isMobile ? 120 : 700) * qualityScale * mobileMultiplier)
+    : Math.floor((isMobile ? 30 : 120) * qualityScale);
   
-  const starsLow = isMobile ? 120 : 200;
-  const starsHigh = isMobile ? 280 : 500;
+  const starsLow = isMobile ? 60 : 200; // Reduced from 120
+  const starsHigh = isMobile ? 120 : 500; // Reduced from 280
   const starsCount = deferredReady 
     ? Math.floor(starsHigh * qualityScale) 
     : Math.floor(starsLow * qualityScale);
   const starsKey = deferredReady ? `stars-hi-${quality}` : `stars-lo-${quality}`;
   
+  // Disable snow completely on mobile
   const snowMax = isMobile ? 0 : 200;
-  const snowVisible = isMobile
-    ? 0
-    : deferredReady
-      ? Math.floor(200 * qualityScale)
-      : 0;
+  const snowVisible = isMobile ? 0 : (deferredReady ? Math.floor(200 * qualityScale) : 0);
   
-  const twinkleMax = isMobile ? 30 : 80;
+  // Minimal twinkle on mobile
+  const twinkleMax = isMobile ? 15 : 80; // Reduced from 30
   const twinkleVisible = deferredReady ? Math.floor(twinkleMax * qualityScale) : 0;
   const twinkleKey = isMobile ? `twinkle-m-${quality}` : `twinkle-d-${quality}`;
 
@@ -571,22 +558,24 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
         </>
       )}
 
-      {/* Accent point lights - enhanced night ambiance for all quality levels */}
-      {isNight && (
+      {/* Accent point lights - DESKTOP ONLY for FPS on mobile */}
+      {isNight && !isMobile && (
         <group>
-          {/* Core accent lights - always on */}
+          {/* Core accent lights - desktop only */}
           <pointLight position={[8, 4, -6]} intensity={1.2} distance={12} color="#ff66c4" decay={1.6} />
           <pointLight position={[-10, 5, 6]} intensity={1.0} distance={12} color="#7dd3fc" decay={1.6} />
-          <pointLight position={[0, 3, 12]} intensity={0.8} distance={10} color="#c084fc" decay={1.8} />
-          <pointLight position={[-8, 3, -10]} intensity={0.7} distance={10} color="#f472b6" decay={1.8} />
-          {/* Additional accents for medium+ quality */}
-          {(quality === "high" || quality === "medium") && (
+          {/* Additional accents for high quality only */}
+          {quality === "high" && (
             <>
-              <pointLight position={[12, 2.5, 4]} intensity={0.5} distance={8} color="#22d3ee" decay={2} />
-              <pointLight position={[-6, 2.5, -12]} intensity={0.5} distance={8} color="#a855f7" decay={2} />
+              <pointLight position={[0, 3, 12]} intensity={0.8} distance={10} color="#c084fc" decay={1.8} />
+              <pointLight position={[-8, 3, -10]} intensity={0.7} distance={10} color="#f472b6" decay={1.8} />
             </>
           )}
         </group>
+      )}
+      {/* Mobile: single overhead light for mood without FPS hit */}
+      {isNight && isMobile && (
+        <pointLight position={[0, 8, 0]} intensity={0.5} distance={30} color="#a78bfa" decay={1.2} />
       )}
 
       {/* Snow FPS scales with quality tier */}

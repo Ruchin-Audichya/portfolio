@@ -33,17 +33,33 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
     // Track FPS for adaptive quality - allows stepping through medium tier
     const declineCountRef = useRef(0);
     
+    // Detect Android specifically for extra optimizations
+    const [isAndroid, setIsAndroid] = useState(false);
+    
     useEffect(() => {
-        const mobile = window.innerWidth < 768 || 
-            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const ua = navigator.userAgent;
+        const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(ua);
+        const android = /Android/i.test(ua);
         setIsMobile(mobile);
-        // Higher initial DPR for better resolution - PerformanceMonitor will adjust if needed
+        setIsAndroid(android);
+        
+        // Android phones need lower DPR for smooth 60fps
         const isLowEndDevice = navigator.hardwareConcurrency <= 4;
-        const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-        // Start higher: mobile 0.85-1.0, desktop 1.0-1.2
-        const deviceRatio = mobile 
-            ? (isLowEndDevice ? 0.75 : Math.min(0.9, devicePixelRatio * 0.7))
-            : Math.min(1.1, devicePixelRatio * 0.85);
+        const cores = navigator.hardwareConcurrency || 4;
+        
+        // Aggressive mobile optimization: prioritize FPS over resolution
+        let deviceRatio: number;
+        if (android) {
+            // Android: start very low, let PerformanceMonitor increase if stable
+            deviceRatio = isLowEndDevice ? 0.5 : (cores >= 8 ? 0.65 : 0.55);
+        } else if (mobile) {
+            // iOS: slightly higher as Metal is more efficient
+            deviceRatio = isLowEndDevice ? 0.6 : 0.75;
+        } else {
+            // Desktop
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            deviceRatio = Math.min(1.1, pixelRatio * 0.8);
+        }
         setDpr(deviceRatio);
 
         // Always start at low quality to prevent jank, PerformanceMonitor will upgrade if stable.
@@ -116,44 +132,51 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                 <Canvas
                     shadows={!isMobile && quality === "high"}
                     dpr={dpr}
-                    // Render-on-demand to avoid pegging CPU/GPU; the world invalidates at a target FPS.
                     frameloop="demand"
-                    // Bring camera closer for a stronger first impression.
-                    camera={{ position: [0, 10.2, 34.0], fov: 43 }}
+                    camera={{ position: [0, isMobile ? 12 : 10.2, isMobile ? 38 : 34], fov: isMobile ? 48 : 43 }}
                     style={{ touchAction: isMobile ? "pan-y pinch-zoom" : "none" }}
                     gl={{
+                        // Disable antialiasing on ALL mobile for major FPS boost
                         antialias: !isMobile,
-                        powerPreference: "high-performance",
+                        // Android: prefer default to let driver decide; Desktop: high-performance
+                        powerPreference: isAndroid ? "default" : "high-performance",
                         alpha: false,
                         stencil: false,
                         depth: true,
-                        failIfMajorPerformanceCaveat: false
+                        // Crucial: don't fail on mobile GPUs
+                        failIfMajorPerformanceCaveat: false,
+                        // Reduce precision on mobile for faster shaders
+                        precision: isMobile ? "mediump" : "highp",
+                        // Preserve buffer for screenshots but disable on mobile
+                        preserveDrawingBuffer: false,
                     }}
+                    // Flat mode disables tone mapping on mobile for simpler shaders
+                    flat={isMobile}
                 >
                     <PerformanceMonitor
-                        ms={500}
-                        iterations={3}
-                        threshold={0.8}
+                        ms={300}
+                        iterations={2}
+                        threshold={isMobile ? 0.65 : 0.8}
                         onIncline={() => {
-                            // Step up quality tier: low → medium → high
-                            setQuality((q) => {
-                                if (isMobile && q === "medium") return q; // Mobile caps at medium
-                                if (q === "low") return "medium";
-                                return "high";
-                            });
-                            // Higher DPR caps: mobile up to 1.2, desktop up to 1.5
-                            setDpr((v) => Math.min(v + 0.08, isMobile ? 1.2 : 1.5));
-                            declineCountRef.current = Math.max(0, declineCountRef.current - 1);
+                            // Mobile: NEVER increase quality, only DPR slightly
+                            if (isMobile) {
+                                setDpr((v) => Math.min(v + 0.03, isAndroid ? 0.75 : 0.9));
+                                return;
+                            }
+                            // Desktop: step up quality
+                            setQuality((q) => q === "low" ? "medium" : "high");
+                            setDpr((v) => Math.min(v + 0.1, 1.5));
+                            declineCountRef.current = 0;
                         }}
                         onDecline={() => {
-                            // Step down quality tier: high → medium → low
                             declineCountRef.current++;
-                            setQuality((q) => {
-                                if (q === "high") return "medium";
-                                if (q === "medium" || declineCountRef.current >= 2) return "low";
-                                return q;
-                            });
-                            // Don't drop DPR too aggressively
+                            // Mobile: aggressively drop DPR for stable FPS
+                            if (isMobile) {
+                                setDpr((v) => Math.max(isAndroid ? 0.35 : 0.45, v - 0.08));
+                                return;
+                            }
+                            // Desktop: step down quality
+                            setQuality((q) => q === "high" ? "medium" : "low");
                             setDpr((v) => Math.max(0.7, v - 0.1));
                         }}
                     />

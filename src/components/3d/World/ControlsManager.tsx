@@ -16,8 +16,9 @@ export function ControlsManager({ isMobile, locked = false, onUserControlStart, 
       enabled={!locked}
       enablePan={false}
       enableZoom
-      enableDamping
-      dampingFactor={0.06}
+      // CRITICAL: Disable damping on mobile for instant response
+      enableDamping={!isMobile}
+      dampingFactor={0.05}
       mouseButtons={{ LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE }}
       touches={
         isMobile
@@ -27,15 +28,15 @@ export function ControlsManager({ isMobile, locked = false, onUserControlStart, 
             }
           : undefined
       }
-      minDistance={isMobile ? 18 : 12}
-      maxDistance={isMobile ? 60 : 52}
+      // Tighter zoom range for mobile
+      minDistance={isMobile ? 22 : 12}
+      maxDistance={isMobile ? 50 : 52}
       // CRITICAL: Lock camera above horizon - never go under world
-      maxPolarAngle={Math.PI / 2.15}
-      minPolarAngle={0.2}
-      // Smoother, more responsive controls
-      rotateSpeed={isMobile ? 0.5 : 0.5}
-      zoomSpeed={isMobile ? 0.6 : 0.8}
-      // Touch-specific improvements
+      maxPolarAngle={Math.PI / 2.1}
+      minPolarAngle={0.3}
+      // Faster rotation on mobile for snappy feel
+      rotateSpeed={isMobile ? 0.8 : 0.5}
+      zoomSpeed={isMobile ? 0.8 : 0.8}
       enableRotate
       onStart={() => onUserControlStart?.()}
       onEnd={() => onUserControlEnd?.()}
