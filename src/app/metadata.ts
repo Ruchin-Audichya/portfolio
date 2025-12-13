@@ -93,16 +93,17 @@ export const defaultMetadata: Metadata = {
     category: "technology",
     icons: {
         icon: [
-            { url: "/icon.svg", type: "image/svg+xml" },
+            { url: "/favicon.svg", type: "image/svg+xml" },
+            { url: "/logo.svg", type: "image/svg+xml" },
             { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
             { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         ],
-        shortcut: "/icon.svg",
+        shortcut: "/favicon.svg",
         apple: [
             { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
         ],
         other: [
-            { rel: "mask-icon", url: "/icon.svg", color: "#8b5cf6" },
+            { rel: "mask-icon", url: "/favicon.svg", color: "#00F0FF" },
         ],
     },
     manifest: "/site.webmanifest",

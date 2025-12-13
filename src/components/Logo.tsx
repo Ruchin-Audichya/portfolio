@@ -1,33 +1,126 @@
-export function Logo({ className = "w-8 h-8" }: { className?: string }) {
+"use client";
+
+import { motion } from "framer-motion";
+
+interface LogoProps {
+    className?: string;
+    animated?: boolean;
+    showGlow?: boolean;
+}
+
+// Main animated logo component with the custom R mark
+export function Logo({ className = "w-8 h-8", animated = false, showGlow = false }: LogoProps) {
     return (
         <svg
-            viewBox="0 0 120 120"
+            viewBox="0 0 200 200"
             xmlns="http://www.w3.org/2000/svg"
             className={className}
             role="img"
             aria-label="Ruchin Audichya logo"
         >
             <defs>
-                <linearGradient id="logo-hex" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#55e7ff" />
-                    <stop offset="50%" stopColor="#6a7aff" />
-                    <stop offset="100%" stopColor="#ff4fd8" />
-                </linearGradient>
+                {showGlow && (
+                    <filter id="logo-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                )}
             </defs>
-            <g fill="none" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
-                <path
-                    d="M60 6 L110 34 V86 L60 114 L10 86 V34 Z"
-                    stroke="url(#logo-hex)"
-                />
-                <circle cx="60" cy="60" r="30" stroke="#111827" fill="#0b1628" />
-                <path
-                    d="M40 66 C42 56 52 52 60 56 C64 50 76 48 82 58 C88 59 92 64 92 70"
-                    stroke="#9ee8ff"
-                    strokeWidth="5"
+            
+            {/* Background rounded rectangle */}
+            <rect x="20" y="20" width="160" height="160" rx="32" fill="#0A0A0A"/>
+            
+            {/* R Mark - Cyan accent stroke */}
+            {animated ? (
+                <motion.path
+                    d="M65 150 L65 50 Q65 35 80 35 L110 35 Q145 35 145 70 Q145 100 110 100 L95 100 L140 150"
                     fill="none"
+                    stroke="#00F0FF"
+                    strokeWidth="18"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter={showGlow ? "url(#logo-glow)" : undefined}
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                 />
-                <circle cx="87" cy="60" r="4.5" fill="#ff4fd8" stroke="#0b1628" strokeWidth="2" />
-            </g>
+            ) : (
+                <path
+                    d="M65 150 L65 50 Q65 35 80 35 L110 35 Q145 35 145 70 Q145 100 110 100 L95 100 L140 150"
+                    fill="none"
+                    stroke="#00F0FF"
+                    strokeWidth="18"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter={showGlow ? "url(#logo-glow)" : undefined}
+                />
+            )}
+            
+            {/* White stem accent */}
+            <path
+                d="M65 85 L65 50"
+                fill="none"
+                stroke="#E2E8F0"
+                strokeWidth="6"
+                strokeLinecap="round"
+                opacity="0.8"
+            />
+        </svg>
+    );
+}
+
+// Monochrome version for light/dark theme contexts
+export function LogoMonochrome({ className = "w-8 h-8" }: { className?: string }) {
+    return (
+        <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+            role="img"
+            aria-label="Ruchin Audichya logo"
+        >
+            <rect x="20" y="20" width="160" height="160" rx="32" className="fill-foreground/10"/>
+            <path
+                d="M65 150 L65 50 Q65 35 80 35 L110 35 Q145 35 145 70 Q145 100 110 100 L95 100 L140 150"
+                fill="none"
+                className="stroke-foreground"
+                strokeWidth="18"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
+// Icon-only version (just the R, no background)
+export function LogoIcon({ className = "w-6 h-6" }: { className?: string }) {
+    return (
+        <svg
+            viewBox="0 0 120 130"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+            role="img"
+            aria-label="Ruchin Audichya"
+        >
+            <path
+                d="M10 120 L10 20 Q10 5 25 5 L55 5 Q90 5 90 40 Q90 70 55 70 L40 70 L85 120"
+                fill="none"
+                stroke="#00F0FF"
+                strokeWidth="16"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M10 55 L10 20"
+                fill="none"
+                stroke="#E2E8F0"
+                strokeWidth="5"
+                strokeLinecap="round"
+                opacity="0.8"
+            />
         </svg>
     );
 }
