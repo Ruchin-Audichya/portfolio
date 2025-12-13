@@ -37,10 +37,13 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
         const mobile = window.innerWidth < 768 || 
             /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         setIsMobile(mobile);
-        // Keep DPR very low initially - PerformanceMonitor will increase if stable
-        // Lower DPR for older/budget devices
+        // Higher initial DPR for better resolution - PerformanceMonitor will adjust if needed
         const isLowEndDevice = navigator.hardwareConcurrency <= 4;
-        const deviceRatio = mobile ? (isLowEndDevice ? 0.5 : 0.6) : 0.7;
+        const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        // Start higher: mobile 0.85-1.0, desktop 1.0-1.2
+        const deviceRatio = mobile 
+            ? (isLowEndDevice ? 0.75 : Math.min(0.9, devicePixelRatio * 0.7))
+            : Math.min(1.1, devicePixelRatio * 0.85);
         setDpr(deviceRatio);
 
         // Always start at low quality to prevent jank, PerformanceMonitor will upgrade if stable.
@@ -134,23 +137,24 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                         onIncline={() => {
                             // Step up quality tier: low → medium → high
                             setQuality((q) => {
-                                if (isMobile) return q; // Mobile stays at current level
+                                if (isMobile && q === "medium") return q; // Mobile caps at medium
                                 if (q === "low") return "medium";
                                 return "high";
                             });
-                            setDpr((v) => Math.min(v + 0.05, isMobile ? 1.0 : 1.05));
+                            // Higher DPR caps: mobile up to 1.2, desktop up to 1.5
+                            setDpr((v) => Math.min(v + 0.08, isMobile ? 1.2 : 1.5));
                             declineCountRef.current = Math.max(0, declineCountRef.current - 1);
                         }}
                         onDecline={() => {
                             // Step down quality tier: high → medium → low
-                            // Requires 2 consecutive declines to drop from high to low
                             declineCountRef.current++;
                             setQuality((q) => {
                                 if (q === "high") return "medium";
                                 if (q === "medium" || declineCountRef.current >= 2) return "low";
                                 return q;
                             });
-                            setDpr((v) => Math.max(0.6, v - 0.15));
+                            // Don't drop DPR too aggressively
+                            setDpr((v) => Math.max(0.7, v - 0.1));
                         }}
                     />
                     <Suspense fallback={<LoadingProgress />}>
@@ -158,16 +162,6 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                         {preloadAll && <Preload all />}
                     </Suspense>
                 </Canvas>
-            </div>
-
-            {/* CTA overlay */}
-            <div className="absolute inset-x-0 bottom-10 z-20 flex items-center justify-center px-4 pointer-events-none">
-                <a
-                    href="#about"
-                    className="pointer-events-auto rounded-full border border-white/20 bg-black/50 backdrop-blur-md px-5 py-2 text-sm font-semibold text-white hover:bg-black/65"
-                >
-                    Scroll to portfolio
-                </a>
             </div>
         </div>
     );

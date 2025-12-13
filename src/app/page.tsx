@@ -88,16 +88,40 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
         ) : (
           <>
+            {/* Top controls: Day/Night toggle */}
             <div className="absolute inset-0 z-30 flex items-start justify-end p-4 pt-20 md:p-6 md:pt-6 pointer-events-none">
               <div className="pointer-events-auto flex items-center gap-3 md:gap-4" style={{ touchAction: 'manipulation' }}>
                 <DayNightToggle />
               </div>
             </div>
-            <div className="absolute left-4 bottom-4 z-10 pointer-events-none">
+            
+            {/* Touch hint for mobile */}
+            <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 pointer-events-none md:hidden">
+              <div className="flex items-center gap-2 rounded-full bg-black/50 backdrop-blur px-3 py-1.5 text-xs text-white/70 animate-pulse">
+                <span>👆 Drag to rotate • Pinch to zoom</span>
+              </div>
+            </div>
+            
+            {/* Bottom info badge */}
+            <div className="absolute left-4 bottom-20 z-10 pointer-events-none">
               <div className="inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-lg backdrop-blur">
                 <span>Ruchin Audichya</span>
-                <span className="text-white/70">AWS/DevOps • Full-Stack • Salesforce</span>
+                <span className="text-white/70 hidden sm:inline">AWS/DevOps • Full-Stack • Salesforce</span>
               </div>
+            </div>
+            
+            {/* Prominent scroll button */}
+            <div className="absolute inset-x-0 bottom-6 z-30 flex justify-center pointer-events-none">
+              <a
+                href="#about"
+                className="pointer-events-auto group flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 font-bold uppercase tracking-wider shadow-lg hover:bg-purple-500 hover:text-white transition-all duration-300 hover:shadow-purple-500/25"
+                style={{ touchAction: 'manipulation' }}
+              >
+                <span>View Portfolio</span>
+                <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </a>
             </div>
           </>
         )}
