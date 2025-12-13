@@ -37,45 +37,55 @@ export function Contact() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     playClick();
-    setIsSubmitting(true)
-    // TODO: Wire up actual API route here
-    console.log("Form submitted:", values)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    setIsSubmitting(false)
-    setIsSuccess(true)
-    playSuccess();
-
-    // Confetti Explosion
-    const end = Date.now() + 1000;
-    const colors = ['#FF10F0', '#00FFFF', '#ffffff'];
-
-    (function frame() {
-      confetti({
-        particleCount: 3,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: colors
-      });
-      confetti({
-        particleCount: 3,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: colors
+    setIsSubmitting(true);
+    
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
       });
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
+      if (res.ok) {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        playSuccess();
+
+        // Confetti Explosion
+        const end = Date.now() + 1000;
+        const colors = ['#FF10F0', '#00FFFF', '#ffffff'];
+
+        (function frame() {
+          confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors
+          });
+          confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        }());
+
+        form.reset();
+        setTimeout(() => setIsSuccess(false), 3000);
+      } else {
+        setIsSubmitting(false);
+        console.error("Contact form submission failed");
       }
-    }());
-
-    form.reset()
-
-    setTimeout(() => setIsSuccess(false), 3000)
+    } catch (error) {
+      setIsSubmitting(false);
+      console.error("Contact form error:", error);
+    }
   }
 
   return (

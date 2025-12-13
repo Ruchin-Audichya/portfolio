@@ -78,6 +78,13 @@
   }
 }
 
+/* Prevent hash-link navigation from hiding section headings under the fixed navbar */
+@layer base {
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
@@ -88,4 +95,93 @@
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* ═══ MOBILE OPTIMIZATIONS ═══ */
+
+/* iOS Safe Area Support */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Prevent pull-to-refresh on mobile */
+html, body {
+  overscroll-behavior-y: none;
+}
+
+/* Smooth touch scrolling */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  
+  /* Touch-friendly interactive elements */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
+  
+  /* Prevent text selection on interactive 3D canvas */
+  canvas {
+    touch-action: pan-x pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* Mobile-specific performance */
+@media (max-width: 768px) {
+  /* Reduce motion for battery savings */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Smoother font rendering on mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+}
+
+/* iPhone notch/Dynamic Island support */
+@supports (padding: max(0px)) {
+  .safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Prevent iOS zoom on input focus */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 240 5.9% 70%;
+  }
+  .dark {
+    --border: 240 3.7% 35%;
+  }
 }

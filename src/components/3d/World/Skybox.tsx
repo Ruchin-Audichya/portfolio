@@ -21,9 +21,10 @@ function DaySkybox() {
         transparent: false,
         uniforms: {
           time: { value: 0 },
-          topColor: { value: new THREE.Color(0.24, 0.65, 1.0) },
-          horizonColor: { value: new THREE.Color(0.78, 0.9, 1.0) },
-          cloudColor: { value: new THREE.Color(1.0, 0.98, 0.94) },
+          // Bright pastel sky (closer to the reference daytime look)
+          topColor: { value: new THREE.Color(0.20, 0.60, 1.00) },
+          horizonColor: { value: new THREE.Color(1.00, 0.95, 0.82) },
+          cloudColor: { value: new THREE.Color(1.00, 0.99, 0.96) },
         },
         vertexShader: `
           varying vec3 vWorldDir;
@@ -61,7 +62,7 @@ function DaySkybox() {
           float fbm(vec3 p) {
             float v = 0.0;
             float a = 0.55;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
               v += a * noise(p);
               p *= 2.1;
               a *= 0.55;
@@ -76,9 +77,10 @@ function DaySkybox() {
             vec3 p = normalize(vWorldDir) * 3.5;
             p.xy += time * vec2(0.02, 0.015);
             float clouds = fbm(p);
-            float mask = smoothstep(0.45, 0.7, clouds);
+            // Subtle clouds so the day stays clean/readable.
+            float mask = smoothstep(0.55, 0.78, clouds);
             float softness = smoothstep(0.2, 0.7, clouds);
-            vec3 cloudMix = mix(base, cloudColor, mask * 0.65);
+            vec3 cloudMix = mix(base, cloudColor, mask * 0.35);
             vec3 color = mix(base, cloudMix, softness);
 
             gl_FragColor = vec4(color, 1.0);

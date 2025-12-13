@@ -9,27 +9,22 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "AWS Cloud Club Event Platform",
-    description: "A centralized platform for managing AWS Cloud Club events, registrations, and resources. Built to streamline community engagement and content delivery.",
+    description: "A centralized platform concept for managing community events, registrations, and resources — focused on clean UX, reliable forms, and scalable structure.",
     tags: ["Next.js", "AWS", "Tailwind CSS", "Community"],
-    github: "https://github.com/Ruchin-Audichya/aws-club-platform", // Placeholder
-    link: "https://aws-club-jecrc.vercel.app" // Placeholder
   },
   {
     title: "Salesforce CRM Integration",
-    description: "Implemented a custom Salesforce integration for a local business to automate lead generation and customer follow-ups, improving efficiency by 40%.",
+    description: "Salesforce customization + automation for lead capture and follow-ups — focused on reducing manual work and improving consistency.",
     tags: ["Salesforce", "Apex", "Integration", "Automation"],
-    github: "https://github.com/Ruchin-Audichya/salesforce-integration" // Placeholder
   },
   {
     title: "Cloud Infrastructure Automation",
-    description: "Infrastructure as Code (IaC) project using Terraform to provision and manage AWS resources, ensuring scalable and reproducible environments.",
+    description: "Infrastructure-as-Code practice projects using Terraform to provision AWS resources with reproducible, reviewable configs.",
     tags: ["AWS", "Terraform", "DevOps", "IaC"],
-    github: "https://github.com/Ruchin-Audichya/terraform-aws" // Placeholder
   },
   {
     title: "Tech Content Hub",
-    description: "A content aggregation site for tech tutorials and articles, featuring a custom CMS and SEO optimization to reach a wider audience.",
+    description: "A content hub concept for tutorials and notes — focused on information architecture, search/SEO hygiene, and fast reading UX.",
     tags: ["React", "Node.js", "Content Strategy", "SEO"],
-    github: "https://github.com/Ruchin-Audichya/tech-content-hub" // Placeholder
   }
 ];

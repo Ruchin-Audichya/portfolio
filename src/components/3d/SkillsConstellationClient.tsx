@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -255,27 +255,37 @@ function ConstellationLoader() {
 
 // Main export
 export function SkillsConstellationClient() {
+    const [isMobile, setIsMobile] = useState(false);
+    
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768);
+    }, []);
+    
     return (
-        <div className="h-[700px] w-full relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-black/60 via-purple-900/10 to-black/60 backdrop-blur-sm">
-            <Canvas camera={{ position: [0, 2, 12], fov: 50 }}>
+        <div className={`w-full relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-black/60 via-purple-900/10 to-black/60 backdrop-blur-sm ${isMobile ? 'h-[500px]' : 'h-[700px]'}`}>
+            <Canvas 
+                camera={{ position: [0, 2, isMobile ? 15 : 12], fov: isMobile ? 55 : 50 }}
+                dpr={isMobile ? 0.8 : 1}
+                performance={{ min: 0.5 }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={0.8} />
                 <pointLight position={[-10, -10, -10]} intensity={0.4} color="#a855f7" />
-                <pointLight position={[0, 15, -10]} intensity={0.6} color="#3b82f6" />
+                {!isMobile && <pointLight position={[0, 15, -10]} intensity={0.6} color="#3b82f6" />}
                 <SkillConstellation />
             </Canvas>
 
             {/* Instructions */}
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 pointer-events-none">
-                <div className="px-6 py-3 rounded-full bg-black/70 border border-white/20 backdrop-blur-md">
-                    <span className="text-xs text-white/90 uppercase tracking-widest font-medium">
-                        🌌 Drag to Rotate • All Skills Visible
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none">
+                <div className="px-4 py-2 rounded-full bg-black/70 border border-white/20 backdrop-blur-md">
+                    <span className="text-[10px] md:text-xs text-white/90 uppercase tracking-widest font-medium">
+                        🌌 Drag to Rotate
                     </span>
                 </div>
             </div>
 
-            {/* Legend */}
-            <div className="absolute bottom-6 left-6 pointer-events-none">
+            {/* Legend - Hidden on mobile */}
+            <div className="hidden md:block absolute bottom-6 left-6 pointer-events-none">
                 <div className="space-y-2 px-4 py-3 rounded-xl bg-black/60 border border-white/10 backdrop-blur-md">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-yellow-500"></div>

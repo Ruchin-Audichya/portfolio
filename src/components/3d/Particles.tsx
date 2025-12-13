@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -17,7 +17,8 @@ const StarShader = {
       float twinkle = sin(time * speed + offset) * 0.5 + 0.5;
       vOpacity = 0.5 + 0.5 * twinkle; // Min opacity 0.5, max 1.0
       
-      gl_PointSize = size * (300.0 / -mvPosition.z);
+    float sz = size * (280.0 / -mvPosition.z);
+    gl_PointSize = clamp(sz, 1.5, 10.0);
       gl_Position = projectionMatrix * mvPosition;
     }
   `,
@@ -37,11 +38,13 @@ const StarShader = {
 
 interface ParticlesProps {
     count: number;
+    visibleCount?: number;
     isNight: boolean;
 }
 
-export function Particles({ count, isNight }: ParticlesProps) {
+export function Particles({ count, visibleCount = count, isNight }: ParticlesProps) {
     const meshRef = useRef<THREE.Points>(null);
+    const geomRef = useRef<THREE.BufferGeometry>(null);
 
     // Generate random positions and attributes
     const { positions, sizes, speeds, offsets } = useMemo(() => {
@@ -81,6 +84,13 @@ export function Particles({ count, isNight }: ParticlesProps) {
         });
     }, []);
 
+    useEffect(() => {
+        const geom = geomRef.current;
+        if (!geom) return;
+        const drawCount = Math.max(0, Math.min(visibleCount, count));
+        geom.setDrawRange(0, drawCount);
+    }, [count, visibleCount]);
+
     useFrame((state) => {
         if (meshRef.current && isNight) {
             const material = meshRef.current.material as THREE.ShaderMaterial;
@@ -92,7 +102,7 @@ export function Particles({ count, isNight }: ParticlesProps) {
 
     return (
         <points ref={meshRef}>
-            <bufferGeometry>
+            <bufferGeometry ref={geomRef}>
                 <bufferAttribute
                     attach="attributes-position"
                     count={count}

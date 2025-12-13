@@ -25,7 +25,15 @@ function getGlowTexture() {
     return texture;
 }
 
-export function CityCoronas({ count = 3000, materialRef }: { count?: number; materialRef?: React.Ref<THREE.PointsMaterial> }) {
+export function CityCoronas({
+    count = 3000,
+    visibleCount = count,
+    materialRef,
+}: {
+    count?: number;
+    visibleCount?: number;
+    materialRef?: React.Ref<THREE.PointsMaterial>;
+}) {
     const texture = useMemo(() => getGlowTexture(), []);
     const pointsRef = useRef<THREE.Points>(null);
     const prevBlinkOn = useRef<boolean>(false);
@@ -178,6 +186,16 @@ export function CityCoronas({ count = 3000, materialRef }: { count?: number; mat
             texture?.dispose();
         };
     }, [texture]);
+
+    // Avoid resizing GPU buffers (Three doesn't support it). Instead, keep the max buffer size
+    // stable and reduce initial load by drawing fewer points until ready.
+    useEffect(() => {
+        const pts = pointsRef.current;
+        if (!pts) return;
+        const geom = pts.geometry as THREE.BufferGeometry;
+        const drawCount = Math.max(0, Math.min(visibleCount, count));
+        geom.setDrawRange(0, drawCount);
+    }, [count, visibleCount]);
 
     return (
         <points ref={pointsRef}>

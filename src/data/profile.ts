@@ -1,14 +1,14 @@
 export const profile = {
   name: "Ruchin Audichya",
-  role: "Building in Cloud, Business",
-  bio: "Building in Cloud, Business || 1x AWS Certified || 1x Salesforce Certified || Social/Content Head Leader @AWSCloudClubJECRC || Real-World Tech Doer",
-  longBio: "I am a passionate technologist focused on Cloud Computing and Business Strategy. With hands-on experience in AWS and Salesforce ecosystems, I bridge the gap between technical implementation and business value. As the Social/Content Head Leader at AWS Cloud Club JECRC, I drive community engagement and content strategy, fostering a culture of learning and innovation. I thrive on real-world execution, discipline, and continuous learning.",
+  role: "Cloud/DevOps (AWS) • Full-Stack (Next.js) • Salesforce (Apex)",
+  bio: "PC & systems enthusiast → Cloud/DevOps (AWS), Full-Stack (Next.js), Salesforce (Apex). Built with a performance-first, proof-of-work mindset.",
+  longBio: "I’m a PC/hardware and systems enthusiast who loves turning curiosity into reliable builds — from tuning Linux setups to shipping cloud-native apps. My focus areas are AWS cloud/DevOps fundamentals, full-stack development with Next.js/TypeScript, and Salesforce automation (Apex). I care about performance, clean UX, and measurable outcomes.",
   location: "Jaipur, Rajasthan, India",
-  email: "ruchinaudichya09@gmail.com",
+  email: "hello@ruchinaudichya.in",
   socials: {
     linkedin: "https://www.linkedin.com/in/ruchinaudi/",
     github: "https://github.com/Ruchin-Audichya",
-    twitter: "https://twitter.com/itsruchin", // Placeholder based on username pattern or empty
+    twitter: "https://twitter.com/itsruchin",
     buymeacoffee: "https://buymeacoffee.com/ruchinaudik",
   },
   badges: [

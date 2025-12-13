@@ -32,7 +32,7 @@ jest.mock('@/lib/content', () => ({
 describe('Hero Component', () => {
     it('renders without crashing', () => {
         render(<Hero />);
-        expect(screen.getByRole('heading')).toBeInTheDocument();
+        expect(screen.getAllByRole('heading').length).toBeGreaterThan(0);
     });
 
     it('displays the name correctly', () => {

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
-import { Hero } from "@/components/sections/Hero";
 
 const Scene = dynamic(() => import("@/components/3d/Scene"), {
   ssr: false,
@@ -19,7 +18,6 @@ import { Contact } from "@/components/sections/Contact";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { IntroOverlay } from "@/components/IntroOverlay";
 import { Navbar } from "@/components/Navbar";
-import { CityNavigation } from "@/components/CityNavigation";
 import { DayNightToggle } from "@/components/DayNightToggle";
 
 export default function Home() {
@@ -27,16 +25,28 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number | null = null;
+    let latestY = window.scrollY;
+
+    const compute = () => {
+      rafId = null;
       const doc = document.documentElement;
       const total = doc.scrollHeight - window.innerHeight;
-      const progress = total > 0 ? Math.min(Math.max(window.scrollY / total, 0), 1) : 0;
+      const progress = total > 0 ? Math.min(Math.max(latestY / total, 0), 1) : 0;
       setScrollProgress(progress);
     };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => {
+      latestY = window.scrollY;
+      if (rafId == null) rafId = window.requestAnimationFrame(compute);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId != null) window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleNodeClick = (id: string) => {
@@ -64,41 +74,37 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Main Content - Preloaded behind overlay */}
-      <div className={`transition-opacity duration-1000 ${showIntro ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`transition-opacity duration-1000 ${showIntro ? "opacity-0" : "opacity-100"}`}>
         <Navbar />
       </div>
 
-      {/* 3D World Section - Always rendered to preload */}
       <section id="world" className="h-screen w-full relative">
-        <div className="absolute inset-0 z-20 flex items-start justify-between p-4 md:p-6 pointer-events-none">
-          <div className="pointer-events-auto">
-            <CityNavigation onStopClick={handleNodeClick} />
-          </div>
-          <div className="pointer-events-auto flex items-center gap-3 md:gap-4">
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full bg-white/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-black shadow-lg backdrop-blur transition hover:bg-white"
-            >
-              Resume
-            </a>
-            <DayNightToggle />
-          </div>
+        {/* Scene loads during intro (hidden) for faster reveal */}
+        <div className={showIntro ? "opacity-0 pointer-events-none" : ""}>
+          <Scene onNodeClick={handleNodeClick} scrollProgress={scrollProgress} />
         </div>
-        <Scene onNodeClick={handleNodeClick} scrollProgress={scrollProgress} />
-        {/* Compact floating label to avoid blocking interaction */}
-        <div className="absolute left-4 bottom-4 z-10 pointer-events-none">
-          <div className="inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-lg backdrop-blur">
-            <span>Ruchin Audichya</span>
-            <span className="text-white/70">Cloud & Business</span>
-          </div>
-        </div>
+        
+        {showIntro ? (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
+        ) : (
+          <>
+            <div className="absolute inset-0 z-30 flex items-start justify-end p-4 pt-20 md:p-6 md:pt-6 pointer-events-none">
+              <div className="pointer-events-auto flex items-center gap-3 md:gap-4" style={{ touchAction: 'manipulation' }}>
+                <DayNightToggle />
+              </div>
+            </div>
+            <div className="absolute left-4 bottom-4 z-10 pointer-events-none">
+              <div className="inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-lg backdrop-blur">
+                <span>Ruchin Audichya</span>
+                <span className="text-white/70">AWS/DevOps • Full-Stack • Salesforce</span>
+              </div>
+            </div>
+          </>
+        )}
       </section>
 
-      {/* Content Sections */}
-      <div className="relative z-10 bg-background">
+      {/* Content Sections - Always Dark Theme */}
+      <div className="relative z-10 bg-[#0a0a0f] text-white dark">
         <ScrollReveal width="100%">
           <About />
         </ScrollReveal>
@@ -127,7 +133,7 @@ export default function Home() {
           <Contact />
         </ScrollReveal>
 
-        <footer className="py-8 text-center text-sm text-muted-foreground border-t border-white/10">
+        <footer className="py-8 text-center text-sm text-white/50 border-t border-white/10">
           <p>© {new Date().getFullYear()} Ruchin Audichya. Engineered with precision.</p>
         </footer>
       </div>

@@ -1,16 +1,16 @@
 export const content = {
     profile: {
         name: "Ruchin Audichya",
-        role: "Systems, Cloud, Dev Tools",
-        headline: "Calm, cinematic, intentional",
-        subline: "Building proof-of-work worlds",
-        mission: "I build cloud-native systems, automation, and frontends that feel inevitable and alive.",
-        bio_title: "Soft narration. Clear proof.",
+        role: "Cloud/DevOps (AWS) • Full-Stack (Next.js) • Salesforce (Apex)",
+        headline: "Cloud/DevOps Engineer • Full-Stack Developer • Salesforce Developer",
+        subline: "PC & systems enthusiast — performance-first, proof-of-work builds",
+        mission: "I build cloud-native systems, automation, and product-grade frontends — with the same obsession I bring to PCs: reliability, performance, and clean execution.",
+        bio_title: "Hardware mindset. Software execution.",
         bio: [
-            "Started in 2019 selling licenses and fixing PCs before college — learned ops, trust, and shipping fast.",
-            "Chose AWS cloud at JECRC to work on real systems, not theory. Python, APIs, GitHub, 5+ cloud badges, cost-aware design.",
-            "Led content/graphics for AWS Cloud Club, worked with an AWS exec, and helped drive a 50,000-student AICTE x OPPO x 1M1B campaign.",
-            "Internships and ambassador roles taught coordination and delivery. Now focused on automation, dev tools, and a 3D mini-city that tells the story as proof of work."
+            "I’ve been a PC/hardware and system-tuning person since childhood — the kind of curiosity that turns into real builds: troubleshooting, optimizing, and making systems feel fast and stable.",
+            "In college, that mindset moved into cloud and engineering: AWS fundamentals, APIs, GitHub, automation, and cost-aware design — building things that ship and survive real usage.",
+            "I work across Cloud/DevOps and full-stack (Next.js/TypeScript), and I’ve also built on Salesforce (Apex + automation) where process and reliability matter as much as code.",
+            "This portfolio is my proof-of-work: an interactive 3D world + real projects, designed like a product — performance, UX polish, and a clear story end-to-end."
         ],
         avatar: "/profile.jpg",
         resume: "/resume.pdf", // Updated to point to the local file

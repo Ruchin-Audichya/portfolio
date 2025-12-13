@@ -1,31 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, User, MessageSquare, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-// Initial "Starter" messages to populate the guestbook
-const initialMessages = [
-    {
-        name: "Amit Sharma",
-        role: "Cloud Architect",
-        message: "Ruchin's work on the AWS Cloud Club was inspiring. A true community builder!",
-        date: "Oct 2023"
-    },
-    {
-        name: "Sarah Jenkins",
-        role: "Product Manager",
-        message: "The attention to detail in this portfolio is outstanding. Love the 3D elements!",
-        date: "Nov 2023"
-    }
-];
+type GuestbookMessage = {
+    name: string;
+    role: string;
+    message: string;
+    date: string;
+};
 
 export function Guestbook() {
-    const [messages, setMessages] = useState(initialMessages);
+    const [messages, setMessages] = useState<GuestbookMessage[]>([]);
     const [formData, setFormData] = useState({ name: "", role: "", message: "" });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+    // Load messages from localStorage on mount
+    useEffect(() => {
+        const stored = localStorage.getItem("guestbook-messages");
+        if (stored) {
+            try {
+                setMessages(JSON.parse(stored));
+            } catch {
+                setMessages([]);
+            }
+        }
+    }, []);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -40,18 +43,23 @@ export function Guestbook() {
 
             if (res.ok) {
                 setStatus("success");
-                // Optimistically add the message to the list (temporary)
-                setMessages([
-                    { ...formData, date: "Just now" },
-                    ...messages
-                ]);
+                // Add message to local state and localStorage
+                const newMessage: GuestbookMessage = {
+                    ...formData,
+                    date: new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" })
+                };
+                const updatedMessages = [newMessage, ...messages];
+                setMessages(updatedMessages);
+                localStorage.setItem("guestbook-messages", JSON.stringify(updatedMessages));
                 setFormData({ name: "", role: "", message: "" });
                 setTimeout(() => setStatus("idle"), 3000);
             } else {
                 setStatus("error");
+                setTimeout(() => setStatus("idle"), 3000);
             }
         } catch (error) {
             setStatus("error");
+            setTimeout(() => setStatus("idle"), 3000);
         }
     }
 
@@ -162,31 +170,43 @@ export function Guestbook() {
                         viewport={{ once: true }}
                         className="space-y-6 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar"
                     >
-                        {messages.map((msg, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                            >
-                                <div className="p-6 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm hover:border-accent/30 transition-colors">
-                                    <p className="text-lg leading-relaxed mb-4 text-foreground/90">
-                                        &quot;{msg.message}&quot;
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <h4 className="font-bold text-accent">{msg.name}</h4>
-                                            {msg.role && (
-                                                <p className="text-sm text-muted-foreground">{msg.role}</p>
-                                            )}
-                                        </div>
-                                        <span className="text-xs font-mono text-muted-foreground/60 bg-white/5 px-2 py-1 rounded">
-                                            {msg.date}
-                                        </span>
-                                    </div>
+                        {messages.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-16 text-center">
+                                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mb-6">
+                                    <MessageSquare className="w-10 h-10 text-accent/50" />
                                 </div>
-                            </motion.div>
-                        ))}
+                                <h3 className="text-xl font-bold text-foreground/80 mb-2">No messages yet</h3>
+                                <p className="text-muted-foreground max-w-xs">
+                                    Be the first to sign the guestbook and leave your mark!
+                                </p>
+                            </div>
+                        ) : (
+                            messages.map((msg, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                >
+                                    <div className="p-6 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm hover:border-accent/30 transition-colors">
+                                        <p className="text-lg leading-relaxed mb-4 text-foreground/90">
+                                            &quot;{msg.message}&quot;
+                                        </p>
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h4 className="font-bold text-accent">{msg.name}</h4>
+                                                {msg.role && (
+                                                    <p className="text-sm text-muted-foreground">{msg.role}</p>
+                                                )}
+                                            </div>
+                                            <span className="text-xs font-mono text-muted-foreground/60 bg-white/5 px-2 py-1 rounded">
+                                                {msg.date}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))
+                        )}
                     </motion.div>
                 </div>
             </div>

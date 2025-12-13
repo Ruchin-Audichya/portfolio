@@ -1,5 +1,16 @@
 import '@testing-library/jest-dom'
 
+// Mock Canvas/WebGL in JSDOM
+Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+    writable: true,
+    value: jest.fn().mockImplementation((type) => {
+        if (type === 'webgl' || type === 'experimental-webgl') {
+            return {};
+        }
+        return null;
+    }),
+});
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
     writable: true,

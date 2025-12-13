@@ -10,6 +10,54 @@
 				"$tsc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "next: build (npx)",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"next",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "next: build (npx)",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"next",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "next: build (npx)",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"next",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
 		}
 	]
 }

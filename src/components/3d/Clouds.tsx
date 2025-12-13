@@ -2,52 +2,55 @@
 
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Instance, Instances } from "@react-three/drei";
 import * as THREE from "three";
 
-function Cloud({ position, speed }: { position: [number, number, number]; speed: number }) {
-    const ref = useRef<THREE.Group>(null);
+// Reusable cloud geometry and material (created once, shared across all instances)
+const cloudGeometry = new THREE.SphereGeometry(0.8, 8, 6);
+const cloudMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 });
 
-    useFrame((state, delta) => {
-        if (ref.current) {
-            ref.current.position.x += speed * delta;
-            if (ref.current.position.x > 15) {
-                ref.current.position.x = -15;
-            }
-        }
-    });
+export function Clouds({ count = 3, isNight = false }: { count?: number; isNight: boolean }) {
+    const groupRef = useRef<THREE.Group>(null);
+    const tickRef = useRef(0);
 
-    return (
-        <group ref={ref} position={position}>
-            <Instance position={[-0.5, 0, 0]} scale={[1.2, 1.2, 1.2]} />
-            <Instance position={[0.5, 0, 0]} scale={[1.1, 1.1, 1.1]} />
-            <Instance position={[0, 0.5, 0]} scale={[1.3, 1.3, 1.3]} />
-            <Instance position={[0, -0.2, 0.2]} scale={[1, 1, 1]} />
-        </group>
-    );
-}
-
-export function Clouds({ count = 5, isNight = false }: { count?: number; isNight: boolean }) {
-    const clouds = useMemo(() => {
+    // Pre-generate cloud data with fewer puffs per cloud
+    const cloudData = useMemo(() => {
         return new Array(count).fill(0).map(() => ({
-            position: [
-                (Math.random() - 0.5) * 20,
-                4 + Math.random() * 3,
-                (Math.random() - 0.5) * 10
-            ] as [number, number, number],
-            speed: 0.2 + Math.random() * 0.3
+            x: (Math.random() - 0.5) * 20,
+            y: 4 + Math.random() * 3,
+            z: (Math.random() - 0.5) * 10,
+            speed: 0.15 + Math.random() * 0.2,
         }));
     }, [count]);
+
+    // Single useFrame for all clouds, throttled to 12 FPS
+    useFrame((_, delta) => {
+        if (!groupRef.current || isNight) return;
+        tickRef.current += delta;
+        if (tickRef.current < 0.083) return; // ~12 FPS
+        const step = tickRef.current;
+        tickRef.current = 0;
+
+        const children = groupRef.current.children;
+        for (let i = 0; i < children.length; i++) {
+            const cloud = children[i];
+            const data = cloudData[i];
+            if (!cloud || !data) continue;
+            cloud.position.x += data.speed * step;
+            if (cloud.position.x > 15) cloud.position.x = -15;
+        }
+    });
 
     if (isNight) return null;
 
     return (
-        <Instances range={count * 4}>
-            <sphereGeometry args={[0.8, 16, 16]} />
-            <meshStandardMaterial color="white" transparent opacity={0.8} />
-            {clouds.map((cloud, i) => (
-                <Cloud key={i} position={cloud.position} speed={cloud.speed} />
+        <group ref={groupRef}>
+            {cloudData.map((data, i) => (
+                <group key={i} position={[data.x, data.y, data.z]}>
+                    {/* Simplified: 2 puffs per cloud instead of 4 */}
+                    <mesh geometry={cloudGeometry} material={cloudMaterial} position={[-0.4, 0, 0]} scale={1.2} />
+                    <mesh geometry={cloudGeometry} material={cloudMaterial} position={[0.4, 0.3, 0]} scale={1.1} />
+                </group>
             ))}
-        </Instances>
+        </group>
     );
 }

@@ -36,6 +36,12 @@ export function useCameraTransition() {
     setTransitioning(true);
   };
 
+  const cancelTransition = () => {
+    if (!transitionRef.current) return;
+    transitionRef.current = null;
+    setTransitioning(false);
+  };
+
   useFrame(() => {
     if (!transitionRef.current) return;
     const { fromPos, toPos, fromQuat, toQuat, start, duration, easing } = transitionRef.current;
@@ -52,5 +58,5 @@ export function useCameraTransition() {
     }
   });
 
-  return { startTransition, isTransitioning } as const;
+  return { startTransition, cancelTransition, isTransitioning } as const;
 }
