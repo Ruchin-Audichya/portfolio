@@ -71,7 +71,6 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
   const userPinned = useRef(false);
   const pinTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollProgressRef = useRef(0);
-  const colorUpdateAccum = useRef(0); // Throttle color lerps
 
   const { startTransition, cancelTransition, isTransitioning } = useCameraTransition();
 
@@ -380,35 +379,28 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
     blendRef.current = THREE.MathUtils.lerp(blendRef.current, target, 1 - Math.exp(-delta * 5));
     const b = blendRef.current;
 
-    // THROTTLE color updates to ~15 FPS (saves CPU/GPU significantly)
-    colorUpdateAccum.current += delta;
-    const shouldUpdateColors = colorUpdateAccum.current > 0.066; // 15 FPS
-    if (shouldUpdateColors) {
-      colorUpdateAccum.current = 0;
-      
-      if (ambientRef.current) {
-        ambientRef.current.intensity = THREE.MathUtils.lerp(0.85, 0.45, b);
-        ambientRef.current.color.lerpColors(palette.ambientDay, palette.ambientNight, b);
-      }
-      if (dirRef.current) {
-        dirRef.current.intensity = THREE.MathUtils.lerp(1.8, 0.6, b);
-        dirRef.current.color.lerpColors(palette.dirDay, palette.dirNight, b);
-      }
-      if (fillDirRef.current) fillDirRef.current.intensity = THREE.MathUtils.lerp(1.0, 0.25, b);
-      if (rimDirRef.current) rimDirRef.current.intensity = THREE.MathUtils.lerp(0.35, 0.18, b);
-      if (groundMat.current) groundMat.current.color.lerpColors(palette.groundDay, palette.groundNight, b);
-      if (roadMat.current) roadMat.current.color.lerpColors(palette.roadDay, palette.roadNight, b);
-      if (hillMat.current) hillMat.current.color.lerpColors(palette.hillDay, palette.hillNight, b);
-      if (coronasMat.current) coronasMat.current.opacity = Math.min(1.2 * b, 1);
-      if (fogRef.current) {
-        fogRef.current.color.lerpColors(palette.fogDay, palette.fogNight, b);
-        fogRef.current.near = THREE.MathUtils.lerp(26, 18, b);
-        fogRef.current.far = THREE.MathUtils.lerp(100, 70, b);
-      }
-      tmpBgColor.copy(palette.backgroundDay).lerp(palette.backgroundNight, b);
-      gl.setClearColor(tmpBgColor);
-      gl.toneMappingExposure = THREE.MathUtils.lerp(1.1, 1.18, b);
+    // Smooth color transitions every frame
+    if (ambientRef.current) {
+      ambientRef.current.intensity = THREE.MathUtils.lerp(0.85, 0.45, b);
+      ambientRef.current.color.lerpColors(palette.ambientDay, palette.ambientNight, b);
     }
+    if (dirRef.current) {
+      dirRef.current.intensity = THREE.MathUtils.lerp(1.8, 0.6, b);
+      dirRef.current.color.lerpColors(palette.dirDay, palette.dirNight, b);
+    }
+    if (fillDirRef.current) fillDirRef.current.intensity = THREE.MathUtils.lerp(1.0, 0.25, b);
+    if (groundMat.current) groundMat.current.color.lerpColors(palette.groundDay, palette.groundNight, b);
+    if (roadMat.current) roadMat.current.color.lerpColors(palette.roadDay, palette.roadNight, b);
+    if (hillMat.current) hillMat.current.color.lerpColors(palette.hillDay, palette.hillNight, b);
+    if (coronasMat.current) coronasMat.current.opacity = Math.min(1.2 * b, 1);
+    if (fogRef.current) {
+      fogRef.current.color.lerpColors(palette.fogDay, palette.fogNight, b);
+      fogRef.current.near = THREE.MathUtils.lerp(26, 18, b);
+      fogRef.current.far = THREE.MathUtils.lerp(100, 70, b);
+    }
+    tmpBgColor.copy(palette.backgroundDay).lerp(palette.backgroundNight, b);
+    gl.setClearColor(tmpBgColor);
+    gl.toneMappingExposure = THREE.MathUtils.lerp(1.1, 1.18, b);
 
     // Cinematic night follow spot (dark world + bright pool around cyclist).
     if (isNight && followSpotRef.current && cyclistRef && cyclistRef.current) {

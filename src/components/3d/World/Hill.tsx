@@ -79,10 +79,8 @@ export function Hill({ palette, hillMat, groundMat, isNight }: HillProps) {
   useEffect(() => {
     if (staticGroupRef.current) freezeGroup(staticGroupRef.current);
   }, []);
-
-  const animAccum = useRef(0);
   
-  useFrame((state, delta) => {
+  useFrame((state) => {
     // Day: static state, no per-frame updates
     if (!isNight) {
       if (wasNightRef.current) {
@@ -98,11 +96,6 @@ export function Hill({ palette, hillMat, groundMat, isNight }: HillProps) {
     }
 
     wasNightRef.current = true;
-    
-    // Throttle animation updates to ~10 FPS
-    animAccum.current += delta;
-    if (animAccum.current < 0.1) return;
-    animAccum.current = 0;
 
     if (!beaconRef.current) return;
     const t = state.clock.elapsedTime;
@@ -113,7 +106,7 @@ export function Hill({ palette, hillMat, groundMat, isNight }: HillProps) {
       stripMatRef.current.emissiveIntensity = 1.6 + 0.2 * Math.sin(t * 1.5);
     }
 
-    // Update all bulb emissives in one loop
+    // Update all bulb emissives
     for (let i = 0; i < bulbs.length; i++) {
       const mat = bulbMatsRef.current[i];
       if (mat) {
