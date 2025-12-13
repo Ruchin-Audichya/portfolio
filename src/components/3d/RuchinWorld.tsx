@@ -49,17 +49,12 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
   const ambientRef = useRef<THREE.AmbientLight>(null);
   const dirRef = useRef<THREE.DirectionalLight>(null);
   const fillDirRef = useRef<THREE.DirectionalLight>(null);
-  const rimDirRef = useRef<THREE.DirectionalLight>(null);
-  const followSpotRef = useRef<THREE.SpotLight>(null);
-  const followTarget = useMemo(() => new THREE.Object3D(), []);
   const groundMat = useRef<THREE.MeshStandardMaterial>(null);
   const roadMat = useRef<THREE.MeshStandardMaterial>(null);
   const hillMat = useRef<THREE.MeshStandardMaterial>(null);
   const coronasMat = useRef<THREE.PointsMaterial>(null);
   const cyclistRef = useRef<THREE.Group>(null);
   const cyclistAngleRef = useRef(0);
-  const cyclistPrevAngleRef = useRef(0);
-  const cyclistTurnVelRef = useRef(0);
 
   const [activeStop, setActiveStop] = useState<string | null>(null);
   const [hoveredStop, setHoveredStop] = useState<string | null>(null);
@@ -76,12 +71,11 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
   const userPinned = useRef(false);
   const pinTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollProgressRef = useRef(0);
+  const colorUpdateAccum = useRef(0); // Throttle color lerps
 
   const { startTransition, cancelTransition, isTransitioning } = useCameraTransition();
 
   const tmpBgColor = useMemo(() => new THREE.Color(), []);
-  const tmpForward = useMemo(() => new THREE.Vector3(), []);
-  const tmpTarget = useMemo(() => new THREE.Vector3(), []);
   const tmpRight = useMemo(() => new THREE.Vector3(), []);
   const tmpOutward = useMemo(() => new THREE.Vector3(), []);
 
@@ -259,68 +253,59 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
 
   const ringLayout = useMemo<RingItem[]>(
     () => [
-      // Boot Sequence (north/front) - assets face inward toward center (0,0,0)
-      // For position [x, z], facing center means rotationY = atan2(x, z)
-      { id: "boot-tree-n", kind: "tree", position: [0, 0, 18], scale: 1.1 },
-      { id: "boot-cafe", kind: "cloudCafe", position: [4.5, 0, 17.5], rotationY: Math.atan2(4.5, 17.5) },
+      // SIMPLIFIED LAYOUT: 10 key assets instead of 15+
+      // Boot Sequence (north)
+      { id: "boot-cafe", kind: "cloudCafe", position: [4, 0, 17], rotationY: Math.atan2(4, 17) },
 
-      // Midnight Build (north-east) - face center
-      { id: "midnight-bar", kind: "bar", position: [11, 0, 11], rotationY: Math.atan2(11, 11), scale: 1.15 },
-      { id: "midnight-tree", kind: "tree", position: [8, 0, 16], scale: 0.9 },
+      // Midnight Build (north-east)
+      { id: "midnight-bar", kind: "bar", position: [12, 0, 12], rotationY: Math.atan2(12, 12), scale: 1.2 },
 
-      // Compute Floor (east) - face center
-      { id: "compute-cyber", kind: "cyberHub", position: [17.5, 0, 3], rotationY: Math.atan2(17.5, 3) },
-      { id: "compute-tower", kind: "building", position: [16, 0, 0], scale: [1.8, 3.4, 1.8], rotationY: Math.atan2(16, 0) },
+      // Compute Floor (east)
+      { id: "compute-cyber", kind: "cyberHub", position: [17, 0, 2], rotationY: Math.atan2(17, 2) },
 
-      // Signal & Scale (south-east) - face center
-      { id: "signal-diner", kind: "diner", position: [15.5, 0, -7.5], rotationY: Math.atan2(15.5, -7.5) },
-      { id: "signal-tree", kind: "tree", position: [11.5, 0, -13.5], scale: 1 },
+      // Signal & Scale (south-east)
+      { id: "signal-diner", kind: "diner", position: [15, 0, -8], rotationY: Math.atan2(15, -8) },
 
-      // OPPO × AICTE (south) - concert stage faces center
-      { id: "oppo-stage", kind: "stage", position: [0, 0, -17.5], rotationY: Math.atan2(0, -17.5) },
-      { id: "oppo-truck", kind: "foodTruck", position: [-4, 0, -18], rotationY: Math.atan2(-4, -18) },
+      // OPPO × AICTE (south)
+      { id: "oppo-stage", kind: "stage", position: [0, 0, -17], rotationY: Math.atan2(0, -17) },
 
-      // Independent Stack (south-west) - face center
-      { id: "independent-garage", kind: "garage", position: [-15.5, 0, -9.5], rotationY: Math.atan2(-15.5, -9.5) },
-      { id: "independent-downtown", kind: "downtown", position: [-14.5, 0, -14.5], rotationY: Math.atan2(-14.5, -14.5), scale: 0.9 },
+      // Independent Stack (south-west)
+      { id: "independent-garage", kind: "garage", position: [-15, 0, -10], rotationY: Math.atan2(-15, -10) },
 
-      // Next System (west) - face center
-      { id: "next-tower", kind: "building", position: [-16.5, 0, 0], scale: [1.8, 3.4, 1.8], rotationY: Math.atan2(-16.5, 0) },
-      { id: "next-downtown", kind: "downtown", position: [-14.5, 0, 12.5], rotationY: Math.atan2(-14.5, 12.5), scale: 1 },
+      // Next System (west)
+      { id: "next-tower", kind: "building", position: [-16, 0, 0], scale: [1.6, 3.2, 1.6], rotationY: Math.atan2(-16, 0) },
 
-      // Buffer silhouette for vignette balance
-      { id: "buffer-tree-nw", kind: "tree", position: [-8, 0, 15], scale: 1.1 },
+      // Trees for silhouette balance (3 instead of 5)
+      { id: "tree-nw", kind: "tree", position: [-10, 0, 14], scale: 1.1 },
+      { id: "tree-ne", kind: "tree", position: [8, 0, 15], scale: 0.95 },
+      { id: "tree-s", kind: "tree", position: [-5, 0, -16], scale: 1.0 },
     ],
     []
   );
 
   // IMPORTANT: never change buffer sizes at runtime (Three can't resize GPU attributes).
-  // Keep max sizes stable and vary only what's drawn.
-  // Quality tier scaling: high=100%, medium=65%, low=25%
-  // Mobile gets modest reduction - let PerformanceMonitor handle aggressive scaling
-  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.65 : 0.25;
-  const mobileMultiplier = isMobile ? 0.6 : 1.0; // Less aggressive now that Scene.tsx handles DPR
+  // PERFORMANCE-FIRST: Fewer particles with higher visual impact
+  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.5 : 0.2;
   
-  const coronasMax = isMobile ? 300 : 800;
+  // Coronas: city glow - reduced but brighter
+  const coronasMax = isMobile ? 150 : 400;
   const coronasVisible = deferredReady
-    ? Math.floor((isMobile ? 180 : 700) * qualityScale * mobileMultiplier)
-    : Math.floor((isMobile ? 50 : 120) * qualityScale);
+    ? Math.floor((isMobile ? 100 : 350) * qualityScale)
+    : Math.floor((isMobile ? 30 : 80) * qualityScale);
   
-  const starsLow = isMobile ? 80 : 200;
-  const starsHigh = isMobile ? 180 : 500;
+  // Stars: larger, fewer, more impactful
   const starsCount = deferredReady 
-    ? Math.floor(starsHigh * qualityScale) 
-    : Math.floor(starsLow * qualityScale);
-  const starsKey = deferredReady ? `stars-hi-${quality}` : `stars-lo-${quality}`;
+    ? Math.floor((isMobile ? 120 : 300) * qualityScale) 
+    : Math.floor((isMobile ? 40 : 100) * qualityScale);
+  const starsKey = `stars-${quality}-${deferredReady}`;
   
-  // Snow on desktop only (light effect)
-  const snowMax = isMobile ? 0 : 200;
-  const snowVisible = isMobile ? 0 : (deferredReady ? Math.floor(200 * qualityScale) : 0);
+  // Snow: desktop high quality only
+  const snowMax = (!isMobile && quality === "high") ? 100 : 0;
+  const snowVisible = deferredReady ? snowMax : 0;
   
-  // Twinkle particles - light ambient effect
-  const twinkleMax = isMobile ? 25 : 80;
-  const twinkleVisible = deferredReady ? Math.floor(twinkleMax * qualityScale) : 0;
-  const twinkleKey = isMobile ? `twinkle-m-${quality}` : `twinkle-d-${quality}`;
+  // Remove twinkle particles entirely - coronas provide similar effect
+  const twinkleMax = 0;
+  const twinkleVisible = 0;
 
   // Default to night mode to prevent flash (matches defaultTheme="dark")
   const isNight = mounted ? resolvedTheme === "dark" : true;
@@ -395,39 +380,35 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
     blendRef.current = THREE.MathUtils.lerp(blendRef.current, target, 1 - Math.exp(-delta * 5));
     const b = blendRef.current;
 
-    if (ambientRef.current) {
-      // Day: brighter + clean; Night: keep mood.
-      ambientRef.current.intensity = THREE.MathUtils.lerp(0.88, 0.38, b);
-      ambientRef.current.color.lerpColors(palette.ambientDay, palette.ambientNight, b);
+    // THROTTLE color updates to ~15 FPS (saves CPU/GPU significantly)
+    colorUpdateAccum.current += delta;
+    const shouldUpdateColors = colorUpdateAccum.current > 0.066; // 15 FPS
+    if (shouldUpdateColors) {
+      colorUpdateAccum.current = 0;
+      
+      if (ambientRef.current) {
+        ambientRef.current.intensity = THREE.MathUtils.lerp(0.85, 0.45, b);
+        ambientRef.current.color.lerpColors(palette.ambientDay, palette.ambientNight, b);
+      }
+      if (dirRef.current) {
+        dirRef.current.intensity = THREE.MathUtils.lerp(1.8, 0.6, b);
+        dirRef.current.color.lerpColors(palette.dirDay, palette.dirNight, b);
+      }
+      if (fillDirRef.current) fillDirRef.current.intensity = THREE.MathUtils.lerp(1.0, 0.25, b);
+      if (rimDirRef.current) rimDirRef.current.intensity = THREE.MathUtils.lerp(0.35, 0.18, b);
+      if (groundMat.current) groundMat.current.color.lerpColors(palette.groundDay, palette.groundNight, b);
+      if (roadMat.current) roadMat.current.color.lerpColors(palette.roadDay, palette.roadNight, b);
+      if (hillMat.current) hillMat.current.color.lerpColors(palette.hillDay, palette.hillNight, b);
+      if (coronasMat.current) coronasMat.current.opacity = Math.min(1.2 * b, 1);
+      if (fogRef.current) {
+        fogRef.current.color.lerpColors(palette.fogDay, palette.fogNight, b);
+        fogRef.current.near = THREE.MathUtils.lerp(26, 18, b);
+        fogRef.current.far = THREE.MathUtils.lerp(100, 70, b);
+      }
+      tmpBgColor.copy(palette.backgroundDay).lerp(palette.backgroundNight, b);
+      gl.setClearColor(tmpBgColor);
+      gl.toneMappingExposure = THREE.MathUtils.lerp(1.1, 1.18, b);
     }
-    if (dirRef.current) {
-      // Key light (sun/moon)
-      dirRef.current.intensity = THREE.MathUtils.lerp(2.0, 0.75, b);
-      dirRef.current.color.lerpColors(palette.dirDay, palette.dirNight, b);
-    }
-    if (fillDirRef.current) {
-      fillDirRef.current.intensity = THREE.MathUtils.lerp(1.20, 0.32, b);
-    }
-    if (rimDirRef.current) {
-      rimDirRef.current.intensity = THREE.MathUtils.lerp(0.40, 0.22, b);
-    }
-    if (groundMat.current) groundMat.current.color.lerpColors(palette.groundDay, palette.groundNight, b);
-    if (roadMat.current) roadMat.current.color.lerpColors(palette.roadDay, palette.roadNight, b);
-    if (hillMat.current) hillMat.current.color.lerpColors(palette.hillDay, palette.hillNight, b);
-    if (coronasMat.current) {
-      coronasMat.current.opacity = Math.min(1.2 * b, 1);
-    }
-    if (fogRef.current) {
-      fogRef.current.color.lerpColors(palette.fogDay, palette.fogNight, b);
-      // Slightly farther fog in day for navigation clarity.
-      fogRef.current.near = THREE.MathUtils.lerp(24, 15, b);
-      fogRef.current.far = THREE.MathUtils.lerp(105, 65, b);
-    }
-    tmpBgColor.copy(palette.backgroundDay).lerp(palette.backgroundNight, b);
-    gl.setClearColor(tmpBgColor);
-
-    // Small exposure shaping: day slightly brighter, night slightly darker.
-    gl.toneMappingExposure = THREE.MathUtils.lerp(1.12, 1.22, b);
 
     // Cinematic night follow spot (dark world + bright pool around cyclist).
     if (isNight && followSpotRef.current && cyclistRef && cyclistRef.current) {
@@ -445,28 +426,20 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
       const scrollValue = scrollProgressRef.current;
       const fallbackAngle = state.clock.elapsedTime * 0.10;
       const targetAngle = scrollValue > 0.001 ? scrollValue * Math.PI * 2 : fallbackAngle;
-      cyclistAngleRef.current = THREE.MathUtils.lerp(cyclistAngleRef.current, targetAngle, 1 - Math.exp(-delta * 6));
+      cyclistAngleRef.current = THREE.MathUtils.lerp(cyclistAngleRef.current, targetAngle, 1 - Math.exp(-delta * 5));
       const angle = cyclistAngleRef.current;
       const radius = 11.6;
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
 
-      // turn-rate based lean (shortest angle diff)
-      const prev = cyclistPrevAngleRef.current;
-      let d = angle - prev;
-      d = ((d + Math.PI) % (Math.PI * 2)) - Math.PI;
-      const turnVel = d / Math.max(0.0001, delta);
-      cyclistTurnVelRef.current = THREE.MathUtils.lerp(cyclistTurnVelRef.current, turnVel, 1 - Math.exp(-delta * 10));
-      cyclistPrevAngleRef.current = angle;
-
-      const bob = 0.042 * Math.sin(state.clock.elapsedTime * 9.5);
+      // Simple bob, skip expensive lean calculation
+      const bob = 0.04 * Math.sin(state.clock.elapsedTime * 8);
       cyclistRef.current.position.set(x, 0.22 + bob, z);
       cyclistRef.current.rotation.y = -angle + Math.PI / 2;
-      cyclistRef.current.rotation.z = THREE.MathUtils.clamp(-cyclistTurnVelRef.current * 0.02, -0.28, 0.28);
     }
 
     proximityAccumulator.current += delta;
-    if (proximityAccumulator.current > 0.3 && cyclistRef.current && !userPinned.current && !isTransitioning) {
+    if (proximityAccumulator.current > 0.5 && cyclistRef.current && !userPinned.current && !isTransitioning) {
       proximityAccumulator.current = 0;
       let nearest: string | null = null;
       let minDist = Infinity;
@@ -508,79 +481,42 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
         }}
       />
 
-      <ambientLight ref={ambientRef} intensity={isNight ? 0.55 : 0.92} color={isNight ? "#6d4bc2" : "#ffffff"} />
-      <hemisphereLight args={[isNight ? "#6b7fd8" : "#dbeafe", isNight ? "#2a2f48" : "#ffffff", isNight ? 0.75 : 0.22]} />
+      <ambientLight ref={ambientRef} intensity={isNight ? 0.6 : 0.95} color={isNight ? "#8b7fd8" : "#ffffff"} />
+      <hemisphereLight args={[isNight ? "#8090e0" : "#dbeafe", isNight ? "#1a1f38" : "#f0fdf4", isNight ? 0.65 : 0.3]} />
       <directionalLight
         ref={dirRef}
-        position={[10, 20, 10]}
-        intensity={isNight ? 0.55 : 2.05}
-        // Shadows are expensive; enable only for day, desktop, and high/medium quality
+        position={[12, 22, 12]}
+        intensity={isNight ? 0.5 : 1.9}
+        // Shadows: desktop high quality day only
         castShadow={!isNight && !isMobile && quality === "high"}
-        // Quality-based shadow map resolution: high=512, medium=384, low=256
-        shadow-mapSize={[
-          quality === "high" ? 512 : quality === "medium" ? 384 : 256,
-          quality === "high" ? 512 : quality === "medium" ? 384 : 256
-        ]}
-        shadow-bias={-0.0001}
-        shadow-normalBias={0.03}
-        shadow-radius={3}
+        shadow-mapSize={[512, 512]}
+        shadow-bias={-0.0002}
+        shadow-normalBias={0.02}
+        shadow-radius={2}
       >
-        <orthographicCamera attach="shadow-camera" args={[-20, 20, 20, -20]} />
+        <orthographicCamera attach="shadow-camera" args={[-18, 18, 18, -18]} />
       </directionalLight>
 
-      {/* Fill + rim for form/readability (no shadows) */}
-      <directionalLight ref={fillDirRef} position={[-18, 10, 8]} intensity={isNight ? 0.12 : 1.05} color={isNight ? "#7dd3fc" : "#ffffff"} />
-      <directionalLight ref={rimDirRef} position={[-8, 14, -18]} intensity={isNight ? 0.08 : 0.35} color={isNight ? "#a5b4fc" : "#dbeafe"} />
+      {/* Single fill light for form - no rim */}
+      <directionalLight ref={fillDirRef} position={[-15, 12, 10]} intensity={isNight ? 0.2 : 0.9} color={isNight ? "#60a5fa" : "#ffffff"} />
 
-      <fog ref={fogRef} attach="fog" args={[palette.fogDay, 22, 110]} />
+      <fog ref={fogRef} attach="fog" args={[palette.fogDay, 24, 95]} />
       <Skybox isNight={isNight} />
-      {isNight && <Stars key={starsKey} radius={140} depth={60} count={starsCount} factor={6} saturation={0.1} fade speed={0.8} />}
-      {isNight && <Particles key={twinkleKey} count={twinkleMax} visibleCount={twinkleVisible} isNight />}
-      {/* Environment (PMREM) can be heavy on iGPU; enable only for high quality on desktop. */}
-      {deferredReady && isNight && quality === "high" && !isMobile && <Environment preset="night" background blur={0.6} />}
+      {isNight && <Stars key={starsKey} radius={150} depth={50} count={starsCount} factor={8} saturation={0.15} fade speed={0.6} />}
+      {/* Environment: only for high quality desktop - adds nice reflections */}
+      {deferredReady && isNight && quality === "high" && !isMobile && <Environment preset="night" background={false} blur={0.5} />}
 
-      {/* Follow spotlight target (night) - only on high quality desktop */}
-      {isNight && quality === "high" && !isMobile && (
-        <>
-          <primitive object={followTarget} />
-          <spotLight
-            ref={followSpotRef}
-            target={followTarget}
-            angle={0.62}
-            penumbra={0.85}
-            distance={18}
-            decay={1.4}
-            color="#dbeafe"
-            // Keep this light shadowless: it's a moving shadow map otherwise (expensive).
-            castShadow={false}
-            intensity={16}
-          />
-        </>
-      )}
-
-      {/* Accent point lights - DESKTOP ONLY for FPS on mobile */}
-      {isNight && !isMobile && (
+      {/* Night accent lights - desktop only, 2 max */}
+      {isNight && !isMobile && quality !== "low" && (
         <group>
-          {/* Core accent lights - desktop only */}
-          <pointLight position={[8, 4, -6]} intensity={1.2} distance={12} color="#ff66c4" decay={1.6} />
-          <pointLight position={[-10, 5, 6]} intensity={1.0} distance={12} color="#7dd3fc" decay={1.6} />
-          {/* Additional accents for high quality only */}
-          {quality === "high" && (
-            <>
-              <pointLight position={[0, 3, 12]} intensity={0.8} distance={10} color="#c084fc" decay={1.8} />
-              <pointLight position={[-8, 3, -10]} intensity={0.7} distance={10} color="#f472b6" decay={1.8} />
-            </>
-          )}
+          <pointLight position={[10, 5, -8]} intensity={1.4} distance={14} color="#ff66c4" decay={1.8} />
+          <pointLight position={[-10, 6, 8]} intensity={1.2} distance={14} color="#38bdf8" decay={1.8} />
         </group>
       )}
-      {/* Mobile: single overhead light for mood without FPS hit */}
-      {isNight && isMobile && (
-        <pointLight position={[0, 8, 0]} intensity={0.5} distance={30} color="#a78bfa" decay={1.2} />
-      )}
 
-      {/* Snow FPS scales with quality tier */}
-      {isNight && <SnowParticles count={snowMax} visibleCount={snowVisible} fps={quality === "high" ? 22 : quality === "medium" ? 16 : 12} />}
-      {!isNight && <Clouds count={3} isNight={false} />}
+      {/* Snow only on high-quality desktop */}
+      {snowVisible > 0 && <SnowParticles count={snowMax} visibleCount={snowVisible} fps={18} />}
+      {!isNight && <Clouds count={2} isNight={false} />}
       <CityCoronas count={coronasMax} visibleCount={isNight ? coronasVisible : 0} materialRef={coronasMat} />
 
       <group position={[0, -2, 0]} scale={isMobile ? 0.8 : 1}>
