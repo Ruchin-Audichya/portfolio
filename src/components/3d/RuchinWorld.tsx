@@ -296,29 +296,29 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
 
   // IMPORTANT: never change buffer sizes at runtime (Three can't resize GPU attributes).
   // Keep max sizes stable and vary only what's drawn.
-  // Quality tier scaling: high=100%, medium=65%, low=25% (was 35%)
-  // Mobile gets extra reduction for stable 60fps
-  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.6 : 0.2;
-  const mobileMultiplier = isMobile ? 0.4 : 1.0; // Aggressive mobile reduction
+  // Quality tier scaling: high=100%, medium=65%, low=25%
+  // Mobile gets modest reduction - let PerformanceMonitor handle aggressive scaling
+  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.65 : 0.25;
+  const mobileMultiplier = isMobile ? 0.6 : 1.0; // Less aggressive now that Scene.tsx handles DPR
   
-  const coronasMax = isMobile ? 200 : 800; // Reduced from 400
+  const coronasMax = isMobile ? 300 : 800;
   const coronasVisible = deferredReady
-    ? Math.floor((isMobile ? 120 : 700) * qualityScale * mobileMultiplier)
-    : Math.floor((isMobile ? 30 : 120) * qualityScale);
+    ? Math.floor((isMobile ? 180 : 700) * qualityScale * mobileMultiplier)
+    : Math.floor((isMobile ? 50 : 120) * qualityScale);
   
-  const starsLow = isMobile ? 60 : 200; // Reduced from 120
-  const starsHigh = isMobile ? 120 : 500; // Reduced from 280
+  const starsLow = isMobile ? 80 : 200;
+  const starsHigh = isMobile ? 180 : 500;
   const starsCount = deferredReady 
     ? Math.floor(starsHigh * qualityScale) 
     : Math.floor(starsLow * qualityScale);
   const starsKey = deferredReady ? `stars-hi-${quality}` : `stars-lo-${quality}`;
   
-  // Disable snow completely on mobile
+  // Snow on desktop only (light effect)
   const snowMax = isMobile ? 0 : 200;
   const snowVisible = isMobile ? 0 : (deferredReady ? Math.floor(200 * qualityScale) : 0);
   
-  // Minimal twinkle on mobile
-  const twinkleMax = isMobile ? 15 : 80; // Reduced from 30
+  // Twinkle particles - light ambient effect
+  const twinkleMax = isMobile ? 25 : 80;
   const twinkleVisible = deferredReady ? Math.floor(twinkleMax * qualityScale) : 0;
   const twinkleKey = isMobile ? `twinkle-m-${quality}` : `twinkle-d-${quality}`;
 

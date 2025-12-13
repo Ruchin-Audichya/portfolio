@@ -30,40 +30,92 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
     const [renderEnabled, setRenderEnabled] = useState(true);
     const containerRef = useRef<HTMLDivElement | null>(null);
     
-    // Track FPS for adaptive quality - allows stepping through medium tier
+    // Track FPS for adaptive quality
     const declineCountRef = useRef(0);
+    const inclineCountRef = useRef(0);
     
-    // Detect Android specifically for extra optimizations
+    // Device detection for smart defaults
     const [isAndroid, setIsAndroid] = useState(false);
+    const [isIOS, setIsIOS] = useState(false);
+    const [isWindows, setIsWindows] = useState(false);
+    const [gpuTier, setGpuTier] = useState<'high' | 'medium' | 'low'>('medium');
     
     useEffect(() => {
         const ua = navigator.userAgent;
         const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(ua);
         const android = /Android/i.test(ua);
+        const ios = /iPhone|iPad|iPod/i.test(ua);
+        const windows = /Windows/i.test(ua);
+        const ipad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        
         setIsMobile(mobile);
         setIsAndroid(android);
+        setIsIOS(ios);
+        setIsWindows(windows);
         
-        // Android phones need lower DPR for smooth 60fps
-        const isLowEndDevice = navigator.hardwareConcurrency <= 4;
+        // Detect GPU capabilities
         const cores = navigator.hardwareConcurrency || 4;
+        const memory = (navigator as any).deviceMemory || 4; // GB
+        const pixelRatio = window.devicePixelRatio || 1;
         
-        // Aggressive mobile optimization: prioritize FPS over resolution
-        let deviceRatio: number;
-        if (android) {
-            // Android: start very low, let PerformanceMonitor increase if stable
-            deviceRatio = isLowEndDevice ? 0.5 : (cores >= 8 ? 0.65 : 0.55);
-        } else if (mobile) {
-            // iOS: slightly higher as Metal is more efficient
-            deviceRatio = isLowEndDevice ? 0.6 : 0.75;
+        // Determine GPU tier based on device signals
+        let tier: 'high' | 'medium' | 'low' = 'medium';
+        
+        if (ipad) {
+            // iPads have good GPUs - medium-high tier
+            tier = cores >= 6 ? 'high' : 'medium';
+        } else if (ios) {
+            // iPhones: newer ones are capable
+            tier = cores >= 6 ? 'medium' : 'low';
+        } else if (android) {
+            // Android: varies widely, check cores and memory
+            if (cores >= 8 && memory >= 6) tier = 'medium';
+            else if (cores >= 6 && memory >= 4) tier = 'low';
+            else tier = 'low';
+        } else if (windows) {
+            // Windows: check for discrete GPU signals
+            // High core count + high memory usually means gaming/workstation
+            if (cores >= 8 && memory >= 8) tier = 'high';
+            else if (cores >= 4 && memory >= 4) tier = 'medium';
+            else tier = 'low'; // Likely iGPU
         } else {
-            // Desktop
-            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-            deviceRatio = Math.min(1.1, pixelRatio * 0.8);
+            // Linux/Mac desktop: usually capable
+            tier = cores >= 4 ? 'high' : 'medium';
+        }
+        
+        setGpuTier(tier);
+        
+        // Set initial DPR based on GPU tier and device type
+        let deviceRatio: number;
+        if (mobile) {
+            // Mobile DPR: balance quality and performance
+            if (tier === 'high') {
+                deviceRatio = Math.min(pixelRatio * 0.7, 1.0); // iPad Pro, flagship phones
+            } else if (tier === 'medium') {
+                deviceRatio = Math.min(pixelRatio * 0.55, 0.85); // Mid-range
+            } else {
+                deviceRatio = Math.min(pixelRatio * 0.4, 0.7); // Budget devices
+            }
+        } else {
+            // Desktop DPR
+            if (tier === 'high') {
+                deviceRatio = Math.min(pixelRatio * 0.85, 1.3);
+            } else if (tier === 'medium') {
+                deviceRatio = Math.min(pixelRatio * 0.7, 1.0);
+            } else {
+                deviceRatio = Math.min(pixelRatio * 0.5, 0.8); // iGPU
+            }
         }
         setDpr(deviceRatio);
 
-        // Always start at low quality to prevent jank, PerformanceMonitor will upgrade if stable.
-        setQuality("low");
+        // Start quality based on GPU tier (not always low)
+        if (tier === 'high') {
+            setQuality(mobile ? 'medium' : 'high');
+        } else if (tier === 'medium') {
+            setQuality('medium');
+        } else {
+            setQuality('low');
+        }
 
         try {
             const canvas = document.createElement("canvas");
@@ -151,33 +203,62 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                         preserveDrawingBuffer: false,
                     }}
                     // Flat mode disables tone mapping on mobile for simpler shaders
-                    flat={isMobile}
+                    flat={isMobile && gpuTier === 'low'}
                 >
                     <PerformanceMonitor
-                        ms={300}
-                        iterations={2}
-                        threshold={isMobile ? 0.65 : 0.8}
+                        ms={400}
+                        iterations={3}
+                        threshold={0.75}
                         onIncline={() => {
-                            // Mobile: NEVER increase quality, only DPR slightly
+                            inclineCountRef.current++;
+                            
+                            // Require 2 consecutive inclines before upgrading (stability check)
+                            if (inclineCountRef.current < 2) return;
+                            inclineCountRef.current = 0;
+                            declineCountRef.current = 0;
+                            
+                            // Mobile: can increase DPR more aggressively now
                             if (isMobile) {
-                                setDpr((v) => Math.min(v + 0.03, isAndroid ? 0.75 : 0.9));
+                                const maxDpr = gpuTier === 'high' ? 1.1 : gpuTier === 'medium' ? 0.95 : 0.8;
+                                setDpr((v) => Math.min(v + 0.05, maxDpr));
+                                // High-tier mobile can also increase quality
+                                if (gpuTier === 'high') {
+                                    setQuality((q) => q === 'low' ? 'medium' : q);
+                                }
                                 return;
                             }
-                            // Desktop: step up quality
-                            setQuality((q) => q === "low" ? "medium" : "high");
-                            setDpr((v) => Math.min(v + 0.1, 1.5));
-                            declineCountRef.current = 0;
+                            
+                            // Desktop: step up quality then DPR
+                            setQuality((q) => {
+                                if (q === 'low') return 'medium';
+                                if (q === 'medium') return 'high';
+                                return q;
+                            });
+                            const maxDpr = gpuTier === 'high' ? 1.5 : gpuTier === 'medium' ? 1.2 : 1.0;
+                            setDpr((v) => Math.min(v + 0.08, maxDpr));
                         }}
                         onDecline={() => {
                             declineCountRef.current++;
-                            // Mobile: aggressively drop DPR for stable FPS
+                            inclineCountRef.current = 0;
+                            
+                            // Mobile: drop DPR first, then quality
                             if (isMobile) {
-                                setDpr((v) => Math.max(isAndroid ? 0.35 : 0.45, v - 0.08));
+                                const minDpr = gpuTier === 'high' ? 0.6 : gpuTier === 'medium' ? 0.5 : 0.4;
+                                if (dpr > minDpr + 0.1) {
+                                    setDpr((v) => Math.max(minDpr, v - 0.06));
+                                } else {
+                                    setQuality((q) => q === 'high' ? 'medium' : 'low');
+                                }
                                 return;
                             }
-                            // Desktop: step down quality
-                            setQuality((q) => q === "high" ? "medium" : "low");
-                            setDpr((v) => Math.max(0.7, v - 0.1));
+                            
+                            // Desktop: drop quality first (preserves visual clarity)
+                            if (declineCountRef.current >= 2) {
+                                setQuality((q) => q === 'high' ? 'medium' : 'low');
+                                declineCountRef.current = 0;
+                            }
+                            const minDpr = gpuTier === 'low' ? 0.6 : 0.7;
+                            setDpr((v) => Math.max(minDpr, v - 0.08));
                         }}
                     />
                     <Suspense fallback={<LoadingProgress />}>
