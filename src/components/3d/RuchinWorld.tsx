@@ -7,7 +7,6 @@ import { useTheme } from "next-themes";
 import * as THREE from "three";
 import { CityCoronas } from "./CityCoronas";
 import { Clouds } from "./Clouds";
-import { SnowParticles } from "./SnowParticles";
 import { Particles } from "./Particles";
 import { Hill } from "./World/Hill";
 import { RoadRing } from "./World/RoadRing";
@@ -87,11 +86,11 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
     const w = window as any;
     const handle = typeof w.requestIdleCallback === "function"
       ? w.requestIdleCallback(() => {
-          if (!cancelled) setDeferredReady(true);
-        }, { timeout: 3000 })
+        if (!cancelled) setDeferredReady(true);
+      }, { timeout: 3000 })
       : window.setTimeout(() => {
-          if (!cancelled) setDeferredReady(true);
-        }, 1500);
+        if (!cancelled) setDeferredReady(true);
+      }, 1500);
 
     return () => {
       cancelled = true;
@@ -283,28 +282,20 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
   );
 
   // IMPORTANT: never change buffer sizes at runtime (Three can't resize GPU attributes).
-  // PERFORMANCE-FIRST: Fewer particles with higher visual impact
-  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.5 : 0.2;
-  
-  // Coronas: city glow - reduced but brighter
-  const coronasMax = isMobile ? 150 : 400;
+  // PERFORMANCE-OPTIMIZED: Significantly reduced counts for smooth FPS
+  const qualityScale = quality === "high" ? 1.0 : quality === "medium" ? 0.4 : 0.15;
+
+  // Coronas: city glow - halved for performance
+  const coronasMax = isMobile ? 80 : 200;
   const coronasVisible = deferredReady
-    ? Math.floor((isMobile ? 100 : 350) * qualityScale)
-    : Math.floor((isMobile ? 30 : 80) * qualityScale);
-  
-  // Stars: larger, fewer, more impactful
-  const starsCount = deferredReady 
-    ? Math.floor((isMobile ? 120 : 300) * qualityScale) 
-    : Math.floor((isMobile ? 40 : 100) * qualityScale);
+    ? Math.floor((isMobile ? 50 : 150) * qualityScale)
+    : Math.floor((isMobile ? 20 : 40) * qualityScale);
+
+  // Stars: fewer but larger
+  const starsCount = deferredReady
+    ? Math.floor((isMobile ? 60 : 150) * qualityScale)
+    : Math.floor((isMobile ? 20 : 50) * qualityScale);
   const starsKey = `stars-${quality}-${deferredReady}`;
-  
-  // Snow: desktop high quality only
-  const snowMax = (!isMobile && quality === "high") ? 100 : 0;
-  const snowVisible = deferredReady ? snowMax : 0;
-  
-  // Remove twinkle particles entirely - coronas provide similar effect
-  const twinkleMax = 0;
-  const twinkleVisible = 0;
 
   // Default to night mode to prevent flash (matches defaultTheme="dark")
   const isNight = mounted ? resolvedTheme === "dark" : true;
@@ -486,16 +477,7 @@ export function RuchinWorld({ onNodeClick, scrollProgress = 0, quality = "high",
       {/* Environment: only for high quality desktop - adds nice reflections */}
       {deferredReady && isNight && quality === "high" && !isMobile && <Environment preset="night" background={false} blur={0.5} />}
 
-      {/* Night accent lights - desktop only, 2 max */}
-      {isNight && !isMobile && quality !== "low" && (
-        <group>
-          <pointLight position={[10, 5, -8]} intensity={1.4} distance={14} color="#ff66c4" decay={1.8} />
-          <pointLight position={[-10, 6, 8]} intensity={1.2} distance={14} color="#38bdf8" decay={1.8} />
-        </group>
-      )}
-
-      {/* Snow only on high-quality desktop */}
-      {snowVisible > 0 && <SnowParticles count={snowMax} visibleCount={snowVisible} fps={18} />}
+      {/* Night accent lights removed for performance - emissive materials provide similar effect */}
       {!isNight && <Clouds count={2} isNight={false} />}
       <CityCoronas count={coronasMax} visibleCount={isNight ? coronasVisible : 0} materialRef={coronasMat} />
 

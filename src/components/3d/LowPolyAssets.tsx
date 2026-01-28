@@ -213,7 +213,7 @@ export function NeonFoodTruck({ position, rotation, isNight = false }: { positio
                 />
             </mesh>
 
-            {isNight && <pointLight position={[0, 2, 0]} intensity={2.5} distance={7} color="#f97316" />}
+            {/* Point light removed for performance - emissive materials provide glow */}
         </group>
     );
 }
@@ -428,7 +428,7 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
         if (!isNight) return;
         timeRef.current += delta;
         const t = timeRef.current;
-        
+
         if (spotRef1.current) {
             spotRef1.current.position.x = Math.sin(t * 0.8) * 2;
         }
@@ -447,13 +447,13 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
                 <boxGeometry args={[9, 0.7, 6]} />
                 <meshStandardMaterial color={isNight ? "#0a0a12" : "#1e293b"} roughness={0.7} metalness={0.3} />
             </mesh>
-            
+
             {/* Stage Floor with LED Grid */}
             <mesh position={[0, 0.71, 0]}>
                 <boxGeometry args={[8.5, 0.02, 5.5]} />
-                <meshStandardMaterial 
-                    color="#111827" 
-                    emissive="#22d3ee" 
+                <meshStandardMaterial
+                    color="#111827"
+                    emissive="#22d3ee"
                     emissiveIntensity={isNight ? 0.4 : 0.02}
                     roughness={0.3}
                     metalness={0.6}
@@ -464,12 +464,12 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
             {/* Front LED Strip - Animated glow */}
             <mesh position={[0, 0.72, 2.76]}>
                 <boxGeometry args={[8.8, 0.15, 0.08]} />
-                <meshStandardMaterial 
-                    emissive="#ff00ff" 
-                    emissiveIntensity={isNight ? 2.2 : 0.08} 
-                    color="#111827" 
-                    toneMapped={false} 
-                    roughness={0.4} 
+                <meshStandardMaterial
+                    emissive="#ff00ff"
+                    emissiveIntensity={isNight ? 2.2 : 0.08}
+                    color="#111827"
+                    toneMapped={false}
+                    roughness={0.4}
                 />
             </mesh>
 
@@ -535,7 +535,7 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
                 <boxGeometry args={[7.5, 6, 0.2]} />
                 <meshStandardMaterial color={isNight ? "#050510" : "#0f172a"} roughness={0.3} metalness={0.4} />
             </mesh>
-            
+
             {/* Screen Display - OPPO × AICTE Branding */}
             <mesh position={[0, 4.5, -2.48]}>
                 <planeGeometry args={[7.2, 5.7]} />
@@ -552,9 +552,9 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
             {/* OPPO Logo representation */}
             <mesh position={[0, 5.5, -2.45]}>
                 <ringGeometry args={[0.5, 0.7, 32]} />
-                <meshStandardMaterial 
-                    color="#00ff88" 
-                    emissive="#00ff88" 
+                <meshStandardMaterial
+                    color="#00ff88"
+                    emissive="#00ff88"
                     emissiveIntensity={isNight ? 2.5 : 0.1}
                     toneMapped={false}
                     side={THREE.DoubleSide}
@@ -570,8 +570,8 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
                     </mesh>
                     <mesh position={[0, -0.2, 0.2]}>
                         <cylinderGeometry args={[0.12, 0.15, 0.15, 8]} />
-                        <meshStandardMaterial 
-                            color="#ffffff" 
+                        <meshStandardMaterial
+                            color="#ffffff"
                             emissive={["#ff00ff", "#00ffff", "#ffff00"][i]}
                             emissiveIntensity={isNight ? 3.0 : 0.1}
                             toneMapped={false}
@@ -584,7 +584,7 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
             {[-3, -1.5, 0, 1.5, 3].map((x, i) => (
                 <mesh key={`floor-light-${i}`} position={[x, 0.75, 2.5]}>
                     <boxGeometry args={[0.25, 0.12, 0.25]} />
-                    <meshStandardMaterial 
+                    <meshStandardMaterial
                         color="#111827"
                         emissive={["#ff2d55", "#a855f7", "#22d3ee", "#fbbf24", "#00ff88"][i]}
                         emissiveIntensity={isNight ? 2.5 : 0.08}
@@ -601,43 +601,9 @@ export function Stage({ position, rotation, isNight = false }: { position: [numb
                 </mesh>
             ))}
 
-            {/* Concert Spotlights */}
+            {/* Concert Spotlights - reduced to 1 ambient light for performance */}
             {isNight && (
-                <>
-                    <spotLight
-                        ref={spotRef1}
-                        position={[-2, 8, -1.5]}
-                        angle={0.25}
-                        penumbra={0.5}
-                        intensity={4}
-                        distance={15}
-                        color="#ff00ff"
-                        castShadow={false}
-                    />
-                    <spotLight
-                        ref={spotRef2}
-                        position={[2, 8, -1.5]}
-                        angle={0.25}
-                        penumbra={0.5}
-                        intensity={4}
-                        distance={15}
-                        color="#00ffff"
-                        castShadow={false}
-                    />
-                    <spotLight
-                        ref={spotRef3}
-                        position={[0, 8.5, -1]}
-                        angle={0.3}
-                        penumbra={0.6}
-                        intensity={3}
-                        distance={12}
-                        color="#fbbf24"
-                        castShadow={false}
-                    />
-                    {/* Ambient stage glow */}
-                    <pointLight position={[0, 2, 0]} intensity={2.0} distance={8} color="#a855f7" />
-                    <pointLight position={[0, 6, -2]} intensity={1.5} distance={10} color="#22d3ee" />
-                </>
+                <pointLight position={[0, 3, 0]} intensity={2.5} distance={10} color="#a855f7" />
             )}
         </group>
     );
@@ -759,12 +725,7 @@ export function CloudCafe({ position, rotation, isNight = false }: { position: [
                 />
             </mesh>
 
-            {isNight && (
-                <>
-                    <pointLight position={[0, 1.35, 2.2]} intensity={1.4} distance={8} color="#22d3ee" />
-                    <pointLight position={[0, 2.6, 1.2]} intensity={0.8} distance={5} color="#fbbf24" />
-                </>
-            )}
+            {/* Point lights removed for performance - emissive materials provide glow */}
         </group>
     );
 }

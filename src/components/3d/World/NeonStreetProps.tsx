@@ -31,10 +31,10 @@ export function NeonStreetProps({ isNight, quality = "high" }: NeonStreetPropsPr
     []
   );
 
-  // Quality-aware light budget: high=6, medium=3, low=0 sign lights
-  const signLightBudget = quality === "high" ? 6 : quality === "medium" ? 3 : 0;
-  // Quality-aware lamp budget: high=10, medium=4, low=0 lamp lights  
-  const lampLightBudget = quality === "high" ? 10 : quality === "medium" ? 4 : 0;
+  // Quality-aware light budget: reduced for performance
+  const signLightBudget = quality === "high" ? 3 : quality === "medium" ? 1 : 0;
+  // Quality-aware lamp budget: reduced for performance  
+  const lampLightBudget = quality === "high" ? 4 : quality === "medium" ? 2 : 0;
 
   const nightBlend = useRef(0);
   const timeRef = useRef(0);
@@ -45,7 +45,7 @@ export function NeonStreetProps({ isNight, quality = "high" }: NeonStreetPropsPr
   });
 
   // Sort signs by priority (descending) to allocate lights to most important first
-  const sortedSigns = useMemo(() => 
+  const sortedSigns = useMemo(() =>
     [...signs].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0)),
     [signs]
   );
@@ -117,7 +117,7 @@ export function NeonStreetProps({ isNight, quality = "high" }: NeonStreetPropsPr
         const lampStep = lampLightBudget > 0 ? Math.ceil(6 / lampLightBudget) : 999;
         const hasLampLight = isNight && i % lampStep === 0;
         // Boost emissive on lamps without lights to compensate visually
-        const emissiveBoost = isNight && !hasLampLight ? 1.4 : 1.0;
+        const emissiveBoost = isNight && !hasLampLight ? 1.8 : 1.0;
         return (
           <group key={`lamp-${i}`} position={[x, 0, z]} rotation={[0, -angle + Math.PI / 2, 0]}>
             {/* Base */}
@@ -137,13 +137,13 @@ export function NeonStreetProps({ isNight, quality = "high" }: NeonStreetPropsPr
             {/* Lamp bulb - boosted emissive when no light to preserve visual warmth */}
             <mesh position={[0, 2.9, 0.6]}>
               <sphereGeometry args={[0.13, 8, 8]} />
-              <meshStandardMaterial 
-                emissive={warm} 
-                emissiveIntensity={(isNight ? 2.1 : 0.05) * emissiveBoost} 
-                color={isNight ? warm : "#e2e8f0"} 
-                toneMapped={false} 
-                roughness={0.35} 
-                metalness={0.0} 
+              <meshStandardMaterial
+                emissive={warm}
+                emissiveIntensity={(isNight ? 2.1 : 0.05) * emissiveBoost}
+                color={isNight ? warm : "#e2e8f0"}
+                toneMapped={false}
+                roughness={0.35}
+                metalness={0.0}
               />
             </mesh>
             {/* Point light only for lamps within budget - evenly distributed around ring */}

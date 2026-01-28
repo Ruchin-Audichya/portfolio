@@ -20,8 +20,8 @@ interface SceneProps {
 export type WorldQuality = "high" | "medium" | "low";
 
 export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
-    // Start low to reduce load jank; PerformanceMonitor can raise DPR if stable.
-    const [dpr, setDpr] = useState(0.8);
+    // Start very low to reduce load jank; PerformanceMonitor can raise DPR if stable.
+    const [dpr, setDpr] = useState(0.6);
     const [quality, setQuality] = useState<WorldQuality>("low");
     const [webglSupported, setWebglSupported] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
@@ -29,17 +29,17 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
     const [userWantsPreload, setUserWantsPreload] = useState(false);
     const [renderEnabled, setRenderEnabled] = useState(true);
     const containerRef = useRef<HTMLDivElement | null>(null);
-    
+
     // Track FPS for adaptive quality
     const declineCountRef = useRef(0);
     const inclineCountRef = useRef(0);
-    
+
     // Device detection for smart defaults
     const [isAndroid, setIsAndroid] = useState(false);
     const [isIOS, setIsIOS] = useState(false);
     const [isWindows, setIsWindows] = useState(false);
     const [gpuTier, setGpuTier] = useState<'high' | 'medium' | 'low'>('medium');
-    
+
     useEffect(() => {
         const ua = navigator.userAgent;
         const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(ua);
@@ -47,20 +47,20 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
         const ios = /iPhone|iPad|iPod/i.test(ua);
         const windows = /Windows/i.test(ua);
         const ipad = /iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        
+
         setIsMobile(mobile);
         setIsAndroid(android);
         setIsIOS(ios);
         setIsWindows(windows);
-        
+
         // Detect GPU capabilities
         const cores = navigator.hardwareConcurrency || 4;
         const memory = (navigator as any).deviceMemory || 4; // GB
         const pixelRatio = window.devicePixelRatio || 1;
-        
+
         // Determine GPU tier based on device signals
         let tier: 'high' | 'medium' | 'low' = 'medium';
-        
+
         if (ipad) {
             // iPads have good GPUs - medium-high tier
             tier = cores >= 6 ? 'high' : 'medium';
@@ -82,9 +82,9 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
             // Linux/Mac desktop: usually capable
             tier = cores >= 4 ? 'high' : 'medium';
         }
-        
+
         setGpuTier(tier);
-        
+
         // Set initial DPR based on GPU tier and device type
         let deviceRatio: number;
         if (mobile) {
@@ -97,13 +97,13 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                 deviceRatio = Math.min(pixelRatio * 0.4, 0.7); // Budget devices
             }
         } else {
-            // Desktop DPR
+            // Desktop DPR - more conservative
             if (tier === 'high') {
-                deviceRatio = Math.min(pixelRatio * 0.85, 1.3);
+                deviceRatio = Math.min(pixelRatio * 0.7, 1.1);
             } else if (tier === 'medium') {
-                deviceRatio = Math.min(pixelRatio * 0.7, 1.0);
+                deviceRatio = Math.min(pixelRatio * 0.55, 0.85);
             } else {
-                deviceRatio = Math.min(pixelRatio * 0.5, 0.8); // iGPU
+                deviceRatio = Math.min(pixelRatio * 0.4, 0.65); // iGPU
             }
         }
         setDpr(deviceRatio);
@@ -211,12 +211,12 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                         threshold={0.75}
                         onIncline={() => {
                             inclineCountRef.current++;
-                            
+
                             // Require 2 consecutive inclines before upgrading (stability check)
                             if (inclineCountRef.current < 2) return;
                             inclineCountRef.current = 0;
                             declineCountRef.current = 0;
-                            
+
                             // Mobile: can increase DPR more aggressively now
                             if (isMobile) {
                                 const maxDpr = gpuTier === 'high' ? 1.1 : gpuTier === 'medium' ? 0.95 : 0.8;
@@ -227,20 +227,20 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                                 }
                                 return;
                             }
-                            
+
                             // Desktop: step up quality then DPR
                             setQuality((q) => {
                                 if (q === 'low') return 'medium';
                                 if (q === 'medium') return 'high';
                                 return q;
                             });
-                            const maxDpr = gpuTier === 'high' ? 1.5 : gpuTier === 'medium' ? 1.2 : 1.0;
+                            const maxDpr = gpuTier === 'high' ? 1.2 : gpuTier === 'medium' ? 1.0 : 0.85;
                             setDpr((v) => Math.min(v + 0.08, maxDpr));
                         }}
                         onDecline={() => {
                             declineCountRef.current++;
                             inclineCountRef.current = 0;
-                            
+
                             // Mobile: drop DPR first, then quality
                             if (isMobile) {
                                 const minDpr = gpuTier === 'high' ? 0.6 : gpuTier === 'medium' ? 0.5 : 0.4;
@@ -251,7 +251,7 @@ export default function Scene({ onNodeClick, scrollProgress = 0 }: SceneProps) {
                                 }
                                 return;
                             }
-                            
+
                             // Desktop: drop quality first (preserves visual clarity)
                             if (declineCountRef.current >= 2) {
                                 setQuality((q) => q === 'high' ? 'medium' : 'low');
