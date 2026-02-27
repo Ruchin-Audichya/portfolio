@@ -3,23 +3,41 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
+import { LazySection } from "@/components/LazySection";
 
 const Scene = dynamic(() => import("@/components/3d/Scene"), {
   ssr: false,
   loading: () => <div className="absolute inset-0" />,
 });
-import { KineticAbout } from "@/components/sections/KineticAbout";
-import { Skills } from "@/components/sections/Skills";
-import { KineticProjects } from "@/components/sections/KineticProjects";
-import { KineticAchievements } from "@/components/sections/KineticAchievements";
-import { Github } from "@/components/sections/Github";
-import { Guestbook } from "@/components/sections/Guestbook";
-import { Contact } from "@/components/sections/Contact";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { IntroOverlay } from "@/components/IntroOverlay";
 import { Navbar } from "@/components/Navbar";
 import { DayNightToggle } from "@/components/DayNightToggle";
-import { HotTypeSection } from "@/components/typography";
+
+const HotTypeSection = dynamic(
+  () => import("@/components/typography").then((mod) => mod.HotTypeSection)
+);
+const KineticAbout = dynamic(() =>
+  import("@/components/sections/KineticAbout").then((mod) => mod.KineticAbout)
+);
+const Skills = dynamic(() =>
+  import("@/components/sections/Skills").then((mod) => mod.Skills)
+);
+const KineticProjects = dynamic(() =>
+  import("@/components/sections/KineticProjects").then((mod) => mod.KineticProjects)
+);
+const KineticAchievements = dynamic(() =>
+  import("@/components/sections/KineticAchievements").then((mod) => mod.KineticAchievements)
+);
+const Github = dynamic(() =>
+  import("@/components/sections/Github").then((mod) => mod.Github)
+);
+const Guestbook = dynamic(() =>
+  import("@/components/sections/Guestbook").then((mod) => mod.Guestbook)
+);
+const Contact = dynamic(() =>
+  import("@/components/sections/Contact").then((mod) => mod.Contact)
+);
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
@@ -81,9 +99,11 @@ export default function Home() {
 
       <section id="world" className="h-screen w-full relative">
         {/* Scene loads during intro (hidden) for faster reveal */}
-        <div className={showIntro ? "opacity-0 pointer-events-none" : ""}>
-          <Scene onNodeClick={handleNodeClick} scrollProgress={scrollProgress} />
-        </div>
+        {!showIntro && (
+          <div>
+            <Scene onNodeClick={handleNodeClick} scrollProgress={scrollProgress} />
+          </div>
+        )}
         
         {showIntro ? (
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/25" />
@@ -129,34 +149,50 @@ export default function Home() {
       </section>
 
       {/* HotType Kinetic Typography Section */}
-      <HotTypeSection />
+      <LazySection minHeightClassName="min-h-[50vh]">
+        <HotTypeSection />
+      </LazySection>
 
       {/* Kinetic Sections - Below 3D World */}
       <div className="relative z-10 bg-[#0a0a0f] text-white dark">
         {/* Origin / About - Floating fragments, staggered reveals */}
-        <KineticAbout />
+        <LazySection>
+          <KineticAbout />
+        </LazySection>
 
-        <ScrollReveal width="100%">
-          <Skills />
-        </ScrollReveal>
+        <LazySection>
+          <ScrollReveal width="100%">
+            <Skills />
+          </ScrollReveal>
+        </LazySection>
 
         {/* Featured Projects - Kinetic typography, scroll-linked motion */}
-        <KineticProjects />
+        <LazySection>
+          <KineticProjects />
+        </LazySection>
 
         {/* Achievements - Milestones with authority, gentle glow */}
-        <KineticAchievements />
+        <LazySection>
+          <KineticAchievements />
+        </LazySection>
 
-        <ScrollReveal width="100%">
-          <Github />
-        </ScrollReveal>
+        <LazySection>
+          <ScrollReveal width="100%">
+            <Github />
+          </ScrollReveal>
+        </LazySection>
 
-        <ScrollReveal width="100%">
-          <Guestbook />
-        </ScrollReveal>
+        <LazySection>
+          <ScrollReveal width="100%">
+            <Guestbook />
+          </ScrollReveal>
+        </LazySection>
 
-        <ScrollReveal width="100%">
-          <Contact />
-        </ScrollReveal>
+        <LazySection>
+          <ScrollReveal width="100%">
+            <Contact />
+          </ScrollReveal>
+        </LazySection>
 
         <footer className="py-8 text-center text-sm text-white/50 border-t border-white/10">
           <p>© {new Date().getFullYear()} Ruchin Audichya. Engineered with precision.</p>
