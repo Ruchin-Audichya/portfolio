@@ -4,26 +4,33 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-    const lenisRef = useRef<Lenis | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
-    useEffect(() => {
-        lenisRef.current = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-        });
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
 
-        function raf(time: number) {
-            lenisRef.current?.raf(time);
-            requestAnimationFrame(raf);
-        }
+    if (prefersReducedMotion || isSmallScreen) return;
 
-        requestAnimationFrame(raf);
+    lenisRef.current = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
 
-        return () => {
-            lenisRef.current?.destroy();
-        };
-    }, []);
+    let frameId: number;
+    const raf = (time: number) => {
+      lenisRef.current?.raf(time);
+      frameId = requestAnimationFrame(raf);
+    };
 
-    return <>{children}</>;
+    frameId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      lenisRef.current?.destroy();
+    };
+  }, []);
+
+  return <>{children}</>;
 }
