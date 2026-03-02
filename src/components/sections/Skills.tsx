@@ -55,7 +55,7 @@ export function Skills() {
             </span>
           </h2>
           <p className="max-w-xl mx-auto text-white/50 text-lg">
-            Not just a list — these are tools I've actually shipped with.
+            Not just a list — these are tools I&apos;ve actually shipped with.
           </p>
         </motion.div>
 
@@ -78,8 +78,8 @@ export function Skills() {
               >
                 <motion.div
                   className={`relative p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 overflow-hidden ${isActive
-                      ? "bg-white/[0.08] border-white/20"
-                      : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-white/15"
+                    ? "bg-white/[0.08] border-white/20"
+                    : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-white/15"
                     }`}
                   whileHover={{ y: -4 }}
                   layout
@@ -116,8 +116,8 @@ export function Skills() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: j * 0.03 }}
                         className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-all duration-200 ${isActive
-                            ? "bg-white/10 text-white/80 border border-white/15"
-                            : "bg-white/[0.04] text-white/50 border border-white/[0.06]"
+                          ? "bg-white/10 text-white/80 border border-white/15"
+                          : "bg-white/[0.04] text-white/50 border border-white/[0.06]"
                           }`}
                       >
                         {skill}

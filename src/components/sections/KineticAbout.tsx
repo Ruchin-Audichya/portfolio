@@ -201,7 +201,7 @@ function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scroll
 
             <FloatingFragment delay={0.3}>
               <p className="text-lg text-white/60 leading-relaxed">
-                Cloud/DevOps on AWS. Full-stack with Next.js and TypeScript. Salesforce Apex for automation. I pick the tool that fits, not the one that's trendy.
+                Cloud/DevOps on AWS. Full-stack with Next.js and TypeScript. Salesforce Apex for automation. I pick the tool that fits, not the one that&apos;s trendy.
               </p>
             </FloatingFragment>
 
