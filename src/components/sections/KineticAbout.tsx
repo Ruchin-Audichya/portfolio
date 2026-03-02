@@ -71,11 +71,11 @@ function OriginPanel({ progress }: { progress: ReturnType<typeof useScroll>["scr
   const springY = useSpring(y, { stiffness: 100, damping: 30 });
 
   const originLines = [
-    "2017 — a quiet beginning.",
-    "Emerging PC tech enthusiast.",
-    "Hands-on with hardware. Building from parts.",
-    "OG-era CS:GO player — discipline, reflex, systems thinking.",
-    "The kind of curiosity that doesn't stop at 'it works'.",
+    "2017 — started taking PCs apart.",
+    "Not for school. Because the fan was loud and I wanted to know why.",
+    "Built rigs from parts. Overclocked. Broke things. Fixed them.",
+    "CS:GO taught me more than any class — reflexes, systems thinking, discipline.",
+    "That curiosity never went away. It just found new hardware.",
   ];
 
   return (
@@ -90,7 +90,7 @@ function OriginPanel({ progress }: { progress: ReturnType<typeof useScroll>["scr
         >
           2017
         </motion.span>
-        
+
         <StaggeredLines
           lines={originLines}
           className="space-y-4 relative z-10"
@@ -121,23 +121,22 @@ function EvolutionPanel({ progress }: { progress: ReturnType<typeof useScroll>["
               </span>
             </FloatingFragment>
           </div>
-          
+
           <div className="space-y-4">
             <FloatingFragment delay={0.2}>
               <h3 className="text-2xl md:text-3xl font-bold text-white">
-                The grind begins.
+                College. Real builds.
               </h3>
             </FloatingFragment>
-            
+
             <FloatingFragment delay={0.3}>
               <p className="text-lg text-white/60 leading-relaxed">
-                College transformed curiosity into craft. AWS fundamentals. APIs. GitHub workflows. 
-                Cost-aware design. Building things that ship and survive real usage.
+                Moved from hardware to cloud. Got my hands dirty with AWS — provisioned infra, broke IAM policies at 2am, passed both Cloud and AI Practitioner exams. Started leading the AWS Cloud Club at JECRC.
               </p>
             </FloatingFragment>
           </div>
         </div>
-        
+
         <motion.div
           className="relative aspect-square max-w-sm mx-auto"
           initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
@@ -183,7 +182,7 @@ function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scroll
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
           </div>
         </motion.div>
-        
+
         <div className="space-y-8 order-1 lg:order-2">
           <div>
             <FloatingFragment delay={0}>
@@ -192,25 +191,23 @@ function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scroll
               </span>
             </FloatingFragment>
           </div>
-          
+
           <div className="space-y-4">
             <FloatingFragment delay={0.2}>
               <h3 className="text-2xl md:text-3xl font-bold text-white">
-                Full-stack mode.
+                Building. Shipping. Iterating.
               </h3>
             </FloatingFragment>
-            
+
             <FloatingFragment delay={0.3}>
               <p className="text-lg text-white/60 leading-relaxed">
-                Cloud/DevOps. Full-stack Next.js/TypeScript. Salesforce Apex + automation. 
-                Where process and reliability matter as much as code.
+                Cloud/DevOps on AWS. Full-stack with Next.js and TypeScript. Salesforce Apex for automation. I pick the tool that fits, not the one that's trendy.
               </p>
             </FloatingFragment>
-            
+
             <FloatingFragment delay={0.4}>
               <p className="text-base text-white/40 italic">
-                This portfolio is proof-of-work — an interactive 3D world + real projects, 
-                designed like a product.
+                This portfolio is itself a project — a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing. Everything you see here, I built.
               </p>
             </FloatingFragment>
           </div>
@@ -223,14 +220,14 @@ function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scroll
 // Progress indicator
 function TimelineProgress({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
   const scaleY = useSpring(progress, { stiffness: 100, damping: 30 });
-  
+
   return (
     <div className="absolute right-8 top-1/2 -translate-y-1/2 h-48 w-px bg-white/10">
       <motion.div
         className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 via-purple-500 to-pink-500 origin-top"
         style={{ scaleY, height: "100%" }}
       />
-      
+
       {/* Year markers */}
       {[
         { pos: "0%", label: "2017" },
@@ -299,7 +296,7 @@ export function KineticAbout() {
         <OriginPanel progress={scrollYProgress} />
         <EvolutionPanel progress={scrollYProgress} />
         <NowPanel progress={scrollYProgress} />
-        
+
         {/* Timeline progress */}
         <TimelineProgress progress={scrollYProgress} />
       </div>

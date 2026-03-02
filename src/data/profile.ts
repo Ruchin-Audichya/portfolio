@@ -8,11 +8,11 @@ export const profile = {
   socials: {
     linkedin: "https://www.linkedin.com/in/ruchinaudi/",
     github: "https://github.com/Ruchin-Audichya",
-    twitter: "https://twitter.com/itsruchin",
+    twitter: "https://x.com/itsRuchin",
     buymeacoffee: "https://buymeacoffee.com/ruchinaudik",
   },
   badges: [
-    "1x AWS Certified",
+    "2x AWS Certified",
     "1x Salesforce Certified",
     "Social/Content Head – AWS Cloud Club JECRC",
     "Real-World Tech Doer"

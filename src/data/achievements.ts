@@ -16,6 +16,13 @@ export const achievements: Achievement[] = [
         icon: "☁️"
     },
     {
+        title: "AWS AI Practitioner",
+        issuer: "Amazon Web Services (AWS)",
+        date: "2025",
+        description: "Expertise in AI/ML services on AWS, responsible AI practices, and generative AI fundamentals",
+        icon: "🤖"
+    },
+    {
         title: "AWS Cloud Club Founder & Lead",
         issuer: "JECRC University",
         date: "2023 - Present",

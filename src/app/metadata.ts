@@ -17,6 +17,7 @@ export const defaultMetadata: Metadata = {
         "Cloud Engineer",
         "DevOps Engineer",
         "AWS Cloud Practitioner",
+        "AWS AI Practitioner",
         "Salesforce Developer",
         "React Developer",
         "Next.js Developer",
@@ -63,8 +64,8 @@ export const defaultMetadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        site: "@ruchinaudichya",
-        creator: "@ruchinaudichya",
+        site: "@itsRuchin",
+        creator: "@itsRuchin",
         title: `${content.profile.name} - ${content.profile.role}`,
         description: content.profile.bio.join(" ").slice(0, 160),
         images: {
@@ -140,6 +141,7 @@ export const generatePersonSchema = () => ({
         "Full Stack Development",
         "Cloud Engineering",
         "AWS",
+        "AWS AI Practitioner",
         "React",
         "Next.js",
         "TypeScript",
@@ -147,6 +149,9 @@ export const generatePersonSchema = () => ({
         "PostgreSQL",
         "DevOps",
         "Three.js",
+        "Salesforce",
+        "Apex",
+        "n8n Automation",
     ],
 });
 

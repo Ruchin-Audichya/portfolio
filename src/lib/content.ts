@@ -7,114 +7,141 @@ export const content = {
         mission: "I build cloud-native systems, automation, and product-grade frontends — with the same obsession I bring to PCs: reliability, performance, and clean execution.",
         bio_title: "Hardware mindset. Software execution.",
         bio: [
-            "I’ve been a PC/hardware and system-tuning person since childhood — the kind of curiosity that turns into real builds: troubleshooting, optimizing, and making systems feel fast and stable.",
-            "In college, that mindset moved into cloud and engineering: AWS fundamentals, APIs, GitHub, automation, and cost-aware design — building things that ship and survive real usage.",
-            "I work across Cloud/DevOps and full-stack (Next.js/TypeScript), and I’ve also built on Salesforce (Apex + automation) where process and reliability matter as much as code.",
-            "This portfolio is my proof-of-work: an interactive 3D world + real projects, designed like a product — performance, UX polish, and a clear story end-to-end."
+            "I've been taking apart PCs and fixing systems since I was a kid. Not because someone told me to — because I wanted to know why the fan was loud and whether I could make it quieter. That curiosity never went away.",
+            "In college, I channeled it into cloud and software. Got my hands dirty with AWS — not just watching tutorials, but actually provisioning infrastructure, breaking things, and debugging IAM policies until they worked. Passed both the AWS Cloud Practitioner and AWS AI Practitioner exams.",
+            "I work across Cloud/DevOps, Full-Stack (Next.js, TypeScript), and Salesforce (Apex, Flows). I've also led the AWS Cloud Club at JECRC — organizing events, creating content, and working directly with AWS executives to grow the community.",
+            "This portfolio is itself a project: a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing — sitting on a Next.js app with scroll-driven motion design. Everything you see here, I built."
         ],
         avatar: "/profile.jpg",
-        resume: "/resume.pdf", // Updated to point to the local file
+        resume: "/resume.pdf",
         socials: {
             email: "hello@ruchinaudichya.in",
             github: "https://github.com/Ruchin-Audichya",
-            linkedin: "https://linkedin.com/in/ruchinaudichya",
+            linkedin: "https://www.linkedin.com/in/ruchinaudi/",
             instagram: "https://www.instagram.com/ruchin_audichya/",
-            twitter: "https://twitter.com/ruchinaudichya"
+            twitter: "https://x.com/itsRuchin"
         }
     },
-    // ... rest of the content remains the same
     skills: [
         {
             category: "Cloud & AWS",
-            items: ["AWS Cloud Practitioner", "S3", "EC2", "DynamoDB", "IAM", "Static Hosting"]
-        },
-        {
-            category: "AI-Driven Dev",
-            items: ["Gemini 3.0", "Antigravity IDE", "Agentic Workflows", "Prompt Engineering"]
+            items: ["AWS Cloud Practitioner", "AWS AI Practitioner", "S3", "EC2", "Lambda", "DynamoDB", "IAM", "CloudFront"]
         },
         {
             category: "Frontend & Motion",
-            items: ["Next.js 14", "React", "TailwindCSS", "GSAP", "Framer Motion", "Lenis"]
+            items: ["Next.js 14", "React", "TypeScript", "Three.js", "GSAP", "Framer Motion", "TailwindCSS"]
         },
         {
-            category: "Automation",
-            items: ["n8n", "Webhooks", "API Integrations", "Scripting"]
+            category: "Backend & Data",
+            items: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Prisma"]
         },
         {
-            category: "System & Linux",
-            items: ["Pop!_OS", "Ubuntu", "GNOME Customization", "Bash", "System Optimization"]
+            category: "Salesforce",
+            items: ["Apex", "Flows", "Process Builder", "SOQL", "Lightning"]
+        },
+        {
+            category: "DevOps & Tools",
+            items: ["Docker", "Git/GitHub", "Terraform", "Vercel", "n8n", "Linux"]
+        },
+        {
+            category: "AI & Automation",
+            items: ["Gemini", "Prompt Engineering", "Agentic Workflows", "Webhooks", "n8n"]
         }
     ],
     projects: [
         {
             slug: "portfolio-v1",
-            title: "Portfolio v0.1.0",
+            title: "This Portfolio",
             category: "Web Development",
-            description: "First release of my personal website; now evolving into a cinematic, motion-designed experience.",
-            tech: ["Next.js", "Tailwind", "Motion"],
+            description: "A Three.js black hole with GLSL shaders on top of a Next.js 14 app. Multi-pass rendering, gravitational lensing, chromatic aberration — and every section has scroll-driven kinetic typography.",
+            tech: ["Next.js", "Three.js", "GLSL", "Framer Motion"],
             image: "/projects/portfolio.jpg",
             year: "2025",
             metrics: "95+ Lighthouse Score",
             caseStudy: {
-                problem: "Traditional portfolios are static and boring. I needed a way to stand out in a crowded market while showcasing my technical skills in 3D and motion graphics.",
-                solution: "I built an interactive 3D world using React Three Fiber, allowing users to explore my journey spatially. The UI was designed with a 'glassmorphism' aesthetic to feel premium and modern.",
+                problem: "Most developer portfolios are templates or generic single-page sites. I wanted something that immediately proves technical depth before anyone reads a single word.",
+                solution: "Built a multi-pass Three.js rendering pipeline — noise bake, accretion disk, distortion map, post-processing with chromatic aberration and gravitational lensing — all running in a React component. The portfolio sections below use Framer Motion for scroll-linked kinetic typography.",
                 challenges: [
-                    "Optimizing 3D assets for mobile devices without losing visual fidelity.",
-                    "Implementing a seamless day/night cycle that reacts to user input.",
-                    "Ensuring accessibility (keyboard navigation) within a 3D environment."
+                    "Getting the GLSL shaders right for WebGL2 compatibility across browsers",
+                    "Balancing visual complexity with 60fps on mobile devices",
+                    "Making OrbitControls coexist with scroll-driven sections below"
                 ],
                 outcomes: [
-                    "Achieved a 95+ Lighthouse Performance score.",
-                    "Created a unique, memorable user experience.",
-                    "Successfully integrated complex 3D interactions with standard DOM elements."
+                    "95+ Lighthouse performance score",
+                    "Runs at 60fps on most devices, degrades gracefully on mobile",
+                    "People actually stop and interact with it instead of bouncing"
                 ]
             }
         },
         {
-            slug: "linux-productivity",
-            title: "Linux Productivity Setup",
-            category: "System Engineering",
-            description: "Turned Ubuntu into a clean, macOS-like developer OS with GNOME extensions & performance tweaks.",
-            tech: ["Linux", "Bash", "GNOME"],
-            image: "/projects/linux.jpg",
+            slug: "cloud-mini-projects",
+            title: "AWS Cloud Infrastructure",
+            category: "Cloud Infrastructure",
+            description: "Real AWS deployments: S3 hosting, Lambda APIs, EC2 clusters, IAM policies. Not sandbox exercises — actual infrastructure I configured, broke, and fixed.",
+            tech: ["AWS", "Terraform", "IAM", "Lambda"],
+            image: "/projects/cloud.jpg",
             year: "2024",
-            metrics: "30% Faster Workflow",
+            metrics: "2x AWS Certified",
             caseStudy: {
-                problem: "Default Linux desktop environments can be clunky and distracting. I needed a streamlined, keyboard-centric workflow that matched the polish of macOS but with the power of Linux.",
-                solution: "I customized GNOME with specific extensions (Dash to Dock, User Themes) and wrote Bash scripts to automate system maintenance and environment setup.",
+                problem: "Tutorials teach you the happy path. Production teaches you what happens when your IAM policy denies access at 2am and your S3 bucket is public when it shouldn't be.",
+                solution: "Built progressively complex projects: static S3 hosting → serverless Lambda + DynamoDB APIs → load-balanced EC2 with proper VPC networking. Each one taught a different failure mode.",
                 challenges: [
-                    "Resolving conflicts between different GNOME extensions.",
-                    "Optimizing system resource usage for heavy development tasks.",
-                    "Creating a consistent visual theme across GTK apps and the shell."
+                    "IAM least-privilege policies that are actually least-privilege",
+                    "VPC and Security Group debugging when nothing connects",
+                    "Cost management — learning what 'leaving an EC2 running' costs"
                 ],
                 outcomes: [
-                    "Reduced daily setup time by 30%.",
-                    "Created a distraction-free environment that boosts focus.",
-                    "Open-sourced the dotfiles for the community."
+                    "Passed AWS Cloud Practitioner and AI Practitioner exams",
+                    "Can provision secure, scalable infrastructure from scratch",
+                    "Learned more from breaking things than from any course"
                 ]
             }
         },
         {
             slug: "n8n-automations",
-            title: "n8n Automations",
+            title: "n8n Workflow Automations",
             category: "Automation",
-            description: "Built everyday automations using triggers, APIs, and modular workflows for personal logs and notifications.",
-            tech: ["n8n", "Webhooks", "JSON"],
+            description: "Self-hosted n8n on a VPS. Built workflows that auto-log expenses, sync calendars, and send alerts when AWS bills spike. The best code runs while you sleep.",
+            tech: ["n8n", "Webhooks", "APIs", "Self-Hosted"],
             image: "/projects/n8n.jpg",
             year: "2024",
             metrics: "10+ Hours Saved/Week",
             caseStudy: {
-                problem: "Repetitive tasks like tracking expenses, logging workouts, and managing notifications were consuming too much mental energy.",
-                solution: "I deployed n8n (self-hosted) and built workflows to automate these processes. Webhooks trigger actions based on emails, calendar events, and API calls.",
+                problem: "I was spending hours every week on repetitive tasks — tracking expenses, updating logs, checking notifications. It was the kind of work that makes you feel busy but accomplishes nothing.",
+                solution: "Self-hosted n8n, connected it to Gmail, Google Calendar, Notion, and Telegram via webhooks. Built modular workflows with proper error handling so they don't fail silently.",
                 challenges: [
-                    "Handling authentication and rate limits for various APIs.",
-                    "Designing robust error handling for failed workflow executions.",
-                    "Securing the self-hosted n8n instance."
+                    "API rate limits and auth token management across services",
+                    "Error handling that catches failures instead of silently breaking",
+                    "Securing a self-hosted instance with proper SSL and auth"
                 ],
                 outcomes: [
-                    "Saved over 10 hours per week on manual data entry.",
-                    "Ensured 100% accuracy in personal logging.",
-                    "Created a scalable system for future automations."
+                    "Saved 10+ hours per week on manual tasks",
+                    "Zero silent failures in 6 months of operation",
+                    "Scalable system — adding a new workflow takes minutes"
+                ]
+            }
+        },
+        {
+            slug: "linux-productivity",
+            title: "Linux Dev Environment",
+            category: "System Engineering",
+            description: "Turned stock Ubuntu into a keyboard-driven, distraction-free workspace. Custom GNOME shell, tiling, and Bash scripts that go from fresh install to productive in 30 minutes.",
+            tech: ["Linux", "Bash", "GNOME", "Dotfiles"],
+            image: "/projects/linux.jpg",
+            year: "2024",
+            metrics: "30 Min Setup Time",
+            caseStudy: {
+                problem: "Default Linux desktops are functional but inefficient. I wanted a setup where my hands never leave the keyboard and every tool is one shortcut away.",
+                solution: "Customized GNOME with tiling extensions, built Bash scripts to bootstrap the entire environment, and packaged everything as reproducible dotfiles.",
+                challenges: [
+                    "GNOME extension conflicts that crash the shell",
+                    "Making the config portable across Ubuntu versions",
+                    "Balancing aesthetics with actual productivity gains"
+                ],
+                outcomes: [
+                    "Fresh install to fully productive in under 30 minutes",
+                    "Keyboard-driven workflow reduced context-switching",
+                    "Open-sourced the dotfiles for the community"
                 ]
             }
         },
@@ -122,71 +149,47 @@ export const content = {
             slug: "ai-podcast-host",
             title: "AI Podcast Host",
             category: "AI / UX Concept",
-            description: "Designed a UI/UX concept for an AI-driven interactive podcast host with expression analysis.",
-            tech: ["AI", "React", "Concept"],
+            description: "A prototype where an AI host reads your facial expressions and adjusts conversation tone in real-time. Not shipped yet — but the interaction design explores what human-AI conversation could feel like.",
+            tech: ["React", "AI", "UX Design", "Gemini"],
             image: "/projects/podcast.jpg",
             year: "2025",
-            metrics: "Interactive AI Demo",
+            metrics: "Interactive AI Concept",
             caseStudy: {
-                problem: "Podcasts are passive. I wanted to explore how AI could make audio content interactive and responsive to the listener's emotional state.",
-                solution: "I designed a concept interface where an AI host analyzes the user's facial expressions (via webcam) and adjusts the conversation tone and topic in real-time.",
+                problem: "Podcasts are one-directional. What if an AI host could sense when you're confused, bored, or excited and adapt the conversation in real-time?",
+                solution: "Designed a concept interface with webcam-based expression analysis. The AI adjusts pacing, depth, and tone based on micro-expressions — making the conversation feel responsive.",
                 challenges: [
-                    "Designing a non-intrusive UI for real-time video analysis.",
-                    "Visualizing the AI's 'thought process' to build trust.",
-                    "Balancing technical complexity with a clean user experience."
+                    "Designing a non-creepy UI for real-time facial analysis",
+                    "Making the AI's reactions feel natural, not robotic",
+                    "Balancing technical feasibility with the concept's ambition"
                 ],
                 outcomes: [
-                    "Created a compelling proof-of-concept for AI media.",
-                    "Explored new patterns in Human-AI interaction.",
-                    "Received positive feedback on the innovative UX approach."
-                ]
-            }
-        },
-        {
-            slug: "cloud-mini-projects",
-            title: "Cloud Mini Projects",
-            category: "Cloud Infrastructure",
-            description: "Hands-on with AWS basics: S3 static hosting, IAM permissions, EC2 instances, and DynamoDB patterns.",
-            tech: ["AWS", "Cloud", "Infrastructure"],
-            image: "/projects/cloud.jpg",
-            year: "2024",
-            metrics: "AWS Certified",
-            caseStudy: {
-                problem: "Theory isn't enough. I needed practical, hands-on experience with AWS services to truly understand cloud architecture.",
-                solution: "I built a series of mini-projects: a static site on S3, a serverless API with Lambda/DynamoDB, and a load-balanced EC2 cluster.",
-                challenges: [
-                    "Configuring correct IAM permissions (Least Privilege Principle).",
-                    "Debugging networking issues (VPC, Security Groups).",
-                    "Managing costs while experimenting with different services."
-                ],
-                outcomes: [
-                    "Gained deep practical knowledge of core AWS services.",
-                    "Successfully deployed secure and scalable infrastructure.",
-                    "Prepared for and passed the AWS Cloud Practitioner exam."
+                    "Compelling proof-of-concept that got positive feedback",
+                    "Explored novel human-AI interaction patterns",
+                    "Informed my thinking about AI UX design principles"
                 ]
             }
         },
         {
             slug: "system-optimization",
-            title: "System Optimization",
+            title: "Personal System Engineering",
             category: "Human Systems",
-            description: "A structured approach to daily alignment, supplements, focus, and discipline.",
-            tech: ["Framework", "Optimization"],
+            description: "I treat my daily routine like infrastructure — optimize inputs, measure outputs, iterate. Sleep, nutrition, focus blocks, and discipline tracked over months. Engineering applied to life.",
+            tech: ["Framework", "Optimization", "Discipline"],
             image: "/projects/system.jpg",
             year: "Ongoing",
-            metrics: "Daily Consistency",
+            metrics: "90% Daily Consistency",
             caseStudy: {
-                problem: "Consistency is hard. Without a system, motivation fluctuates and progress stalls.",
-                solution: "I treated my daily routine as a software system. I optimized inputs (sleep, nutrition, information) to maximize outputs (focus, code, creativity).",
+                problem: "Without a system, motivation is unreliable. Some days you ship, some days you scroll. I needed something more reliable than 'feeling motivated'.",
+                solution: "Treated my routine as a software system: defined inputs (sleep, nutrition, information diet), measured outputs (focus time, code shipped, learning), and iterated weekly.",
                 challenges: [
-                    "Sticking to the routine during high-stress periods.",
-                    "Iterating on the system without over-optimizing.",
-                    "Balancing structure with spontaneity."
+                    "Being honest about what actually works vs. what feels productive",
+                    "Not over-engineering the system to the point it becomes a distraction",
+                    "Maintaining consistency during exam stress and deadlines"
                 ],
                 outcomes: [
-                    "Achieved a 90% consistency rate in daily habits.",
-                    "Significantly improved focus and deep work capacity.",
-                    "Built a sustainable lifestyle that supports high performance."
+                    "90% consistency rate in daily habits over 6 months",
+                    "Measurably improved deep work capacity",
+                    "Framework I still use and refine every week"
                 ]
             }
         }
