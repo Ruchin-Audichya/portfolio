@@ -71,10 +71,10 @@ function OriginPanel({ progress }: { progress: ReturnType<typeof useScroll>["scr
   const springY = useSpring(y, { stiffness: 100, damping: 30 });
 
   const originLines = [
-    "2017 — started taking PCs apart.",
+    "2017 - started taking PCs apart.",
     "Not for school. Because the fan was loud and I wanted to know why.",
     "Built rigs from parts. Overclocked. Broke things. Fixed them.",
-    "CS:GO taught me more than any class — reflexes, systems thinking, discipline.",
+    "Games, hardware, and Linux taught me systems thinking before college did.",
     "That curiosity never went away. It just found new hardware.",
   ];
 
@@ -131,7 +131,7 @@ function EvolutionPanel({ progress }: { progress: ReturnType<typeof useScroll>["
 
             <FloatingFragment delay={0.3}>
               <p className="text-lg text-white/60 leading-relaxed">
-                Moved from hardware to cloud. Got my hands dirty with AWS — provisioned infra, broke IAM policies at 2am, passed both Cloud and AI Practitioner exams. Started leading the AWS Cloud Club at JECRC.
+                Moved from hardware into AI, backend, and cloud. Built APIs, ML-backed workflows, AWS labs, and automation systems. Earned AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD certifications.
               </p>
             </FloatingFragment>
           </div>
@@ -201,13 +201,13 @@ function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scroll
 
             <FloatingFragment delay={0.3}>
               <p className="text-lg text-white/60 leading-relaxed">
-                Cloud/DevOps on AWS. Full-stack with Next.js and TypeScript. Salesforce Apex for automation. I pick the tool that fits, not the one that&apos;s trendy.
+                AI/ML engineering, backend APIs, and AWS cloud are the center now. I build systems like MediFastRx and Placify AI where search, data, and product experience have to work together.
               </p>
             </FloatingFragment>
 
             <FloatingFragment delay={0.4}>
               <p className="text-base text-white/40 italic">
-                This portfolio is itself a project — a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing. Everything you see here, I built.
+                This portfolio is still a project - a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing. Now it also works harder as a hiring portfolio.
               </p>
             </FloatingFragment>
           </div>

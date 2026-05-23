@@ -3,31 +3,15 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { content } from "@/lib/content";
 
 interface Milestone {
-  year: string;
+  year?: string;
   title: string;
   issuer: string;
   description?: string;
   credentialUrl?: string;
 }
-
-const milestones: Milestone[] = [
-  {
-    year: "2025",
-    title: "AWS Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    description: "Foundational cloud architecture and services mastery.",
-    credentialUrl: "#",
-  },
-  {
-    year: "2025",
-    title: "Salesforce Certified",
-    issuer: "Salesforce",
-    description: "Platform development and automation expertise.",
-    credentialUrl: "#",
-  },
-];
 
 // Milestone card with scroll-linked glow
 function MilestoneCard({
@@ -152,6 +136,7 @@ function MilestoneCard({
 
 export function KineticAchievements() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const milestones: Milestone[] = content.certifications;
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -197,7 +182,7 @@ export function KineticAchievements() {
             transition={{ duration: 0.8 }}
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/60">
-              Credentials
+              Certifications
             </span>
           </motion.h2>
 
@@ -208,7 +193,7 @@ export function KineticAchievements() {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            Earned, not given.
+            Verified learning signals across AI, cloud, and enterprise platforms.
           </motion.p>
         </motion.div>
 

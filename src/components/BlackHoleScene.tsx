@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { profile } from "@/data/profile";
+import { Download, Github, Linkedin, Mail, Phone, Sparkles } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════════════
    GLSL SHADERS
@@ -516,9 +517,6 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
   /* ═══════════════════════════════════════════════════════════════
      RENDER — HTML OVERLAY
      ═══════════════════════════════════════════════════════════════ */
-  const firstName = profile.name.split(" ")[0];
-  const lastName = profile.name.split(" ")[1];
-
   return (
     <div
       ref={containerRef}
@@ -526,7 +524,7 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
     >
       {/* ── Main text overlay ── */}
       <div
-        className={`absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center transition-opacity duration-[2000ms] ${loaded ? "opacity-100" : "opacity-0"
+        className={`absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"
           }`}
       >
         {/* Subtle radial fade behind text for readability */}
@@ -538,65 +536,86 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
           }}
         />
 
-        {/* Name */}
-        <div className="relative text-center mb-4">
-          <h1
-            className="text-6xl sm:text-7xl md:text-9xl font-display font-bold tracking-[-0.04em] text-white/95 leading-none"
-            style={{
-              textShadow:
-                "0 0 80px rgba(255,86,0,0.3), 0 0 160px rgba(204,0,255,0.15)",
-              animationDelay: "0.2s",
-            }}
-          >
-            {firstName?.toUpperCase()}
-          </h1>
-          <h1
-            className="text-6xl sm:text-7xl md:text-9xl font-display font-bold tracking-[-0.04em] leading-none mt-1 md:mt-2"
-            style={{
-              background: "linear-gradient(135deg, #fffbf9 0%, #ffbc68 40%, #ff5600 70%, #cc00ff 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textShadow: "none",
-              filter: "drop-shadow(0 0 40px rgba(255,86,0,0.25))",
-            }}
-          >
-            {lastName?.toUpperCase()}
-          </h1>
-        </div>
+        <div className="relative z-10 flex w-full max-w-5xl flex-col items-center px-4 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-cyan-200 backdrop-blur">
+            <Sparkles className="h-4 w-4" />
+            Open to AI/ML, Cloud, and Backend roles
+          </div>
 
-        {/* Tagline */}
-        <p
-          className="relative text-sm sm:text-base md:text-lg text-white/70 font-body tracking-[0.2em] uppercase mb-8"
-          style={{
-            textShadow: "0 0 20px rgba(255,188,104,0.2)",
-          }}
-        >
-          {profile.role}
-        </p>
+          <h1 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-7xl">
+            {profile.name}
+          </h1>
 
-        {/* Badges */}
-        <div className="relative flex flex-wrap justify-center gap-2 md:gap-3 max-w-xl px-4">
-          {profile.badges.map((badge, i) => (
-            <span
-              key={badge}
-              className="px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-mono uppercase tracking-wider rounded-full border backdrop-blur-md"
-              style={{
-                borderColor: "rgba(255,188,104,0.25)",
-                background: "rgba(19,14,22,0.6)",
-                color: "rgba(255,251,249,0.8)",
-                textShadow: "0 0 8px rgba(255,86,0,0.3)",
-                animationDelay: `${0.5 + i * 0.1}s`,
-              }}
+          <p className="mt-4 text-2xl font-black tracking-wide text-cyan-300 sm:text-3xl md:text-4xl">
+            AI/ML Engineer • Cloud • Backend
+          </p>
+
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
+            I build AI assistants, backend APIs, and AWS-backed automation with proof in internships, projects, and certifications.
+          </p>
+
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <a
+              href={profile.contactLinks.email}
+              className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-white/[0.09] px-5 py-3 text-sm font-semibold text-white/75 backdrop-blur transition hover:border-cyan-400/60 hover:text-cyan-200"
             >
-              {badge}
-            </span>
-          ))}
+              <Mail className="h-4 w-4 text-cyan-300" />
+              <span className="hidden sm:inline">{profile.email}</span>
+              <span className="sm:hidden">Email</span>
+            </a>
+            <a
+              href={profile.contactLinks.phone}
+              className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-white/[0.09] px-5 py-3 text-sm font-semibold text-white/75 backdrop-blur transition hover:border-cyan-400/60 hover:text-cyan-200"
+            >
+              <Phone className="h-4 w-4 text-cyan-300" />
+              {profile.phone}
+            </a>
+          </div>
+
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            <a href={profile.contactLinks.linkedin} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
+              <Linkedin className="h-4 w-4 text-[#0a66c2]" /> LinkedIn
+            </a>
+            <a href={profile.contactLinks.github} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
+              <Github className="h-4 w-4" /> GitHub
+            </a>
+            <a href={profile.contactLinks.resume} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
+              <Download className="h-4 w-4 text-cyan-300" /> Resume
+            </a>
+          </div>
+
+          <div className="mt-7 flex flex-wrap justify-center gap-4">
+            <a href={profile.contactLinks.email} className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-400 px-8 py-3 text-sm font-black uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400 hover:text-black">
+              Hire Me
+            </a>
+            <a href="#projects" className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-400/80 px-8 py-3 text-sm font-black uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400 hover:text-black">
+              View Projects
+            </a>
+          </div>
+
+          <div className="relative mt-7 flex max-w-2xl flex-wrap justify-center gap-2 md:gap-3">
+            {profile.badges.map((badge, i) => (
+              <span
+                key={badge}
+                className="rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider backdrop-blur-md md:px-4 md:py-2 md:text-xs"
+                style={{
+                  borderColor: "rgba(255,188,104,0.25)",
+                  background: "rgba(19,14,22,0.6)",
+                  color: "rgba(255,251,249,0.8)",
+                  textShadow: "0 0 8px rgba(255,86,0,0.3)",
+                  animationDelay: `${0.5 + i * 0.1}s`,
+                }}
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* ── Scroll CTA ── */}
       <div
-        className={`absolute inset-x-0 bottom-8 z-20 flex justify-center pointer-events-none transition-opacity duration-[2000ms] ${loaded ? "opacity-100" : "opacity-0"
+        className={`absolute inset-x-0 bottom-8 z-20 flex justify-center pointer-events-none transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"
           }`}
         style={{ transitionDelay: "1s" }}
       >

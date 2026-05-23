@@ -16,8 +16,12 @@ export const defaultMetadata: Metadata = {
         "Full Stack Developer",
         "Cloud Engineer",
         "DevOps Engineer",
+        "AI ML Engineer",
+        "Backend Developer",
         "AWS Cloud Practitioner",
         "AWS AI Practitioner",
+        "ServiceNow Certified System Administrator",
+        "ServiceNow Certified Application Developer",
         "Salesforce Developer",
         "React Developer",
         "Next.js Developer",
@@ -152,6 +156,9 @@ export const generatePersonSchema = () => ({
         "Salesforce",
         "Apex",
         "n8n Automation",
+        "ServiceNow",
+        "MediFastRx",
+        "Placify AI",
     ],
 });
 

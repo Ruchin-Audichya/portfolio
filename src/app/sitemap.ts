@@ -7,10 +7,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Core routes with priorities
     const coreRoutes = [
         { route: '', priority: 1.0, changeFreq: 'weekly' as const },
-        { route: '/projects', priority: 0.9, changeFreq: 'weekly' as const },
         { route: '/blog', priority: 0.8, changeFreq: 'weekly' as const },
-        { route: '/work', priority: 0.7, changeFreq: 'monthly' as const },
-        { route: '/shop', priority: 0.6, changeFreq: 'monthly' as const },
+        { route: '/projects/medifastrx', priority: 0.9, changeFreq: 'monthly' as const },
+        { route: '/projects/placify-ai', priority: 0.85, changeFreq: 'monthly' as const },
+        { route: '/projects/portfolio-v1', priority: 0.75, changeFreq: 'monthly' as const },
     ];
 
     const routes = coreRoutes.map(({ route, priority, changeFreq }) => ({

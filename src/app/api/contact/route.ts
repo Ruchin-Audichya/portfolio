@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { resend } from "@/lib/resend";
+import { getResend } from "@/lib/resend";
 
 export async function POST(request: Request) {
     try {
@@ -12,11 +12,11 @@ export async function POST(request: Request) {
         }
 
         // Send Email via Resend
-        console.log("Attempting to send email to:", 'ruchinaudichya09@gmail.com');
+        console.log("Attempting to send email to:", "ruchinaudichya100@gmail.com");
 
-        const data = await resend.emails.send({
-            from: 'onboarding@resend.dev',
-            to: 'ruchinaudichya09@gmail.com',
+        const data = await getResend().emails.send({
+            from: "onboarding@resend.dev",
+            to: "ruchinaudichya100@gmail.com",
             subject: `New Message from ${name}`,
             replyTo: email,
             html: `

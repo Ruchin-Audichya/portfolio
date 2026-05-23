@@ -1,197 +1,330 @@
 export const content = {
-    profile: {
-        name: "Ruchin Audichya",
-        role: "Cloud/DevOps (AWS) • Full-Stack (Next.js) • Salesforce (Apex)",
-        headline: "Cloud/DevOps Engineer • Full-Stack Developer • Salesforce Developer",
-        subline: "PC & systems enthusiast — performance-first, proof-of-work builds",
-        mission: "I build cloud-native systems, automation, and product-grade frontends — with the same obsession I bring to PCs: reliability, performance, and clean execution.",
-        bio_title: "Hardware mindset. Software execution.",
-        bio: [
-            "I've been taking apart PCs and fixing systems since I was a kid. Not because someone told me to — because I wanted to know why the fan was loud and whether I could make it quieter. That curiosity never went away.",
-            "In college, I channeled it into cloud and software. Got my hands dirty with AWS — not just watching tutorials, but actually provisioning infrastructure, breaking things, and debugging IAM policies until they worked. Passed both the AWS Cloud Practitioner and AWS AI Practitioner exams.",
-            "I work across Cloud/DevOps, Full-Stack (Next.js, TypeScript), and Salesforce (Apex, Flows). I've also led the AWS Cloud Club at JECRC — organizing events, creating content, and working directly with AWS executives to grow the community.",
-            "This portfolio is itself a project: a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing — sitting on a Next.js app with scroll-driven motion design. Everything you see here, I built."
-        ],
-        avatar: "/profile.jpg",
-        resume: "/resume.pdf",
-        socials: {
-            email: "hello@ruchinaudichya.in",
-            github: "https://github.com/Ruchin-Audichya",
-            linkedin: "https://www.linkedin.com/in/ruchinaudi/",
-            instagram: "https://www.instagram.com/ruchin_audichya/",
-            twitter: "https://x.com/itsRuchin"
-        }
-    },
-    skills: [
-        {
-            category: "Cloud & AWS",
-            items: ["AWS Cloud Practitioner", "AWS AI Practitioner", "S3", "EC2", "Lambda", "DynamoDB", "IAM", "CloudFront"]
-        },
-        {
-            category: "Frontend & Motion",
-            items: ["Next.js 14", "React", "TypeScript", "Three.js", "GSAP", "Framer Motion", "TailwindCSS"]
-        },
-        {
-            category: "Backend & Data",
-            items: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Prisma"]
-        },
-        {
-            category: "Salesforce",
-            items: ["Apex", "Flows", "Process Builder", "SOQL", "Lightning"]
-        },
-        {
-            category: "DevOps & Tools",
-            items: ["Docker", "Git/GitHub", "Terraform", "Vercel", "n8n", "Linux"]
-        },
-        {
-            category: "AI & Automation",
-            items: ["Gemini", "Prompt Engineering", "Agentic Workflows", "Webhooks", "n8n"]
-        }
+  profile: {
+    name: "Ruchin Audichya",
+    role: "AI/ML Engineer • Cloud • Backend",
+    headline: "AI/ML Engineer • Cloud • Backend",
+    subline: "Building AI assistants, backend systems, and cloud automation with production-minded execution.",
+    mission:
+      "I build AI-powered systems, backend APIs, and cloud automation that turn messy real-world workflows into reliable products.",
+    bio_title: "Hire me for AI systems that actually ship.",
+    bio: [
+      "I am a Computer Science undergraduate focused on AI/ML engineering, backend systems, and AWS cloud. My work sits at the intersection of practical ML, API design, automation, and user-facing product thinking.",
+      "My strongest projects are not just demos: Placify AI processes placement records and predicts outcomes, MediFastRx helps people search medicines in Indian language patterns, and my SecretEye internship pushed me into ML-powered data pipelines and production-style full-stack delivery.",
+      "I am certified in AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD. I also bring community leadership from AWS Cloud Club JECRC, where I helped run technical programs and documentation for 100+ students.",
+      "This portfolio still keeps the cinematic 3D identity, but the goal is simple: show recruiters what I can build, where I can contribute, and how to contact me quickly."
     ],
-    projects: [
-        {
-            slug: "portfolio-v1",
-            title: "This Portfolio",
-            category: "Web Development",
-            description: "A Three.js black hole with GLSL shaders on top of a Next.js 14 app. Multi-pass rendering, gravitational lensing, chromatic aberration — and every section has scroll-driven kinetic typography.",
-            tech: ["Next.js", "Three.js", "GLSL", "Framer Motion"],
-            image: "/projects/portfolio.jpg",
-            year: "2025",
-            metrics: "95+ Lighthouse Score",
-            caseStudy: {
-                problem: "Most developer portfolios are templates or generic single-page sites. I wanted something that immediately proves technical depth before anyone reads a single word.",
-                solution: "Built a multi-pass Three.js rendering pipeline — noise bake, accretion disk, distortion map, post-processing with chromatic aberration and gravitational lensing — all running in a React component. The portfolio sections below use Framer Motion for scroll-linked kinetic typography.",
-                challenges: [
-                    "Getting the GLSL shaders right for WebGL2 compatibility across browsers",
-                    "Balancing visual complexity with 60fps on mobile devices",
-                    "Making OrbitControls coexist with scroll-driven sections below"
-                ],
-                outcomes: [
-                    "95+ Lighthouse performance score",
-                    "Runs at 60fps on most devices, degrades gracefully on mobile",
-                    "People actually stop and interact with it instead of bouncing"
-                ]
-            }
-        },
-        {
-            slug: "cloud-mini-projects",
-            title: "AWS Cloud Infrastructure",
-            category: "Cloud Infrastructure",
-            description: "Real AWS deployments: S3 hosting, Lambda APIs, EC2 clusters, IAM policies. Not sandbox exercises — actual infrastructure I configured, broke, and fixed.",
-            tech: ["AWS", "Terraform", "IAM", "Lambda"],
-            image: "/projects/cloud.jpg",
-            year: "2024",
-            metrics: "2x AWS Certified",
-            caseStudy: {
-                problem: "Tutorials teach you the happy path. Production teaches you what happens when your IAM policy denies access at 2am and your S3 bucket is public when it shouldn't be.",
-                solution: "Built progressively complex projects: static S3 hosting → serverless Lambda + DynamoDB APIs → load-balanced EC2 with proper VPC networking. Each one taught a different failure mode.",
-                challenges: [
-                    "IAM least-privilege policies that are actually least-privilege",
-                    "VPC and Security Group debugging when nothing connects",
-                    "Cost management — learning what 'leaving an EC2 running' costs"
-                ],
-                outcomes: [
-                    "Passed AWS Cloud Practitioner and AI Practitioner exams",
-                    "Can provision secure, scalable infrastructure from scratch",
-                    "Learned more from breaking things than from any course"
-                ]
-            }
-        },
-        {
-            slug: "n8n-automations",
-            title: "n8n Workflow Automations",
-            category: "Automation",
-            description: "Self-hosted n8n on a VPS. Built workflows that auto-log expenses, sync calendars, and send alerts when AWS bills spike. The best code runs while you sleep.",
-            tech: ["n8n", "Webhooks", "APIs", "Self-Hosted"],
-            image: "/projects/n8n.jpg",
-            year: "2024",
-            metrics: "10+ Hours Saved/Week",
-            caseStudy: {
-                problem: "I was spending hours every week on repetitive tasks — tracking expenses, updating logs, checking notifications. It was the kind of work that makes you feel busy but accomplishes nothing.",
-                solution: "Self-hosted n8n, connected it to Gmail, Google Calendar, Notion, and Telegram via webhooks. Built modular workflows with proper error handling so they don't fail silently.",
-                challenges: [
-                    "API rate limits and auth token management across services",
-                    "Error handling that catches failures instead of silently breaking",
-                    "Securing a self-hosted instance with proper SSL and auth"
-                ],
-                outcomes: [
-                    "Saved 10+ hours per week on manual tasks",
-                    "Zero silent failures in 6 months of operation",
-                    "Scalable system — adding a new workflow takes minutes"
-                ]
-            }
-        },
-        {
-            slug: "linux-productivity",
-            title: "Linux Dev Environment",
-            category: "System Engineering",
-            description: "Turned stock Ubuntu into a keyboard-driven, distraction-free workspace. Custom GNOME shell, tiling, and Bash scripts that go from fresh install to productive in 30 minutes.",
-            tech: ["Linux", "Bash", "GNOME", "Dotfiles"],
-            image: "/projects/linux.jpg",
-            year: "2024",
-            metrics: "30 Min Setup Time",
-            caseStudy: {
-                problem: "Default Linux desktops are functional but inefficient. I wanted a setup where my hands never leave the keyboard and every tool is one shortcut away.",
-                solution: "Customized GNOME with tiling extensions, built Bash scripts to bootstrap the entire environment, and packaged everything as reproducible dotfiles.",
-                challenges: [
-                    "GNOME extension conflicts that crash the shell",
-                    "Making the config portable across Ubuntu versions",
-                    "Balancing aesthetics with actual productivity gains"
-                ],
-                outcomes: [
-                    "Fresh install to fully productive in under 30 minutes",
-                    "Keyboard-driven workflow reduced context-switching",
-                    "Open-sourced the dotfiles for the community"
-                ]
-            }
-        },
-        {
-            slug: "ai-podcast-host",
-            title: "AI Podcast Host",
-            category: "AI / UX Concept",
-            description: "A prototype where an AI host reads your facial expressions and adjusts conversation tone in real-time. Not shipped yet — but the interaction design explores what human-AI conversation could feel like.",
-            tech: ["React", "AI", "UX Design", "Gemini"],
-            image: "/projects/podcast.jpg",
-            year: "2025",
-            metrics: "Interactive AI Concept",
-            caseStudy: {
-                problem: "Podcasts are one-directional. What if an AI host could sense when you're confused, bored, or excited and adapt the conversation in real-time?",
-                solution: "Designed a concept interface with webcam-based expression analysis. The AI adjusts pacing, depth, and tone based on micro-expressions — making the conversation feel responsive.",
-                challenges: [
-                    "Designing a non-creepy UI for real-time facial analysis",
-                    "Making the AI's reactions feel natural, not robotic",
-                    "Balancing technical feasibility with the concept's ambition"
-                ],
-                outcomes: [
-                    "Compelling proof-of-concept that got positive feedback",
-                    "Explored novel human-AI interaction patterns",
-                    "Informed my thinking about AI UX design principles"
-                ]
-            }
-        },
-        {
-            slug: "system-optimization",
-            title: "Personal System Engineering",
-            category: "Human Systems",
-            description: "I treat my daily routine like infrastructure — optimize inputs, measure outputs, iterate. Sleep, nutrition, focus blocks, and discipline tracked over months. Engineering applied to life.",
-            tech: ["Framework", "Optimization", "Discipline"],
-            image: "/projects/system.jpg",
-            year: "Ongoing",
-            metrics: "90% Daily Consistency",
-            caseStudy: {
-                problem: "Without a system, motivation is unreliable. Some days you ship, some days you scroll. I needed something more reliable than 'feeling motivated'.",
-                solution: "Treated my routine as a software system: defined inputs (sleep, nutrition, information diet), measured outputs (focus time, code shipped, learning), and iterated weekly.",
-                challenges: [
-                    "Being honest about what actually works vs. what feels productive",
-                    "Not over-engineering the system to the point it becomes a distraction",
-                    "Maintaining consistency during exam stress and deadlines"
-                ],
-                outcomes: [
-                    "90% consistency rate in daily habits over 6 months",
-                    "Measurably improved deep work capacity",
-                    "Framework I still use and refine every week"
-                ]
-            }
-        }
+    avatar: "/profile.jpg",
+    resume: "/resume.pdf",
+    email: "ruchinaudichya100@gmail.com",
+    phone: "+91-90249-25829",
+    location: "Jaipur, Rajasthan, India",
+    socials: {
+      email: "ruchinaudichya100@gmail.com",
+      github: "https://github.com/Ruchin-Audichya",
+      linkedin: "https://www.linkedin.com/in/ruchinaudi/",
+      instagram: "https://www.instagram.com/ruchin_audichya/",
+      twitter: "https://x.com/itsRuchin"
+    },
+    contactLinks: {
+      email: "mailto:ruchinaudichya100@gmail.com?subject=Hiring%20Opportunity%20for%20Ruchin",
+      phone: "tel:+919024925829",
+      github: "https://github.com/Ruchin-Audichya",
+      linkedin: "https://www.linkedin.com/in/ruchinaudi/",
+      resume: "/resume.pdf"
+    }
+  },
+  recruiterSnapshot: {
+    roleFit: ["AI/ML Engineering Intern", "Backend Developer", "Cloud/Automation Engineer"],
+    strengths: [
+      "Builds ML-backed products with usable APIs and clear user flows",
+      "Comfortable across Python, Node.js, AWS, databases, and automation",
+      "Turns ambiguous problems into shipped prototypes and measurable outcomes"
+    ],
+    proofPoints: [
+      "Software Engineering Intern at SecretEye Pvt Ltd",
+      "250+ DSA problems solved and 20+ GitHub repositories",
+      "AWS, AWS AI, ServiceNow CSA, and ServiceNow CAD certified",
+      "Technical leadership through AWS Cloud Club JECRC"
     ]
+  },
+  skillGroups: [
+    {
+      category: "Programming Languages",
+      items: ["Python", "Java", "SQL", "JavaScript", "C++"]
+    },
+    {
+      category: "AI/ML",
+      items: ["PyTorch", "TensorFlow", "Hugging Face", "Scikit-learn", "LangChain", "CatBoost", "NLP"]
+    },
+    {
+      category: "Data & Search",
+      items: ["Pandas", "NumPy", "ETL Pipelines", "Data Processing", "Web Scraping", "Fuzzy Search", "RAG Workflows"]
+    },
+    {
+      category: "Backend",
+      items: ["Node.js", "Flask", "Express.js", "REST APIs", "MongoDB", "PostgreSQL"]
+    },
+    {
+      category: "Cloud & DevOps",
+      items: ["AWS", "EC2", "S3", "IAM", "Lambda", "Docker", "Terraform", "Git/GitHub"]
+    },
+    {
+      category: "Platforms",
+      items: ["ServiceNow", "Salesforce", "Telegram Bots", "WhatsApp-ready Architecture"]
+    }
+  ],
+  skills: [
+    {
+      category: "AI/ML & Search",
+      items: ["Python", "PyTorch", "TensorFlow", "Hugging Face", "LangChain", "CatBoost", "NLP", "Fuzzy Search", "RAG Workflows"]
+    },
+    {
+      category: "Backend & Data",
+      items: ["Node.js", "Flask", "Express.js", "REST APIs", "PostgreSQL", "MongoDB", "SQL", "ETL Pipelines"]
+    },
+    {
+      category: "Cloud & DevOps",
+      items: ["AWS", "EC2", "S3", "IAM", "Lambda", "Docker", "Terraform", "Git/GitHub", "CI/CD"]
+    },
+    {
+      category: "Frontend & Product",
+      items: ["React", "Next.js", "TypeScript", "TailwindCSS", "Three.js", "Framer Motion"]
+    },
+    {
+      category: "Enterprise Platforms",
+      items: ["ServiceNow", "Salesforce", "SOQL", "Apex", "Workflow Automation"]
+    },
+    {
+      category: "Core CS",
+      items: ["Data Structures", "Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks"]
+    }
+  ],
+  certifications: [
+    {
+      title: "AWS Certified AI Practitioner",
+      issuer: "Amazon Web Services",
+      year: "2026",
+      description: "Validates foundational knowledge of AI, generative AI, responsible AI, and AWS AI services."
+    },
+    {
+      title: "AWS Certified Cloud Practitioner",
+      issuer: "Amazon Web Services",
+      year: "2025",
+      description: "Validates AWS cloud concepts, core services, security, architecture, pricing, and support."
+    },
+    {
+      title: "ServiceNow Certified System Administrator (CSA)",
+      issuer: "ServiceNow",
+      year: "2026",
+      description: "Validates administration, configuration, platform navigation, user management, and workflow fundamentals."
+    },
+    {
+      title: "ServiceNow Certified Application Developer (CAD)",
+      issuer: "ServiceNow",
+      year: "2026",
+      description: "Validates ServiceNow application development, data models, scripting, UI, and automation patterns."
+    }
+  ],
+  experience: [
+    {
+      company: "Secret Eye Pvt Ltd",
+      role: "Software Engineering Intern",
+      period: "Nov 2025 - Mar 2026",
+      location: "Remote / India",
+      summary:
+        "Built ML-powered data and product workflows for social trend intelligence, marketing automation, and insight generation.",
+      star: {
+        situation:
+          "The team needed a scalable way to turn fast-moving public signals from platforms like YouTube, Google Trends, and social channels into useful marketing and product intelligence.",
+        task:
+          "Build reliable data pipelines, API layers, and an ML-powered platform that could ingest noisy data, process it, and present usable insights through a frontend.",
+        action:
+          "Worked across web scraping, ETL pipeline design, NLP/ML processing, Flask APIs, and React integration. Focused on relevance, repeatable data flow, and production-style handoff instead of one-off scripts.",
+        result:
+          "Delivered an end-to-end ML-backed insight workflow that improved analysis speed, made trend discovery more structured, and gave the team a clearer base for customer targeting and campaign decisions."
+      }
+    },
+    {
+      company: "AWS Cloud Club JECRC",
+      role: "Content Head & Technical Lead",
+      period: "Sep 2023 - Present",
+      location: "Jaipur, India",
+      summary:
+        "Led technical content, workshops, and cloud learning initiatives for students while building AWS automation examples.",
+      star: {
+        situation:
+          "Students needed approachable cloud learning paths that moved beyond theory and helped them understand real AWS services.",
+        task:
+          "Support events, create technical material, and help run hands-on sessions around AWS, Git, infrastructure, and automation.",
+        action:
+          "Prepared learning content, supported workshops, documented workflows, and built Python/Boto3 automation examples for AWS EC2, S3, and IAM labs.",
+        result:
+          "Helped technical programs reach 100+ students and made cloud concepts easier to practice through repeatable demos and documentation."
+      }
+    }
+  ],
+  projects: [
+    {
+      slug: "medifastrx",
+      title: "MediFastRx",
+      category: "AI/ML Healthcare Assistant",
+      description:
+        "India-first AI medicine assistant for Telegram with WhatsApp-ready architecture. Users can search medicines by brand, generic name, typos, or Hindi/Hinglish symptom phrases, compare cheaper alternatives, discover nearby pharmacies, raise SOS alerts, and get reorder hints from recent search history.",
+      tech: ["Python", "Telegram Bot", "Fuzzy Search", "RAG", "Medicine Dataset", "Location-ready APIs"],
+      image: "/projects/podcast.jpg",
+      year: "2026",
+      metrics: "Typo-tolerant medicine search",
+      caseStudy: {
+        problem:
+          "Medicine search in India is messy: users remember partial names, brand names, generic names, or symptom phrases like 'bukhar ki tablet'. Existing flows often ignore local language patterns, cheaper substitutes, nearby availability, and urgent medicine needs.",
+        solution:
+          "Built an AI medicine assistant around a structured medicine dataset, fuzzy matching, and RAG-style retrieval so users can search by typo, brand, generic name, or Hindi/Hinglish symptom intent. The Telegram-first interface keeps access simple while the architecture stays ready for WhatsApp.",
+        challenges: [
+          "Handling spelling mistakes, brand/generic ambiguity, and Hindi/Hinglish symptom-style queries",
+          "Designing retrieval that can return useful medicine matches and cheaper alternatives without overwhelming users",
+          "Keeping the pharmacy discovery, family medicine, SOS, and reorder-hint modules modular for future rollout"
+        ],
+        outcomes: [
+          "Created an India-first medicine discovery flow for Telegram",
+          "Added cheaper alternative discovery and nearby pharmacy direction as core product value",
+          "Designed the system for WhatsApp expansion, family medicine use cases, SOS requests, and reorder reminders"
+        ]
+      }
+    },
+    {
+      slug: "placify-ai",
+      title: "Placify AI",
+      category: "AI Placement Platform",
+      description:
+        "A placement intelligence platform that processes 5000+ placement records, predicts placement outcomes, parses resumes, and gives students and coordinators analytics they can actually act on.",
+      tech: ["React", "Node.js", "PostgreSQL", "AWS", "CatBoost", "Resume Parsing"],
+      image: "/projects/cloud.jpg",
+      year: "2026",
+      metrics: "87-91% prediction accuracy",
+      caseStudy: {
+        problem:
+          "Placement data is often scattered across sheets, resumes, department records, and manual coordinator updates, making it hard to track readiness or spot useful patterns.",
+        solution:
+          "Built a scalable placement platform with backend APIs, ETL pipelines, a CatBoost prediction model, resume parsing, and analytics dashboards for placement teams.",
+        challenges: [
+          "Cleaning and normalizing 5000+ placement records",
+          "Designing APIs and data flows that reduce manual coordinator work",
+          "Making ML predictions understandable enough to support decisions"
+        ],
+        outcomes: [
+          "Reduced manual placement data handling by about 70%",
+          "Built prediction workflows with 87-91% accuracy",
+          "Created a stronger base for student analytics and placement readiness tracking"
+        ]
+      }
+    },
+    {
+      slug: "portfolio-v1",
+      title: "This Portfolio",
+      category: "Interactive Web Engineering",
+      description:
+        "A Three.js black hole and kinetic Next.js portfolio that proves I can build visual systems, performance-sensitive UI, and recruiter-readable case studies in one product.",
+      tech: ["Next.js", "Three.js", "GLSL", "Framer Motion"],
+      image: "/projects/portfolio.jpg",
+      year: "2025",
+      metrics: "95+ Lighthouse Score",
+      caseStudy: {
+        problem:
+          "Most developer portfolios are templates or generic pages. I wanted the first impression to prove engineering taste, visual craft, and performance awareness before a recruiter even opens a project.",
+        solution:
+          "Built a multi-pass Three.js rendering pipeline with a black-hole visual system, scroll-linked motion, responsive sections, and structured case-study pages.",
+        challenges: [
+          "Balancing WebGL visual complexity with mobile performance",
+          "Making the cinematic first screen still useful for hiring conversion",
+          "Keeping content, SEO, and accessibility from getting buried under animation"
+        ],
+        outcomes: [
+          "Created a memorable portfolio with real technical depth",
+          "Kept performance and responsive behavior as first-class constraints",
+          "Turned the site itself into a proof-of-work project"
+        ]
+      }
+    },
+    {
+      slug: "cloud-mini-projects",
+      title: "AWS Cloud Infrastructure",
+      category: "Cloud Infrastructure",
+      description:
+        "Hands-on AWS deployments across S3, EC2, IAM, Lambda, and automation. The focus was learning how secure cloud systems behave when they are configured, broken, debugged, and improved.",
+      tech: ["AWS", "Terraform", "IAM", "Lambda", "Docker"],
+      image: "/projects/cloud.jpg",
+      year: "2025",
+      metrics: "2x AWS Certified",
+      caseStudy: {
+        problem:
+          "Cloud tutorials often hide the hard parts: IAM access, networking, cost control, and repeatable setup. I wanted hands-on understanding that could transfer into real engineering work.",
+        solution:
+          "Built progressively more realistic AWS workflows including static hosting, serverless APIs, IAM policies, EC2 setup, and repeatable infrastructure patterns.",
+        challenges: [
+          "Debugging IAM and networking issues when services could not talk to each other",
+          "Keeping cloud experiments cost-aware",
+          "Turning one-off labs into repeatable learning assets"
+        ],
+        outcomes: [
+          "Earned AWS Cloud Practitioner and AWS AI Practitioner certifications",
+          "Built confidence provisioning and debugging core AWS services",
+          "Applied the learning in AWS Cloud Club workshops and demos"
+        ]
+      }
+    },
+    {
+      slug: "n8n-automations",
+      title: "n8n Workflow Automations",
+      category: "Automation",
+      description:
+        "Self-hosted workflow automation for recurring tasks, alerts, and system glue. Built to reduce manual work and make repetitive operations run quietly in the background.",
+      tech: ["n8n", "Webhooks", "APIs", "Self-Hosted"],
+      image: "/projects/n8n.jpg",
+      year: "2025",
+      metrics: "10+ hours saved/week",
+      caseStudy: {
+        problem:
+          "Small repetitive tasks like logging, checking alerts, and moving data between tools were eating focus without creating real progress.",
+        solution:
+          "Self-hosted n8n and built modular workflows with webhooks, API integrations, and Telegram-style alerts for practical day-to-day automation.",
+        challenges: [
+          "Managing API auth, rate limits, and failure cases",
+          "Avoiding silent workflow failures",
+          "Keeping workflows simple enough to extend later"
+        ],
+        outcomes: [
+          "Reduced repeated manual work by 10+ hours per week",
+          "Built a reusable automation mindset for future systems",
+          "Improved personal and technical operations with low-maintenance workflows"
+        ]
+      }
+    },
+    {
+      slug: "linux-productivity",
+      title: "Linux Dev Environment",
+      category: "System Engineering",
+      description:
+        "A reproducible Linux development setup with keyboard-driven workflow, scripts, dotfiles, and system tuning built from a hardware-first curiosity.",
+      tech: ["Linux", "Bash", "GNOME", "Dotfiles"],
+      image: "/projects/linux.jpg",
+      year: "2024",
+      metrics: "30 min setup time",
+      caseStudy: {
+        problem:
+          "A fresh development machine can waste hours on repetitive setup, missing tools, inconsistent shortcuts, and environment drift.",
+        solution:
+          "Created a Linux workflow with shell scripts, GNOME customization, tiling extensions, and reusable dotfiles to get productive quickly after a fresh install.",
+        challenges: [
+          "Keeping configuration portable across Linux versions",
+          "Balancing aesthetics with actual productivity",
+          "Avoiding over-customization that makes the system fragile"
+        ],
+        outcomes: [
+          "Reduced fresh setup time to under 30 minutes",
+          "Built a faster keyboard-driven workflow",
+          "Turned personal system tuning into reusable engineering practice"
+        ]
+      }
+    }
+  ]
 };

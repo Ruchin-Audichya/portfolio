@@ -1,13 +1,6 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-});
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
   openAnalyzer: false,
@@ -16,7 +9,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  transpilePackages: ["troika-three-text", "three-stdlib", "@react-three/drei", "@react-three/fiber"],
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -72,4 +64,4 @@ const nextConfig = {
   },
 };
 
-export default withBundleAnalyzer(withPWA(nextConfig));
+export default withBundleAnalyzer(nextConfig);

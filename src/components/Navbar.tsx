@@ -6,7 +6,9 @@ import { Logo } from "@/components/Logo";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
+    { href: "#hire", label: "Hire" },
     { href: "#about", label: "About" },
+    { href: "#experience", label: "Experience" },
     { href: "#projects", label: "Work" },
     { href: "#skills", label: "Skills" },
     { href: "#contact", label: "Contact" },

@@ -17,6 +17,12 @@ const KineticAbout = dynamic(() =>
 const Skills = dynamic(() =>
   import("@/components/sections/Skills").then((mod) => mod.Skills)
 );
+const RecruiterSnapshot = dynamic(() =>
+  import("@/components/sections/RecruiterSnapshot").then((mod) => mod.RecruiterSnapshot)
+);
+const Experience = dynamic(() =>
+  import("@/components/sections/Experience").then((mod) => mod.Experience)
+);
 const KineticProjects = dynamic(() =>
   import("@/components/sections/KineticProjects").then((mod) => mod.KineticProjects)
 );
@@ -77,6 +83,14 @@ export default function Home() {
         {/* Origin / About - Floating fragments, staggered reveals */}
         <LazySection>
           <KineticAbout />
+        </LazySection>
+
+        <LazySection>
+          <RecruiterSnapshot />
+        </LazySection>
+
+        <LazySection>
+          <Experience />
         </LazySection>
 
         <LazySection>

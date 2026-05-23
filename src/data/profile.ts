@@ -1,21 +1,29 @@
 export const profile = {
   name: "Ruchin Audichya",
-  role: "Cloud/DevOps (AWS) • Full-Stack (Next.js) • Salesforce (Apex)",
-  bio: "PC & systems enthusiast → Cloud/DevOps (AWS), Full-Stack (Next.js), Salesforce (Apex). Built with a performance-first, proof-of-work mindset.",
-  longBio: "I’m a PC/hardware and systems enthusiast who loves turning curiosity into reliable builds — from tuning Linux setups to shipping cloud-native apps. My focus areas are AWS cloud/DevOps fundamentals, full-stack development with Next.js/TypeScript, and Salesforce automation (Apex). I care about performance, clean UX, and measurable outcomes.",
+  role: "AI/ML Engineer • Cloud • Backend",
+  bio: "AI/ML, backend, and AWS cloud builder focused on practical systems: medicine search, placement intelligence, automation, and production-minded APIs.",
+  longBio: "I build AI-powered systems, backend APIs, and cloud automation that turn messy workflows into useful products. My strongest work combines Python, ML/search, Node.js, AWS, and thoughtful user flows.",
   location: "Jaipur, Rajasthan, India",
-  email: "hello@ruchinaudichya.in",
+  email: "ruchinaudichya100@gmail.com",
+  phone: "+91-90249-25829",
   socials: {
     linkedin: "https://www.linkedin.com/in/ruchinaudi/",
     github: "https://github.com/Ruchin-Audichya",
     twitter: "https://x.com/itsRuchin",
     buymeacoffee: "https://buymeacoffee.com/ruchinaudik",
   },
+  contactLinks: {
+    email: "mailto:ruchinaudichya100@gmail.com?subject=Hiring%20Opportunity%20for%20Ruchin",
+    phone: "tel:+919024925829",
+    github: "https://github.com/Ruchin-Audichya",
+    linkedin: "https://www.linkedin.com/in/ruchinaudi/",
+    resume: "/resume.pdf",
+  },
   badges: [
-    "2x AWS Certified",
-    "1x Salesforce Certified",
-    "Social/Content Head – AWS Cloud Club JECRC",
-    "Real-World Tech Doer"
+    "AWS AI Certified",
+    "AWS Cloud Certified",
+    "ServiceNow CSA + CAD",
+    "Software Engineering Intern"
   ],
   education: {
     university: "JECRC University",

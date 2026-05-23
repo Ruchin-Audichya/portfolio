@@ -11,13 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const SmoothScroll = dynamic(() => import("@/components/SmoothScroll").then((mod) => mod.SmoothScroll), {
   ssr: false,
 });
-const SoundManager = dynamic(() => import("@/components/SoundManager").then((mod) => mod.SoundManager), {
-  ssr: false,
-});
 const ScrollProgress = dynamic(() => import("@/components/ui/ScrollProgress").then((mod) => mod.ScrollProgress), {
-  ssr: false,
-});
-const CustomCursor = dynamic(() => import("@/components/CustomCursor").then((mod) => mod.CustomCursor), {
   ssr: false,
 });
 
@@ -114,16 +108,13 @@ export default function RootLayout({
       </head>
       <body className="antialiased selection:bg-accent selection:text-white">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} storageKey="theme" themes={["light", "dark"]}>
-          <SoundManager>
-            <ScrollProgress />
-            <CustomCursor />
-            <SkipNav />
-            <SmoothScroll>
-              <main id="main-content">{children}</main>
-            </SmoothScroll>
-            <Analytics />
-            <SpeedInsights />
-          </SoundManager>
+          <ScrollProgress />
+          <SkipNav />
+          <SmoothScroll>
+            <main id="main-content">{children}</main>
+          </SmoothScroll>
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

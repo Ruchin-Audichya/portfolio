@@ -1,17 +1,15 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { Send, Coffee, Linkedin, Github, Mail, MapPin, ArrowRight } from "lucide-react"
+import { motion, useMotionValue, useSpring } from "framer-motion"
+import { Download, Linkedin, Github, Mail, MapPin, ArrowRight, Phone } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { profile } from "@/data/profile"
 import confetti from "canvas-confetti"
-import { useSound } from "@/components/SoundManager"
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -95,10 +93,7 @@ export function Contact() {
     },
   })
 
-  const { playSuccess, playClick } = useSound();
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    playClick();
     setIsSubmitting(true);
     
     try {
@@ -111,7 +106,6 @@ export function Contact() {
       if (res.ok) {
         setIsSubmitting(false);
         setIsSuccess(true);
-        playSuccess();
 
         // Confetti Explosion
         const end = Date.now() + 1000;
@@ -182,7 +176,7 @@ export function Contact() {
               Get in Touch
             </h2>
             <p className="text-xl text-white/50 max-w-2xl mx-auto">
-              Have a project in mind or just want to say hi? I&apos;d love to hear from you.
+              Hiring for AI/ML, backend, cloud, or automation work? Send the context and I&apos;ll respond with next steps.
             </p>
           </div>
 
@@ -197,7 +191,7 @@ export function Contact() {
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl opacity-50" />
               
               <div className="relative p-8 rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 backdrop-blur-xl">
-                <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+                <h3 className="text-2xl font-bold text-white mb-6">Start a Hiring Conversation</h3>
                 
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                   <MagneticInput>
@@ -304,6 +298,18 @@ export function Contact() {
                       <p className="text-white/60">{profile.location}</p>
                     </div>
                   </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                      <Phone className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white mb-1">Phone</h4>
+                      <a href={profile.contactLinks.phone} className="text-white/60 hover:text-emerald-300 transition-colors">
+                        {profile.phone}
+                      </a>
+                    </div>
+                  </div>
                   
                   <div className="pt-4 border-t border-white/10">
                     <h4 className="font-semibold text-white mb-3">Socials</h4>
@@ -333,36 +339,35 @@ export function Contact() {
                 </div>
               </div>
 
-              {/* Buy Me Coffee Card - Enhanced */}
+              {/* Recruiter action card */}
               <motion.div
                 className="relative p-8 rounded-3xl overflow-hidden group"
                 whileHover={{ scale: 1.02 }}
               >
-                {/* Animated gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FFDD00]/30 via-[#FF6B00]/20 to-[#FFDD00]/10" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#FFDD00]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-emerald-500/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="relative">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 bg-[#FFDD00] rounded-xl text-black shadow-lg shadow-[#FFDD00]/30">
-                      <Coffee className="w-5 h-5" />
+                    <div className="p-3 bg-cyan-400 rounded-xl text-black shadow-lg shadow-cyan-400/30">
+                      <Download className="w-5 h-5" />
                     </div>
-                    <h4 className="text-xl font-bold text-white">Buy me a coffee</h4>
+                    <h4 className="text-xl font-bold text-white">Resume + Proof</h4>
                   </div>
                   
                   <p className="text-white/60 mb-6">
-                    Fuel my creativity! If you found my work helpful, consider supporting me.
+                    Download the latest resume, then jump into projects to see how the skills translate into working systems.
                   </p>
                   
                   <motion.a
-                    href={profile.socials.buymeacoffee}
+                    href="/resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFDD00] text-black font-bold rounded-xl shadow-lg shadow-[#FFDD00]/25 hover:shadow-xl hover:shadow-[#FFDD00]/30 transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-400 text-black font-bold rounded-xl shadow-lg shadow-cyan-400/25 hover:shadow-xl hover:shadow-cyan-400/30 transition-all"
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Support My Work
+                    Download Resume
                     <ArrowRight className="w-4 h-4" />
                   </motion.a>
                 </div>

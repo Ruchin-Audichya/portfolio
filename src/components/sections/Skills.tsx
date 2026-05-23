@@ -5,21 +5,21 @@ import { motion, AnimatePresence } from "framer-motion"
 import { content } from "@/lib/content"
 
 const categoryColors: Record<string, string> = {
-  "Cloud & AWS": "from-orange-500 to-amber-500",
-  "Frontend & Motion": "from-purple-500 to-pink-500",
+  "AI/ML & Search": "from-purple-500 to-pink-500",
   "Backend & Data": "from-cyan-500 to-blue-500",
-  "Salesforce": "from-blue-400 to-indigo-500",
-  "DevOps & Tools": "from-emerald-500 to-teal-500",
-  "AI & Automation": "from-pink-500 to-rose-500",
+  "Cloud & DevOps": "from-orange-500 to-amber-500",
+  "Frontend & Product": "from-fuchsia-500 to-violet-500",
+  "Enterprise Platforms": "from-blue-400 to-indigo-500",
+  "Core CS": "from-emerald-500 to-teal-500",
 }
 
 const categoryIcons: Record<string, string> = {
-  "Cloud & AWS": "☁️",
-  "Frontend & Motion": "⚡",
-  "Backend & Data": "🗄️",
-  "Salesforce": "💼",
-  "DevOps & Tools": "🔧",
-  "AI & Automation": "🤖",
+  "AI/ML & Search": "AI",
+  "Backend & Data": "API",
+  "Cloud & DevOps": "AWS",
+  "Frontend & Product": "UI",
+  "Enterprise Platforms": "SN",
+  "Core CS": "CS",
 }
 
 export function Skills() {
@@ -92,7 +92,9 @@ export function Skills() {
 
                   {/* Header */}
                   <div className="relative flex items-center gap-3 mb-4">
-                    <span className="text-2xl">{icon}</span>
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] font-mono text-xs font-black text-white/70">
+                      {icon}
+                    </span>
                     <h3
                       className={`text-lg font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
                     >
@@ -155,11 +157,11 @@ export function Skills() {
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          {[
-            { value: "2x", label: "AWS Certified", color: "text-orange-400" },
-            { value: "1x", label: "Salesforce Certified", color: "text-blue-400" },
-            { value: "6+", label: "Projects Shipped", color: "text-purple-400" },
-            { value: "24/7", label: "Building Mode", color: "text-pink-400" },
+          {[    
+            { value: "4x", label: "Core Certifications", color: "text-orange-400" },
+            { value: "250+", label: "DSA Problems", color: "text-blue-400" },
+            { value: "20+", label: "GitHub Repos", color: "text-purple-400" },
+            { value: "100+", label: "Students Reached", color: "text-pink-400" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}

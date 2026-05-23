@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
-import { projects } from "@/data/projects";
+import { ArrowRight } from "lucide-react";
+import { content } from "@/lib/content";
 
 // Kinetic text reveal for project titles
 function KineticTitle({ children, delay = 0 }: { children: string; delay?: number }) {
@@ -37,7 +37,7 @@ function ProjectCard({
   project,
   index,
 }: {
-  project: typeof projects[0];
+  project: typeof content.projects[0];
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,7 @@ function ProjectCard({
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {project.tags.map((tag) => (
+          {project.tech.map((tag) => (
             <span
               key={tag}
               className="px-3 py-1 text-xs font-mono uppercase tracking-wider text-white/50 border border-white/10 rounded-full"
@@ -110,6 +110,16 @@ function ProjectCard({
           {project.description}
         </motion.p>
 
+        <motion.div
+          className={`mb-8 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-cyan-200 ${isEven ? "" : "md:ml-auto"}`}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+        >
+          {project.metrics}
+        </motion.div>
+
         {/* Links */}
         <motion.div
           className={`flex gap-4 ${isEven ? "" : "md:justify-end"}`}
@@ -118,30 +128,15 @@ function ProjectCard({
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          {project.github && (
-            <Link
-              href={project.github}
-              target="_blank"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              <span className="border-b border-transparent group-hover:border-white/50 transition-colors">
-                Source
-              </span>
-            </Link>
-          )}
-          {project.link && (
-            <Link
-              href={project.link}
-              target="_blank"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span className="border-b border-transparent group-hover:border-purple-400/50 transition-colors">
-                Live Demo
-              </span>
-            </Link>
-          )}
+          <Link
+            href={`/projects/${project.slug}`}
+            className="group inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-cyan-300 hover:text-cyan-200 transition-colors"
+          >
+            <span className="border-b border-transparent group-hover:border-cyan-300/60 transition-colors">
+              Read case study
+            </span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
       </div>
 
@@ -164,6 +159,7 @@ function ProjectCard({
 
 export function KineticProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const projects = content.projects;
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],

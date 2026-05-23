@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { getResend } from "@/lib/resend";
 
 export async function POST(req: Request) {
     try {
@@ -12,9 +10,9 @@ export async function POST(req: Request) {
         console.log("Guestbook Submission:", { name, role, message });
 
         // Email Notification Logic
-        await resend.emails.send({
+        await getResend().emails.send({
             from: 'Guestbook <onboarding@resend.dev>',
-            to: 'ruchinaudichya09@gmail.com',
+            to: 'ruchinaudichya100@gmail.com',
             subject: `New Guestbook Entry from ${name}`,
             html: `
                 <h1>New Guestbook Message</h1>
