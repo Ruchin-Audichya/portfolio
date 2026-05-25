@@ -8,5 +8,6 @@ export default function robots(): MetadataRoute.Robots {
             disallow: ['/api/', '/private/'],
         },
         sitemap: 'https://ruchinaudichya.in/sitemap.xml',
+        host: 'https://ruchinaudichya.in',
     }
 }

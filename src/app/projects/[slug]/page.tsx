@@ -5,6 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Magnetic from "@/components/Magnetic";
 
+const siteUrl = "https://ruchinaudichya.in";
+
 export async function generateStaticParams() {
     return content.projects.map((project) => ({
         slug: project.slug,
@@ -16,8 +18,40 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     if (!project) return { title: "Project Not Found" };
 
     return {
-        title: `${project.title} | Ruchin Audichya`,
+        title: `${project.title} - ${project.category}`,
         description: project.description,
+        alternates: {
+            canonical: `${siteUrl}/projects/${project.slug}`,
+        },
+        keywords: [
+            project.title,
+            project.category,
+            "Ruchin Audichya",
+            "AI ML Engineer",
+            ...project.tech,
+        ],
+        openGraph: {
+            type: "article",
+            url: `${siteUrl}/projects/${project.slug}`,
+            title: `${project.title} - ${project.category}`,
+            description: project.description,
+            siteName: "Ruchin Audichya Portfolio",
+            images: [
+                {
+                    url: `${siteUrl}/readme-hero.png`,
+                    width: 1200,
+                    height: 630,
+                    alt: `${project.title} case study by Ruchin Audichya`,
+                    type: "image/png",
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${project.title} - ${project.category}`,
+            description: project.description,
+            images: [`${siteUrl}/readme-hero.png`],
+        },
     };
 }
 
