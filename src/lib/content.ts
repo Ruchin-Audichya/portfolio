@@ -153,7 +153,7 @@ export const content = {
       description:
         "Foundational knowledge of AI, generative AI, responsible AI, and the core AWS AI services.",
       credentialUrl: "https://www.credly.com/badges/20ba1db5-c6e1-4f12-9400-8546b7102d5f/public_url",
-      image: "/certificates/aws-ai-practitioner.png",
+      image: "/certificates/aws-ai-practitioner-badge.png",
       brand: "aws" as const
     },
     {
@@ -163,7 +163,7 @@ export const content = {
       description:
         "AWS cloud concepts, core services, security, architecture, pricing, and support fundamentals.",
       credentialUrl: "https://www.credly.com/badges/daee29ab-3939-4d21-8ea5-86e3dbfda8b1/public_url",
-      image: "/certificates/aws-cloud-practitioner.png",
+      image: "/certificates/aws-cloud-practitioner-badge.png",
       brand: "aws" as const
     },
     {
@@ -173,7 +173,7 @@ export const content = {
       description:
         "Platform administration, configuration, user management, and workflow fundamentals on ServiceNow.",
       credentialUrl: "https://www.credly.com/badges/01176bad-90e8-42ea-9813-00f869263665/public_url",
-      image: "/certificates/servicenow-csa.png",
+      image: "/certificates/servicenow-csa-badge.png",
       brand: "servicenow" as const
     },
     {
@@ -183,7 +183,7 @@ export const content = {
       description:
         "Application development, data modeling, scripting, UI, and automation patterns on ServiceNow.",
       credentialUrl: null,
-      image: "/certificates/servicenow-cad.png",
+      image: null,
       brand: "servicenow" as const
     }
   ],

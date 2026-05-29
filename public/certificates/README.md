@@ -1,15 +1,26 @@
-# Certificate images
+# Certificate badges
 
-Drop your certificate screenshots here with these exact filenames so the
-"Credentials" section on the homepage picks them up automatically.
+The Credentials section on the homepage uses Credly badge images (the small
+hexagonal mark issued by AWS / ServiceNow) — they read better than full
+certificate documents on a portfolio.
 
-- `aws-ai-practitioner.png` — AWS Certified AI Practitioner
-- `aws-cloud-practitioner.png` — AWS Certified Cloud Practitioner
-- `servicenow-csa.png` — ServiceNow Certified System Administrator (CSA)
-- `servicenow-cad.png` — ServiceNow Certified Application Developer (CAD)
+Drop the badge PNGs here with these exact filenames:
 
-Recommended size: roughly 1600×1000 (16:10), JPG or PNG. Anything larger is
-fine — the cards crop to a 16:10 frame and use object-cover.
+- `aws-ai-practitioner-badge.png`
+- `aws-cloud-practitioner-badge.png`
+- `servicenow-csa-badge.png`
+- `servicenow-cad-badge.png` (when available)
 
-If a file is missing, the card hides the image gracefully and still renders
-the title, issuer, and Verify button.
+Square aspect ratio is ideal. Anything larger than 256×256 is fine — the
+cards render at ~280px and use object-contain.
+
+If a badge file is missing the card falls back to a clean text mark in the
+brand color, so things still look intentional.
+
+## Optional: full certificate documents
+
+You can also keep the full PDF / PNG of each certificate in this folder for
+your own records (they are not rendered on the site). Examples:
+
+- `aws-cloud-practitioner-cert.png`
+- `servicenow-csa.pdf`
