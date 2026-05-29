@@ -142,14 +142,14 @@ function BadgeMedallion({ cert, index }: { cert: Cert; index: number }) {
           {/* Badge image */}
           {cert.image ? (
             <motion.div
-              className="relative h-[55%] w-[55%]"
+              className="relative h-[78%] w-[78%]"
               initial={false}
               animate={
                 reduceMotion
-                  ? { scale: 1, y: 0 }
+                  ? { scale: 1.25, y: 0 }
                   : hovered
-                  ? { scale: 1.06, y: -4 }
-                  : { scale: 1, y: 0 }
+                  ? { scale: 1.32, y: -4 }
+                  : { scale: 1.25, y: 0 }
               }
               transition={{ type: "spring", stiffness: 220, damping: 18 }}
             >
@@ -157,7 +157,7 @@ function BadgeMedallion({ cert, index }: { cert: Cert; index: number }) {
                 src={cert.image}
                 alt={`${cert.title} badge`}
                 fill
-                sizes="(max-width: 768px) 60vw, 280px"
+                sizes="(max-width: 768px) 70vw, 320px"
                 className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.55)]"
                 onError={(e) => {
                   // Fail gracefully if the file isn't there yet.

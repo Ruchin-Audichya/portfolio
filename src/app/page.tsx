@@ -20,6 +20,9 @@ const Skills = dynamic(() =>
 const RecruiterSnapshot = dynamic(() =>
   import("@/components/sections/RecruiterSnapshot").then((mod) => mod.RecruiterSnapshot)
 );
+const KeyAchievements = dynamic(() =>
+  import("@/components/sections/KeyAchievements").then((mod) => mod.KeyAchievements)
+);
 const Experience = dynamic(() =>
   import("@/components/sections/Experience").then((mod) => mod.Experience)
 );
@@ -63,6 +66,10 @@ export default function Home() {
 
         <LazySection>
           <RecruiterSnapshot />
+        </LazySection>
+
+        <LazySection>
+          <KeyAchievements />
         </LazySection>
 
         <LazySection>
