@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { motion, useMotionValue, useSpring } from "framer-motion"
-import { Download, Linkedin, Github, Mail, MapPin, ArrowRight, Phone } from "lucide-react"
+import { Download, Linkedin, Github, Mail, MapPin, ArrowRight, Phone, Twitter, Instagram } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -313,11 +313,12 @@ export function Contact() {
                   
                   <div className="pt-4 border-t border-white/10">
                     <h4 className="font-semibold text-white mb-3">Socials</h4>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-3">
                       <motion.a
                         href={profile.socials.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="LinkedIn"
                         className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-[#0077b5] hover:border-[#0077b5]/50 hover:bg-[#0077b5]/10 transition-all"
                         whileHover={{ scale: 1.1, y: -2 }}
                         whileTap={{ scale: 0.95 }}
@@ -328,11 +329,34 @@ export function Contact() {
                         href={profile.socials.github}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label="GitHub"
                         className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all"
                         whileHover={{ scale: 1.1, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                       >
                         <Github className="w-5 h-5" />
+                      </motion.a>
+                      <motion.a
+                        href={profile.socials.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="X / Twitter"
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white hover:border-white/30 hover:bg-white/10 transition-all"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Twitter className="w-5 h-5" />
+                      </motion.a>
+                      <motion.a
+                        href={profile.socials.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-[#e1306c] hover:border-[#e1306c]/50 hover:bg-[#e1306c]/10 transition-all"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Instagram className="w-5 h-5" />
                       </motion.a>
                     </div>
                   </div>

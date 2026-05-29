@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { LazySection } from "@/components/LazySection";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const BlackHoleScene = dynamic(() => import("@/components/BlackHoleScene"), {
   ssr: false,
@@ -105,9 +106,7 @@ export default function Home() {
           </ScrollReveal>
         </LazySection>
 
-        <footer className="py-8 text-center text-sm text-white/50 border-t border-white/10">
-          <p>© {new Date().getFullYear()} Ruchin Audichya. Engineered with precision.</p>
-        </footer>
+        <Footer />
       </div>
     </main>
   );
