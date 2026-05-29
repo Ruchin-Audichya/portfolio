@@ -7,12 +7,14 @@ export const content = {
       "I build ML systems, knowledge-graph pipelines, and applied AI products that ship. Currently obsessed with retrieval that actually works.",
     mission:
       "I build retrieval-heavy AI systems, backend APIs, and cloud automation that turn messy real-world data into reliable products.",
-    bio_title: "Hire me to build AI systems that survive production.",
+    bio_title: "From broken PCs to production AI.",
     bio: [
-      "I'm a Computer Science undergraduate at JECRC University focused on ML systems, RAG pipelines, and knowledge-graph engineering. My strongest work sits where retrieval, data modeling, and product UX meet.",
-      "MediFast AI is the clearest example: a RAG-powered medicine intelligence platform built over a 169K-record knowledge graph with 1.3M+ relationship edges. It boosted semantic search accuracy from 29.7% to 47.7% and qualified for the Cognizant Technoverse 2026 Grand Finale, ranking Top-24 nationwide out of 2,000+ teams.",
-      "Placify AI added another layer: an end-to-end CatBoost classification pipeline on 5,000+ student records, hitting 84.7% accuracy and 94.5% ROC-AUC, with PostgreSQL ETL, React dashboards, and a FastAPI resume-parsing microservice on top.",
-      "I'm AWS Certified Cloud + AI Practitioner, ServiceNow CSA + CAD, and lead the AWS Cloud Club at JECRC, where I've helped run cloud architecture and Git workshops for 1,000+ students."
+      "Hey — I'm Ruchin. Short version: I build retrieval-heavy AI systems that ship. Longer version starts with a PC fan I shouldn't have ignored.",
+      "Around 2017 I cracked open my first rig because the fan was loud and I wanted to know why. That turned into a few years of overclocking things I shouldn't have, breaking them, fixing them, and eventually building custom PCs for friends and clients around me. Gaming taught me to care about frame budgets. Linux taught me that systems behave like systems whether they're made of silicon or software.",
+      "By the time college started, the curiosity had moved up the stack — hardware to operating systems to code to data to ML. I leaned into the parts of computer science that kept the same hands-on feeling: what's actually happening here, why is it slow, can I make it faster.",
+      "The work I'm proudest of lives at that intersection. MediFast AI is a RAG system over a 169K-record medicine knowledge graph with 1.3M+ edges, built to handle Indian-language symptom queries and typos most search ignores — it lifted match rate by 18 percentage points and made the Cognizant Technoverse 2026 Grand Finale, Top 24 out of 2,000+ teams nationwide. Placify AI came from wanting to clean up messy placement data closer to home, and turned into a CatBoost classifier at 84.7% accuracy with a FastAPI resume parser sitting in front of it.",
+      "Outside the code, I lead the AWS Cloud Club at JECRC and have helped run cloud and Git workshops for 1,000+ students. AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD all picked up along the way.",
+      "Same curiosity that started with that noisy fan, just running on different silicon now. If that's the kind of energy you want on your team, my inbox is open."
     ],
     avatar: "/profile.jpg",
     resume: "/resume.pdf",

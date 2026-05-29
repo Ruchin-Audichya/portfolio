@@ -73,10 +73,10 @@ export function KineticAbout() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 md:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.6fr] gap-10 md:gap-14 items-start">
           {/* Avatar / portrait */}
           <motion.div
-            className="relative aspect-[4/5] w-full max-w-sm mx-auto lg:mx-0"
+            className="relative aspect-[4/5] w-full max-w-sm mx-auto lg:mx-0 lg:sticky lg:top-28"
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -109,6 +109,19 @@ export function KineticAbout() {
 
           {/* Story */}
           <div className="space-y-7">
+            <motion.div
+              className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 animate-pulse" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/60">
+                Curious since 2017
+              </span>
+            </motion.div>
+
             <motion.h2
               className="text-3xl md:text-5xl font-black tracking-tight text-white leading-[1.05]"
               initial={{ opacity: 0, y: 20 }}
@@ -123,8 +136,8 @@ export function KineticAbout() {
               {content.profile.bio.map((line, i) => (
                 <FadeLine
                   key={i}
-                  delay={0.1 + i * 0.08}
-                  className="text-base md:text-lg leading-relaxed text-white/65"
+                  delay={0.1 + i * 0.07}
+                  className="text-base md:text-[17px] leading-[1.75] text-white/70"
                 >
                   {line}
                 </FadeLine>
