@@ -30,7 +30,7 @@ export function RecruiterSnapshot() {
               </span>
             </div>
             <h2 className="max-w-3xl text-4xl font-black tracking-tight text-white md:text-6xl">
-              The short version: I ship retrieval-heavy AI with backend and cloud discipline.
+              The 30-second version, if you&apos;re skimming.
             </h2>
           </div>
 
@@ -51,7 +51,7 @@ export function RecruiterSnapshot() {
             transition={{ duration: 0.5 }}
           >
             <BriefcaseBusiness className="mb-5 h-7 w-7 text-cyan-300" />
-            <h3 className="mb-4 text-xl font-bold text-white">Role Fit</h3>
+            <h3 className="mb-4 text-xl font-bold text-white">Where I fit</h3>
             <div className="flex flex-wrap gap-2">
               {recruiterSnapshot.roleFit.map((role) => (
                 <span key={role} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-white/70">
@@ -88,7 +88,7 @@ export function RecruiterSnapshot() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.12 }}
           >
-            <h3 className="mb-4 text-xl font-bold text-white">What I bring</h3>
+            <h3 className="mb-4 text-xl font-bold text-white">How I work</h3>
             <div className="grid gap-3">
               {recruiterSnapshot.strengths.map((strength) => (
                 <p key={strength} className="border-l border-cyan-400/50 pl-4 text-white/65">

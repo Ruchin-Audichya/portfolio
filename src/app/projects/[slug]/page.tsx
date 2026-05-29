@@ -1,6 +1,6 @@
 import { content } from "@/lib/content";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb, Github } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { generateBreadcrumb, generateSoftwareSchema, SITE_URL } from "@/lib/seo";
@@ -123,6 +123,20 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
                         {project.description}
                     </p>
+
+                    {project.github && (
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-white/85 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+                            >
+                                <Github className="h-4 w-4" />
+                                <span>View on GitHub</span>
+                            </a>
+                        </div>
+                    )}
                 </header>
 
                 <div className="grid gap-16 md:grid-cols-[2fr,1fr]">

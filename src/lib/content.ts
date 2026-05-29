@@ -43,16 +43,16 @@ export const content = {
     ]
   },
   recruiterSnapshot: {
-    roleFit: ["AI / ML Engineer", "Data Engineer", "Backend / Cloud Engineer"],
+    roleFit: ["AI / ML Engineer", "Data Engineer", "Backend / Cloud"],
     strengths: [
-      "Designs RAG and knowledge-graph pipelines that survive scale and noisy data",
-      "Builds end-to-end: ETL, ML modeling, APIs, dashboards, and deployment",
-      "Comfortable across Python, Node.js, AWS, MongoDB, PostgreSQL, ChromaDB, and LangChain"
+      "I design retrieval pipelines that hold up on real, messy data — not benchmark sets",
+      "I ship the whole thing, not just the model. ETL, APIs, dashboards, deployment, the works",
+      "I move fluently across the stack: Python, Node, AWS, MongoDB, PostgreSQL, ChromaDB, LangChain"
     ],
     proofPoints: [
       "MediFast AI — 169K-record knowledge graph, 1.3M+ edges, +18 pp search accuracy",
       "Placify AI — 84.7% accuracy and 94.5% ROC-AUC on 5K+ student records",
-      "Data/ML Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
+      "Data / ML Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
       "AWS Cloud + AWS AI + ServiceNow CSA + ServiceNow CAD certified"
     ]
   },
@@ -246,6 +246,7 @@ export const content = {
       image: "/projects/podcast.jpg",
       year: "2026",
       metrics: "Search match: 29.7% → 47.7%",
+      github: "https://github.com/Ruchin-Audichya/MediFastRX-Bot",
       caseStudy: {
         problem:
           "Medicine search in India is messy: users mix brand names, generic names, typos, and Hindi/Hinglish symptom phrases. Existing flows ignore local language, cheaper substitutes, and nearby availability — and they don't carry per-user health context (allergies, conditions, family history) into ranking.",
@@ -275,6 +276,7 @@ export const content = {
       image: "/projects/cloud.jpg",
       year: "2026",
       metrics: "84.7% accuracy • 94.5% ROC-AUC",
+      github: "https://github.com/shriya-gakkhar1/Minor-Project",
       caseStudy: {
         problem:
           "Placement data was scattered across spreadsheets, resumes, and manual coordinator updates. There was no clean way to track readiness, surface cohort KPIs, or give students personalized upskilling guidance.",
@@ -304,6 +306,7 @@ export const content = {
       image: "/projects/portfolio.jpg",
       year: "2025",
       metrics: "95+ Lighthouse",
+      github: "https://github.com/Ruchin-Audichya/portfolio",
       caseStudy: {
         problem:
           "Most developer portfolios are templates. I wanted the first impression to demonstrate engineering taste, performance awareness, and visual craft before a recruiter even opens a project page.",

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Github } from "lucide-react";
 import { content } from "@/lib/content";
 
 // Kinetic text reveal for project titles
@@ -122,7 +122,7 @@ function ProjectCard({
 
         {/* Links */}
         <motion.div
-          className={`flex gap-4 ${isEven ? "" : "md:justify-end"}`}
+          className={`flex flex-wrap gap-4 ${isEven ? "" : "md:justify-end"}`}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -137,6 +137,20 @@ function ProjectCard({
             </span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
+
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white/55 hover:text-white transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              <span className="border-b border-transparent group-hover:border-white/40 transition-colors">
+                View source
+              </span>
+            </a>
+          )}
         </motion.div>
       </div>
 
