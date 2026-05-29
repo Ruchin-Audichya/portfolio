@@ -3,8 +3,9 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { generateBreadcrumb, generateSoftwareSchema, SITE_URL } from "@/lib/seo";
 
-const siteUrl = "https://ruchinaudichya.in";
+const siteUrl = SITE_URL;
 
 export async function generateStaticParams() {
     return content.projects.map((project) => ({
@@ -61,8 +62,31 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         notFound();
     }
 
+    const breadcrumb = generateBreadcrumb([
+        { name: "Home", url: siteUrl },
+        { name: "Projects", url: `${siteUrl}/#projects` },
+        { name: project.title, url: `${siteUrl}/projects/${project.slug}` },
+    ]);
+
+    const softwareSchema = generateSoftwareSchema({
+        title: project.title,
+        description: project.description,
+        category: project.category,
+        tech: project.tech,
+        slug: project.slug,
+        year: project.year,
+    });
+
     return (
         <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+            />
             <ScrollReveal width="100%">
                 <Link
                     href="/#projects"

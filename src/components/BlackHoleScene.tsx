@@ -544,9 +544,9 @@ export default function BlackHoleScene() {
             Open to AI / ML, Data, and Cloud roles
           </div>
 
-          <h1 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-7xl">
+          <h2 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-7xl">
             {profile.name}
-          </h1>
+          </h2>
 
           <p className="mt-4 text-2xl font-black tracking-wide text-cyan-300 sm:text-3xl md:text-4xl">
             Data-driven ML Engineer

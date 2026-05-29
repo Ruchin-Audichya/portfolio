@@ -5,6 +5,7 @@ import { LazySection } from "@/components/LazySection";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SeoIdentity } from "@/components/SeoIdentity";
 
 const BlackHoleScene = dynamic(() => import("@/components/BlackHoleScene"), {
   ssr: false,
@@ -49,6 +50,8 @@ export default function Home() {
   return (
     <main className="relative min-h-screen">
       <Navbar />
+
+      <SeoIdentity />
 
       <section id="world" className="h-screen w-full relative">
         <BlackHoleScene />

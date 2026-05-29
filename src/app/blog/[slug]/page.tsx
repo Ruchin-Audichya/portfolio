@@ -4,6 +4,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { generateArticleSchema, generateBreadcrumb, SITE_URL } from "@/lib/seo";
 
 export async function generateStaticParams() {
     const posts = getAllPosts();
@@ -34,8 +35,29 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         notFound();
     }
 
+    const articleSchema = generateArticleSchema({
+        title: post.meta.title,
+        description: post.meta.description,
+        date: post.meta.date,
+        slug: post.slug,
+        tags: post.meta.tags,
+    });
+    const breadcrumb = generateBreadcrumb([
+        { name: "Home", url: SITE_URL },
+        { name: "Blog", url: `${SITE_URL}/blog` },
+        { name: post.meta.title, url: `${SITE_URL}/blog/${post.slug}` },
+    ]);
+
     return (
         <article className="min-h-screen pt-32 pb-20 px-4 md:px-8 max-w-4xl mx-auto">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+            />
             <ScrollReveal width="100%">
                 <Link
                     href="/blog"

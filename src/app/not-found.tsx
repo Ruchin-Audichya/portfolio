@@ -1,5 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Page Not Found",
+    description: "This page does not exist on ruchinaudichya.in.",
+    robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
     return (

@@ -1,241 +1,155 @@
 import type { Metadata } from "next";
 import { content } from "@/lib/content";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  OG_IMAGE,
+  generatePersonSchema,
+  generateWebsiteSchema,
+  generateProfilePageSchema,
+  generateFaqSchema,
+} from "@/lib/seo";
 
-const siteUrl = "https://ruchinaudichya.in";
-const siteName = "Ruchin Audichya";
-const siteDescription =
-    "Ruchin Audichya is a data-driven ML engineer in Jaipur, India. Builder of MediFast AI (RAG over a 169K-record knowledge graph with 1.3M+ edges), Placify AI (84.7% accuracy / 94.5% ROC-AUC), and AWS-backed automation.";
-const ogImage = `${siteUrl}/readme-hero.png`;
+// Re-export schema generators for backward compatibility with existing imports.
+export {
+  generatePersonSchema,
+  generateWebsiteSchema,
+  generateFaqSchema,
+};
+export const generatePortfolioSchema = generateProfilePageSchema;
+
 const seoKeywords = [
-    "Ruchin Audichya",
-    "Ruchin Audichya portfolio",
-    "Ruchin Audichya AI ML Engineer",
-    "AI ML Engineer India",
-    "Data-driven ML Engineer Jaipur",
-    "RAG engineer India",
-    "Knowledge Graph Engineer",
-    "MediFast AI",
-    "Placify AI",
-    "BM25",
-    "ChromaDB",
-    "LangChain",
-    "AWS Certified AI Practitioner",
-    "AWS Certified Cloud Practitioner",
-    "ServiceNow Certified System Administrator",
-    "ServiceNow Certified Application Developer",
-    "Backend Developer India",
-    "Cloud Engineer India",
-    "Python Developer",
-    "FastAPI Developer",
-    "Cognizant Technoverse 2026",
-    "Smart India Hackathon 2024",
+  // Direct-name queries — these are the highest-value keywords for personal SEO.
+  "Ruchin Audichya",
+  "Ruchin",
+  "Ruchin Audichya portfolio",
+  "Ruchin Audichya Jaipur",
+  "Ruchin Audichya JECRC",
+  "Ruchin Audichya AI",
+  "Ruchin Audichya GitHub",
+  "Ruchin Audichya LinkedIn",
+  "Ruchin Audichya resume",
+  "ruchinaudichya",
+  "ruchinaudichya.in",
+  // Role + location queries.
+  "Data-driven ML Engineer India",
+  "AI ML Engineer Jaipur",
+  "RAG Engineer India",
+  "Knowledge Graph Engineer India",
+  // Project-specific queries.
+  "MediFast AI",
+  "Placify AI",
+  "RAG medicine search",
+  "BM25 ChromaDB hybrid retrieval",
+  // Credential queries.
+  "AWS Certified AI Practitioner India",
+  "AWS Certified Cloud Practitioner",
+  "ServiceNow CSA",
+  "ServiceNow CAD",
+  // Hackathon recognition.
+  "Cognizant Technoverse 2026 finalist",
+  "Smart India Hackathon 2024",
 ];
 
 export const defaultMetadata: Metadata = {
-    metadataBase: new URL(siteUrl),
-    applicationName: `${siteName} Portfolio`,
-    title: {
-        default: `${content.profile.name} — Data-driven ML Engineer • RAG • Cloud`,
-        template: `%s | ${content.profile.name}`,
+  metadataBase: new URL(SITE_URL),
+  applicationName: `${SITE_NAME} Portfolio`,
+  title: {
+    // Putting the name first + last + descriptor maximizes direct-name match.
+    default: "Ruchin Audichya — Data-driven ML Engineer | Portfolio",
+    template: `%s | Ruchin Audichya`,
+  },
+  description: SITE_DESCRIPTION,
+  keywords: seoKeywords,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      "en-IN": SITE_URL,
+      "x-default": SITE_URL,
     },
-    description: siteDescription,
-    keywords: seoKeywords,
-    authors: [{ name: content.profile.name, url: siteUrl }],
-    creator: content.profile.name,
-    publisher: content.profile.name,
-    formatDetection: {
-        email: false,
-        address: false,
-        telephone: false,
+  },
+  openGraph: {
+    type: "profile",
+    locale: "en_IN",
+    url: SITE_URL,
+    siteName: `${SITE_NAME} Portfolio`,
+    title: "Ruchin Audichya — Data-driven ML Engineer",
+    description: SITE_DESCRIPTION,
+    firstName: "Ruchin",
+    lastName: "Audichya",
+    username: "ruchinaudichya",
+    gender: "male",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Ruchin Audichya — RAG, knowledge graphs, cloud, and applied AI",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@itsRuchin",
+    creator: "@itsRuchin",
+    title: "Ruchin Audichya — Data-driven ML Engineer",
+    description: SITE_DESCRIPTION,
+    images: {
+      url: OG_IMAGE,
+      alt: "Ruchin Audichya Portfolio",
     },
-    alternates: {
-        canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
-    openGraph: {
-        type: "website",
-        locale: "en_US",
-        url: siteUrl,
-        siteName: `${siteName} Portfolio`,
-        title: `${content.profile.name} — Data-driven ML Engineer • RAG • Cloud`,
-        description: siteDescription,
-        images: [
-            {
-                url: ogImage,
-                width: 1200,
-                height: 630,
-                alt: `${content.profile.name} — RAG, knowledge graphs, cloud, and applied AI`,
-                type: "image/png",
-            },
-        ],
-    },
-    twitter: {
-        card: "summary_large_image",
-        site: "@itsRuchin",
-        creator: "@itsRuchin",
-        title: `${content.profile.name} — Data-driven ML Engineer • RAG • Cloud`,
-        description: siteDescription,
-        images: {
-            url: ogImage,
-            alt: `${content.profile.name} Portfolio`,
-        },
-    },
-    robots: {
-        index: true,
-        follow: true,
-        nocache: false,
-        googleBot: {
-            index: true,
-            follow: true,
-            noimageindex: false,
-            "max-video-preview": -1,
-            "max-image-preview": "large",
-            "max-snippet": -1,
-        },
-    },
-    verification: {
-        // Add your verification codes here when available
-        // google: "your-google-verification-code",
-        // yandex: "your-yandex-verification-code",
-    },
-    category: "technology",
-    icons: {
-        icon: [
-            { url: "/favicon.svg", type: "image/svg+xml" },
-            { url: "/logo.svg", type: "image/svg+xml" },
-        ],
-        shortcut: "/favicon.svg",
-        other: [
-            { rel: "mask-icon", url: "/favicon.svg", color: "#22d3ee" },
-        ],
-    },
-    manifest: "/site.webmanifest",
-    appleWebApp: {
-        capable: true,
-        statusBarStyle: "black-translucent",
-        title: siteName,
-    },
+  },
+  verification: {
+    // Drop your real Google Search Console verification code here once added.
+    // google: "your-google-verification-code",
+  },
+  category: "technology",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#22d3ee" }],
+  },
+  manifest: "/site.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: SITE_NAME,
+  },
+  other: {
+    // Mastodon / Fediverse identity verification (harmless if unused).
+    // "fediverse:creator": "@ruchin@mastodon.social",
+  },
 };
 
-export const generatePersonSchema = () => ({
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": `${siteUrl}/#person`,
-    name: content.profile.name,
-    givenName: "Ruchin",
-    familyName: "Audichya",
-    jobTitle: content.profile.role,
-    description: siteDescription,
-    url: siteUrl,
-    sameAs: [
-        content.profile.socials.github,
-        content.profile.socials.linkedin,
-        content.profile.socials.twitter,
-    ].filter(Boolean),
-    image: {
-        "@type": "ImageObject",
-        url: ogImage,
-        width: 1200,
-        height: 630,
-    },
-    email: content.profile.socials.email,
-    telephone: content.profile.phone,
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Jaipur",
-        addressRegion: "Rajasthan",
-        addressCountry: "IN",
-    },
-    alumniOf: {
-        "@type": "CollegeOrUniversity",
-        name: "JECRC University",
-    },
-    hasCredential: content.certifications.map((certification) => ({
-        "@type": "EducationalOccupationalCredential",
-        name: certification.title,
-        credentialCategory: "Professional certification",
-        recognizedBy: {
-            "@type": "Organization",
-            name: certification.issuer,
-        },
-    })),
-    knowsAbout: [
-        "AI Engineering",
-        "Machine Learning",
-        "Retrieval-Augmented Generation",
-        "Knowledge Graphs",
-        "Vector Databases",
-        "ChromaDB",
-        "BM25",
-        "LangChain",
-        "ETL Pipelines",
-        "Data Engineering",
-        "Geospatial Indexing",
-        "Backend Development",
-        "Cloud Engineering",
-        "AWS",
-        "Boto3",
-        "Docker",
-        "Terraform",
-        "Python",
-        "PyTorch",
-        "Hugging Face",
-        "Next.js",
-        "Node.js",
-        "FastAPI",
-        "Express.js",
-        "REST APIs",
-        "PostgreSQL",
-        "MongoDB",
-        "ServiceNow",
-        "MediFast AI",
-        "Placify AI",
-    ],
-});
-
-export const generateWebsiteSchema = () => ({
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${siteUrl}/#website`,
-    name: `${content.profile.name} Portfolio`,
-    url: siteUrl,
-    description: siteDescription,
-    publisher: {
-        "@id": `${siteUrl}/#person`,
-    },
-    inLanguage: "en-US",
-    mainEntity: {
-        "@id": `${siteUrl}/#person`,
-    },
-});
-
-export const generatePortfolioSchema = () => ({
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "@id": `${siteUrl}/#profilepage`,
-    mainEntity: {
-        "@id": `${siteUrl}/#person`,
-    },
-    dateCreated: "2024-01-01",
-    dateModified: new Date().toISOString().slice(0, 10),
-    about: {
-        "@id": `${siteUrl}/#person`,
-    },
-    primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: ogImage,
-        width: 1200,
-        height: 630,
-    },
-    hasPart: content.projects.map((project) => ({
-        "@type": "CreativeWork",
-        name: project.title,
-        headline: project.category,
-        description: project.description,
-        url: `${siteUrl}/projects/${project.slug}`,
-        dateCreated: project.year,
-        creator: {
-            "@id": `${siteUrl}/#person`,
-        },
-        keywords: project.tech.join(", "),
-    })),
-});
+// Keep legacy named-export available for any existing imports.
+export const siteUrl = SITE_URL;
+export const siteName = SITE_NAME;
+export const siteDescription = SITE_DESCRIPTION;
+export const ogImage = OG_IMAGE;
+export const _seoKeywords = seoKeywords;
