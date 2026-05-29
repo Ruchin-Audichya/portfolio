@@ -30,7 +30,7 @@ export function RecruiterSnapshot() {
               </span>
             </div>
             <h2 className="max-w-3xl text-4xl font-black tracking-tight text-white md:text-6xl">
-              The short version: I build AI products with backend and cloud discipline.
+              The short version: I ship retrieval-heavy AI with backend and cloud discipline.
             </h2>
           </div>
 

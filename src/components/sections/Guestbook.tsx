@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Send, User, MessageSquare, Sparkles, Heart } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 type GuestbookMessage = {
     name: string;
@@ -44,38 +42,29 @@ function SuccessParticles() {
     );
 }
 
-// Floating lantern-style message card
+// Floating lantern-style message card. Uses a CSS keyframe so 100 messages
+// don't cost 100 JS timers like the previous implementation.
 function LanternMessage({ msg, index }: { msg: GuestbookMessage; index: number }) {
-    const yOffset = useMotionValue(0);
-    const springY = useSpring(yOffset, { stiffness: 100, damping: 20 });
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            yOffset.set(Math.sin(Date.now() / 2000 + index) * 5);
-        }, 50);
-        return () => clearInterval(interval);
-    }, [yOffset, index]);
-
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-            style={{ y: springY }}
+            transition={{ delay: Math.min(index * 0.05, 0.3), type: "spring", stiffness: 110 }}
             whileHover={{ scale: 1.02, zIndex: 10 }}
-            className="relative group"
+            className="relative group lantern-float"
+            style={{ animationDelay: `${(index % 5) * 0.4}s` }}
         >
             {/* Glow effect behind card */}
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
+
             <div className="relative p-6 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 backdrop-blur-md hover:border-purple-500/40 transition-all duration-300">
                 {/* Quote marks */}
                 <span className="absolute top-4 left-4 text-4xl text-purple-500/20 font-serif leading-none">&ldquo;</span>
-                
+
                 <p className="text-lg leading-relaxed mb-4 text-white/90 pl-6 pr-4">
                     {msg.message}
                 </p>
-                
+
                 <div className="flex items-center justify-between pt-2 border-t border-white/5">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">

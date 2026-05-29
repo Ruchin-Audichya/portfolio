@@ -1,17 +1,18 @@
 export const content = {
   profile: {
     name: "Ruchin Audichya",
-    role: "AI/ML Engineer • Cloud • Backend",
-    headline: "AI/ML Engineer • Cloud • Backend",
-    subline: "Building AI assistants, backend systems, and cloud automation with production-minded execution.",
+    role: "Data-driven ML Engineer • RAG • Cloud",
+    headline: "Data-driven ML Engineer • RAG • Cloud",
+    subline:
+      "I build ML systems, knowledge-graph pipelines, and applied AI products that ship. Currently obsessed with retrieval that actually works.",
     mission:
-      "I build AI-powered systems, backend APIs, and cloud automation that turn messy real-world workflows into reliable products.",
-    bio_title: "Hire me for AI systems that actually ship.",
+      "I build retrieval-heavy AI systems, backend APIs, and cloud automation that turn messy real-world data into reliable products.",
+    bio_title: "Hire me to build AI systems that survive production.",
     bio: [
-      "I am a Computer Science undergraduate focused on AI/ML engineering, backend systems, and AWS cloud. My work sits at the intersection of practical ML, API design, automation, and user-facing product thinking.",
-      "My strongest projects are not just demos: Placify AI processes placement records and predicts outcomes, MediFastRx helps people search medicines in Indian language patterns, and my SecretEye internship pushed me into ML-powered data pipelines and production-style full-stack delivery.",
-      "I am certified in AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD. I also bring community leadership from AWS Cloud Club JECRC, where I helped run technical programs and documentation for 100+ students.",
-      "This portfolio still keeps the cinematic 3D identity, but the goal is simple: show recruiters what I can build, where I can contribute, and how to contact me quickly."
+      "I'm a Computer Science undergraduate at JECRC University focused on ML systems, RAG pipelines, and knowledge-graph engineering. My strongest work sits where retrieval, data modeling, and product UX meet.",
+      "MediFast AI is the clearest example: a RAG-powered medicine intelligence platform built over a 169K-record knowledge graph with 1.3M+ relationship edges. It boosted semantic search accuracy from 29.7% to 47.7% and qualified for the Cognizant Technoverse 2026 Grand Finale, ranking Top-24 nationwide out of 2,000+ teams.",
+      "Placify AI added another layer: an end-to-end CatBoost classification pipeline on 5,000+ student records, hitting 84.7% accuracy and 94.5% ROC-AUC, with PostgreSQL ETL, React dashboards, and a FastAPI resume-parsing microservice on top.",
+      "I'm AWS Certified Cloud + AI Practitioner, ServiceNow CSA + CAD, and lead the AWS Cloud Club at JECRC, where I've helped run cloud architecture and Git workshops for 1,000+ students."
     ],
     avatar: "/profile.jpg",
     resume: "/resume.pdf",
@@ -31,72 +32,117 @@ export const content = {
       github: "https://github.com/Ruchin-Audichya",
       linkedin: "https://www.linkedin.com/in/ruchinaudi/",
       resume: "/resume.pdf"
-    }
-  },
-  recruiterSnapshot: {
-    roleFit: ["AI/ML Engineering Intern", "Backend Developer", "Cloud/Automation Engineer"],
-    strengths: [
-      "Builds ML-backed products with usable APIs and clear user flows",
-      "Comfortable across Python, Node.js, AWS, databases, and automation",
-      "Turns ambiguous problems into shipped prototypes and measurable outcomes"
-    ],
-    proofPoints: [
-      "Software Engineering Intern at SecretEye Pvt Ltd",
-      "250+ DSA problems solved and 20+ GitHub repositories",
-      "AWS, AWS AI, ServiceNow CSA, and ServiceNow CAD certified",
-      "Technical leadership through AWS Cloud Club JECRC"
+    },
+    badges: [
+      "AWS AI Certified",
+      "AWS Cloud Certified",
+      "ServiceNow CSA + CAD",
+      "Cognizant Technoverse Top-24"
     ]
   },
-  skillGroups: [
+  recruiterSnapshot: {
+    roleFit: ["AI / ML Engineer", "Data Engineer", "Backend / Cloud Engineer"],
+    strengths: [
+      "Designs RAG and knowledge-graph pipelines that survive scale and noisy data",
+      "Builds end-to-end: ETL, ML modeling, APIs, dashboards, and deployment",
+      "Comfortable across Python, Node.js, AWS, MongoDB, PostgreSQL, ChromaDB, and LangChain"
+    ],
+    proofPoints: [
+      "MediFast AI — 169K-record knowledge graph, 1.3M+ edges, +18 pp search accuracy",
+      "Placify AI — 84.7% accuracy and 94.5% ROC-AUC on 5K+ student records",
+      "Data/ML Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
+      "AWS Cloud + AWS AI + ServiceNow CSA + ServiceNow CAD certified"
+    ]
+  },
+  recognition: [
     {
-      category: "Programming Languages",
-      items: ["Python", "Java", "SQL", "JavaScript", "C++"]
+      title: "Cognizant Technoverse 2026 — Grand Finale Qualifier",
+      issuer: "Top 24 nationwide out of 2,000+ teams",
+      year: "2026",
+      description:
+        "Qualified to the Grand Finale of Cognizant's flagship national hackathon with MediFast AI, an RAG-powered medicine intelligence platform over a 169K-record knowledge graph."
     },
     {
-      category: "AI/ML",
-      items: ["PyTorch", "TensorFlow", "Hugging Face", "Scikit-learn", "LangChain", "CatBoost", "NLP"]
+      title: "Smart India Hackathon 2024 — Prelims Top 10 Finalist",
+      issuer: "Government of India",
+      year: "2024",
+      description:
+        "Selected into the institute Top 10 in India's largest student innovation initiative, presenting a backend + AI product proposal."
     },
     {
-      category: "Data & Search",
-      items: ["Pandas", "NumPy", "ETL Pipelines", "Data Processing", "Web Scraping", "Fuzzy Search", "RAG Workflows"]
-    },
-    {
-      category: "Backend",
-      items: ["Node.js", "Flask", "Express.js", "REST APIs", "MongoDB", "PostgreSQL"]
-    },
-    {
-      category: "Cloud & DevOps",
-      items: ["AWS", "EC2", "S3", "IAM", "Lambda", "Docker", "Terraform", "Git/GitHub"]
-    },
-    {
-      category: "Platforms",
-      items: ["ServiceNow", "Salesforce", "Telegram Bots", "WhatsApp-ready Architecture"]
+      title: "250+ DSA Problems Solved",
+      issuer: "LeetCode and Codeforces",
+      year: "Ongoing",
+      description:
+        "Consistent practice across data structures, graphs, dynamic programming, and system-design style problems."
     }
   ],
   skills: [
     {
-      category: "AI/ML & Search",
-      items: ["Python", "PyTorch", "TensorFlow", "Hugging Face", "LangChain", "CatBoost", "NLP", "Fuzzy Search", "RAG Workflows"]
+      category: "ML & AI",
+      items: [
+        "RAG",
+        "LangChain",
+        "Vector Databases",
+        "Embeddings",
+        "Knowledge Graphs",
+        "NLP",
+        "PyTorch",
+        "Scikit-learn",
+        "CatBoost",
+        "Hugging Face",
+        "LLMs",
+        "Prompt Engineering"
+      ]
     },
     {
-      category: "Backend & Data",
-      items: ["Node.js", "Flask", "Express.js", "REST APIs", "PostgreSQL", "MongoDB", "SQL", "ETL Pipelines"]
+      category: "Data Engineering & Analytics",
+      items: [
+        "ETL Pipelines",
+        "Data Modeling",
+        "Data Warehousing",
+        "PostgreSQL",
+        "MongoDB",
+        "ChromaDB",
+        "Geospatial Indexing",
+        "BM25",
+        "Dashboards"
+      ]
+    },
+    {
+      category: "Backend & APIs",
+      items: [
+        "Node.js",
+        "Express.js",
+        "FastAPI",
+        "Flask",
+        "REST APIs",
+        "Auth Flows",
+        "Rate Limiting"
+      ]
     },
     {
       category: "Cloud & DevOps",
-      items: ["AWS", "EC2", "S3", "IAM", "Lambda", "Docker", "Terraform", "Git/GitHub", "CI/CD"]
+      items: [
+        "AWS",
+        "EC2",
+        "S3",
+        "IAM",
+        "Lambda",
+        "Boto3",
+        "Docker",
+        "Terraform",
+        "CI/CD",
+        "Git"
+      ]
     },
     {
       category: "Frontend & Product",
-      items: ["React", "Next.js", "TypeScript", "TailwindCSS", "Three.js", "Framer Motion"]
+      items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js", "Framer Motion"]
     },
     {
-      category: "Enterprise Platforms",
-      items: ["ServiceNow", "Salesforce", "SOQL", "Apex", "Workflow Automation"]
-    },
-    {
-      category: "Core CS",
-      items: ["Data Structures", "Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks"]
+      category: "Languages & Core CS",
+      items: ["Python", "SQL", "TypeScript", "JavaScript", "Java", "C++", "DSA", "DBMS", "OS"]
     }
   ],
   certifications: [
@@ -104,117 +150,133 @@ export const content = {
       title: "AWS Certified AI Practitioner",
       issuer: "Amazon Web Services",
       year: "2026",
-      description: "Validates foundational knowledge of AI, generative AI, responsible AI, and AWS AI services."
+      description:
+        "Foundational knowledge of AI, generative AI, responsible AI, and the core AWS AI services."
     },
     {
       title: "AWS Certified Cloud Practitioner",
       issuer: "Amazon Web Services",
       year: "2025",
-      description: "Validates AWS cloud concepts, core services, security, architecture, pricing, and support."
+      description:
+        "AWS cloud concepts, core services, security, architecture, pricing, and support fundamentals."
     },
     {
       title: "ServiceNow Certified System Administrator (CSA)",
       issuer: "ServiceNow",
       year: "2026",
-      description: "Validates administration, configuration, platform navigation, user management, and workflow fundamentals."
+      description:
+        "Platform administration, configuration, user management, and workflow fundamentals on ServiceNow."
     },
     {
       title: "ServiceNow Certified Application Developer (CAD)",
       issuer: "ServiceNow",
       year: "2026",
-      description: "Validates ServiceNow application development, data models, scripting, UI, and automation patterns."
+      description:
+        "Application development, data modeling, scripting, UI, and automation patterns on ServiceNow."
     }
   ],
   experience: [
     {
-      company: "Secret Eye Pvt Ltd",
-      role: "Software Engineering Intern",
-      period: "Nov 2025 - Mar 2026",
+      company: "SecretEye Telematics",
+      role: "Data / ML Intern — Data & Backend Systems",
+      period: "Dec 2025 – Mar 2026",
       location: "Remote / India",
       summary:
-        "Built ML-powered data and product workflows for social trend intelligence, marketing automation, and insight generation.",
+        "Early-stage GPS-fleet startup. Owned data ingestion, REST API design, and a Tauri-based operational platform unifying CRM, HR, finance, and projects.",
       star: {
         situation:
-          "The team needed a scalable way to turn fast-moving public signals from platforms like YouTube, Google Trends, and social channels into useful marketing and product intelligence.",
+          "An early-stage GPS-fleet startup needed a single operational data layer instead of scattered spreadsheets, plus visibility into social signals from Reddit, Instagram, Facebook, LinkedIn, and X for analytics.",
         task:
-          "Build reliable data pipelines, API layers, and an ML-powered platform that could ingest noisy data, process it, and present usable insights through a frontend.",
+          "Design REST APIs across multiple operational entities, build social data ingestion pipelines, and ship a desktop platform that replaced manual workflows for the small team.",
         action:
-          "Worked across web scraping, ETL pipeline design, NLP/ML processing, Flask APIs, and React integration. Focused on relevance, repeatable data flow, and production-style handoff instead of one-off scripts.",
+          "Designed 20+ Express.js + MongoDB REST endpoints across 6 operational entities, built ingestion pipelines for Reddit, Instagram, Facebook, LinkedIn, and X capturing content metadata and engagement signals, and shipped a full-stack Tauri + React + TypeScript desktop app unifying CRM, HR, finance, and project management.",
         result:
-          "Delivered an end-to-end ML-backed insight workflow that improved analysis speed, made trend discovery more structured, and gave the team a clearer base for customer targeting and campaign decisions."
+          "Replaced 4 manual spreadsheet workflows with real-time dashboard aggregation, gave the team a single operational data layer, and produced reusable ingestion patterns for future analytics workflows."
       }
     },
     {
-      company: "AWS Cloud Club JECRC",
-      role: "Content Head & Technical Lead",
-      period: "Sep 2023 - Present",
+      company: "AWS Cloud Club, JECRC University",
+      role: "Technical Lead — Cloud & AI Community",
+      period: "Sep 2023 – Present",
       location: "Jaipur, India",
       summary:
-        "Led technical content, workshops, and cloud learning initiatives for students while building AWS automation examples.",
+        "Run technical content and workshops, and automate AWS lab provisioning so students can practice cloud and AI without setup friction.",
       star: {
         situation:
-          "Students needed approachable cloud learning paths that moved beyond theory and helped them understand real AWS services.",
+          "Students needed approachable, hands-on cloud learning paths — not theory — but manual AWS lab setup ate hours each session.",
         task:
-          "Support events, create technical material, and help run hands-on sessions around AWS, Git, infrastructure, and automation.",
+          "Build automation that provisions AWS labs reliably and turn it into community-grade workshops on cloud architecture and Git.",
         action:
-          "Prepared learning content, supported workshops, documented workflows, and built Python/Boto3 automation examples for AWS EC2, S3, and IAM labs.",
+          "Automated AWS cloud lab provisioning with Boto3 across EC2, S3, and IAM, prepared workshop content, and ran cloud architecture and Git sessions across JECRC and partner universities.",
         result:
-          "Helped technical programs reach 100+ students and made cloud concepts easier to practice through repeatable demos and documentation."
+          "Eliminated repetitive manual setup across student environments, reached 1,000+ students with cloud and Git workshops, and built a reusable knowledge base for future cohorts."
       }
     }
   ],
   projects: [
     {
-      slug: "medifastrx",
-      title: "MediFastRx",
-      category: "AI/ML Healthcare Assistant",
+      slug: "medifast-ai",
+      title: "MediFast AI",
+      category: "RAG • Knowledge Graph • Healthcare",
       description:
-        "India-first AI medicine assistant for Telegram with WhatsApp-ready architecture. Users can search medicines by brand, generic name, typos, or Hindi/Hinglish symptom phrases, compare cheaper alternatives, discover nearby pharmacies, raise SOS alerts, and get reorder hints from recent search history.",
-      tech: ["Python", "Telegram Bot", "Fuzzy Search", "RAG", "Medicine Dataset", "Location-ready APIs"],
+        "RAG-powered medicine intelligence platform over a 169K-record knowledge graph with 1.3M+ relationship edges. Combines BM25 sparse retrieval and ChromaDB dense vector search to handle multilingual, typo-tolerant, and symptom-based queries.",
+      tech: [
+        "Node.js",
+        "Python",
+        "MongoDB",
+        "ChromaDB",
+        "LangChain",
+        "BM25",
+        "OpenStreetMap"
+      ],
       image: "/projects/podcast.jpg",
       year: "2026",
-      metrics: "Typo-tolerant medicine search",
+      metrics: "Search match: 29.7% → 47.7%",
       caseStudy: {
         problem:
-          "Medicine search in India is messy: users remember partial names, brand names, generic names, or symptom phrases like 'bukhar ki tablet'. Existing flows often ignore local language patterns, cheaper substitutes, nearby availability, and urgent medicine needs.",
+          "Medicine search in India is messy: users mix brand names, generic names, typos, and Hindi/Hinglish symptom phrases. Existing flows ignore local language, cheaper substitutes, and nearby availability — and they don't carry per-user health context (allergies, conditions, family history) into ranking.",
         solution:
-          "Built an AI medicine assistant around a structured medicine dataset, fuzzy matching, and RAG-style retrieval so users can search by typo, brand, generic name, or Hindi/Hinglish symptom intent. The Telegram-first interface keeps access simple while the architecture stays ready for WhatsApp.",
+          "Architected a hybrid RAG pipeline combining BM25 sparse retrieval with ChromaDB dense vector search using Xenova/all-MiniLM-L6-v2 embeddings. Engineered a domain-specific medicine knowledge graph with 169K+ entity records, 681K+ side-effect entries, and 1.3M+ relationship edges. Added session-aware reranking over per-user MongoDB family health profiles, plus geospatial pharmacy discovery using MongoDB 2dsphere indexes and OpenStreetMap data.",
         challenges: [
-          "Handling spelling mistakes, brand/generic ambiguity, and Hindi/Hinglish symptom-style queries",
-          "Designing retrieval that can return useful medicine matches and cheaper alternatives without overwhelming users",
-          "Keeping the pharmacy discovery, family medicine, SOS, and reorder-hint modules modular for future rollout"
+          "Tuning hybrid BM25 + dense retrieval to handle typos, brand/generic ambiguity, and Hindi/Hinglish symptom phrasing without blowing up latency",
+          "Modeling 169K+ entity records, 681K+ side-effect entries, and 1.3M+ relationship edges in a way that stays queryable",
+          "Reranking dynamically by allergy and condition history at query time without leaking sessions across users",
+          "Making geospatial pharmacy discovery feel useful instead of just dumping nearby points on a map"
         ],
         outcomes: [
-          "Created an India-first medicine discovery flow for Telegram",
-          "Added cheaper alternative discovery and nearby pharmacy direction as core product value",
-          "Designed the system for WhatsApp expansion, family medicine use cases, SOS requests, and reorder reminders"
+          "Boosted medicine search match rate from 29.7% to 47.7% across multilingual, typo-tolerant, and symptom-based queries (+18 pp)",
+          "Cut irrelevant pharmacy results by ~30% with radius-based ranking across 10K+ locations",
+          "Qualified to Cognizant Technoverse 2026 Grand Finale — Top 24 nationwide out of 2,000+ teams",
+          "Built an architecture that extends cleanly to WhatsApp and family-medicine SOS use cases"
         ]
       }
     },
     {
       slug: "placify-ai",
       title: "Placify AI",
-      category: "AI Placement Platform",
+      category: "ML Classification • ETL • Analytics",
       description:
-        "A placement intelligence platform that processes 5000+ placement records, predicts placement outcomes, parses resumes, and gives students and coordinators analytics they can actually act on.",
-      tech: ["React", "Node.js", "PostgreSQL", "AWS", "CatBoost", "Resume Parsing"],
+        "End-to-end ML pipeline that ingests 5,000+ student records, predicts placement outcomes with CatBoost, surfaces KPIs through React dashboards, and parses resumes via a FastAPI microservice.",
+      tech: ["Python", "FastAPI", "React", "Node.js", "PostgreSQL", "CatBoost", "AWS"],
       image: "/projects/cloud.jpg",
       year: "2026",
-      metrics: "87-91% prediction accuracy",
+      metrics: "84.7% accuracy • 94.5% ROC-AUC",
       caseStudy: {
         problem:
-          "Placement data is often scattered across sheets, resumes, department records, and manual coordinator updates, making it hard to track readiness or spot useful patterns.",
+          "Placement data was scattered across spreadsheets, resumes, and manual coordinator updates. There was no clean way to track readiness, surface cohort KPIs, or give students personalized upskilling guidance.",
         solution:
-          "Built a scalable placement platform with backend APIs, ETL pipelines, a CatBoost prediction model, resume parsing, and analytics dashboards for placement teams.",
+          "Built a CatBoost classification pipeline with feature engineering on 5,000+ student records, ETL workflows feeding a PostgreSQL data warehouse, interactive React dashboards for coordinators, and a FastAPI microservice that parses resumes and runs skill-gap analysis in real time.",
         challenges: [
-          "Cleaning and normalizing 5000+ placement records",
-          "Designing APIs and data flows that reduce manual coordinator work",
-          "Making ML predictions understandable enough to support decisions"
+          "Cleaning and normalizing 5,000+ student records from inconsistent sources",
+          "Beating SVM and logistic regression baselines while keeping the model interpretable enough for coordinators",
+          "Designing ETL flows that hold up when new placement seasons add columns and edge cases",
+          "Making the resume parser resilient to messy PDFs and freeform skill listings"
         ],
         outcomes: [
-          "Reduced manual placement data handling by about 70%",
-          "Built prediction workflows with 87-91% accuracy",
-          "Created a stronger base for student analytics and placement readiness tracking"
+          "Achieved 84.7% accuracy and 94.5% ROC-AUC, outperforming SVM and logistic regression baselines",
+          "Built a PostgreSQL warehouse with KPI and cohort analytics surfaced through React dashboards",
+          "Shipped a FastAPI microservice for real-time resume parsing, skill-gap analysis, and personalized upskilling suggestions",
+          "Cut manual placement-data handling significantly by replacing sheets with structured APIs"
         ]
       }
     },
@@ -223,52 +285,52 @@ export const content = {
       title: "This Portfolio",
       category: "Interactive Web Engineering",
       description:
-        "A Three.js black hole and kinetic Next.js portfolio that proves I can build visual systems, performance-sensitive UI, and recruiter-readable case studies in one product.",
-      tech: ["Next.js", "Three.js", "GLSL", "Framer Motion"],
+        "A custom Three.js black hole and kinetic Next.js portfolio. Multi-pass WebGL rendering, scroll-linked motion, accessible reduced-motion support, and recruiter-readable case studies on every project.",
+      tech: ["Next.js", "Three.js", "GLSL", "Framer Motion", "TypeScript"],
       image: "/projects/portfolio.jpg",
       year: "2025",
-      metrics: "95+ Lighthouse Score",
+      metrics: "95+ Lighthouse",
       caseStudy: {
         problem:
-          "Most developer portfolios are templates or generic pages. I wanted the first impression to prove engineering taste, visual craft, and performance awareness before a recruiter even opens a project.",
+          "Most developer portfolios are templates. I wanted the first impression to demonstrate engineering taste, performance awareness, and visual craft before a recruiter even opens a project page.",
         solution:
-          "Built a multi-pass Three.js rendering pipeline with a black-hole visual system, scroll-linked motion, responsive sections, and structured case-study pages.",
+          "Built a multi-pass Three.js rendering pipeline with a hand-written GLSL black hole, gravitational lensing distortion, post-processing with chromatic aberration and dithering, scroll-linked Framer Motion sequences, and structured MDX-friendly case studies.",
         challenges: [
-          "Balancing WebGL visual complexity with mobile performance",
-          "Making the cinematic first screen still useful for hiring conversion",
-          "Keeping content, SEO, and accessibility from getting buried under animation"
+          "Balancing WebGL visual complexity with mobile battery and frame budget",
+          "Keeping accessibility, SEO, and reduced-motion support intact under heavy animation",
+          "Designing scroll choreography that doesn't fight the content"
         ],
         outcomes: [
-          "Created a memorable portfolio with real technical depth",
-          "Kept performance and responsive behavior as first-class constraints",
-          "Turned the site itself into a proof-of-work project"
+          "Shipped a memorable, performance-aware portfolio with structured case studies",
+          "Reduced motion path is a true alternate experience, not a stripped one",
+          "Turned the site itself into a proof-of-work project recruiters can poke at"
         ]
       }
     },
     {
-      slug: "cloud-mini-projects",
-      title: "AWS Cloud Infrastructure",
+      slug: "aws-cloud-labs",
+      title: "AWS Cloud Labs Automation",
       category: "Cloud Infrastructure",
       description:
-        "Hands-on AWS deployments across S3, EC2, IAM, Lambda, and automation. The focus was learning how secure cloud systems behave when they are configured, broken, debugged, and improved.",
-      tech: ["AWS", "Terraform", "IAM", "Lambda", "Docker"],
+        "Boto3-driven automation for AWS lab provisioning across EC2, S3, and IAM. Built to eliminate repetitive manual setup for AWS Cloud Club workshops.",
+      tech: ["AWS", "Python", "Boto3", "IAM", "EC2", "S3", "Lambda", "Docker"],
       image: "/projects/cloud.jpg",
       year: "2025",
-      metrics: "2x AWS Certified",
+      metrics: "1,000+ students reached",
       caseStudy: {
         problem:
-          "Cloud tutorials often hide the hard parts: IAM access, networking, cost control, and repeatable setup. I wanted hands-on understanding that could transfer into real engineering work.",
+          "Cloud workshops kept losing time to manual lab setup. IAM policies, EC2 instances, and S3 buckets had to be re-created per session, which made hands-on learning fragile.",
         solution:
-          "Built progressively more realistic AWS workflows including static hosting, serverless APIs, IAM policies, EC2 setup, and repeatable infrastructure patterns.",
+          "Wrote Boto3 automation that provisions and tears down AWS labs across EC2, S3, and IAM with reproducible, cost-aware defaults. Paired the scripts with workshop content used in cloud architecture and Git sessions.",
         challenges: [
-          "Debugging IAM and networking issues when services could not talk to each other",
-          "Keeping cloud experiments cost-aware",
-          "Turning one-off labs into repeatable learning assets"
+          "Debugging IAM and networking issues so labs stay isolated and safe",
+          "Keeping cost controls in place across many parallel student environments",
+          "Turning one-off scripts into something reusable across cohorts"
         ],
         outcomes: [
-          "Earned AWS Cloud Practitioner and AWS AI Practitioner certifications",
-          "Built confidence provisioning and debugging core AWS services",
-          "Applied the learning in AWS Cloud Club workshops and demos"
+          "Eliminated repetitive manual setup across student environments",
+          "Reached 1,000+ students through cloud architecture and Git workshops at JECRC and partner universities",
+          "Reinforced AWS Cloud + AWS AI certification learning with hands-on patterns"
         ]
       }
     },
@@ -277,25 +339,25 @@ export const content = {
       title: "n8n Workflow Automations",
       category: "Automation",
       description:
-        "Self-hosted workflow automation for recurring tasks, alerts, and system glue. Built to reduce manual work and make repetitive operations run quietly in the background.",
-      tech: ["n8n", "Webhooks", "APIs", "Self-Hosted"],
+        "Self-hosted n8n workflows for recurring ops, alerts, and tool glue. Built to take repetitive manual work off the table and run it quietly in the background.",
+      tech: ["n8n", "Webhooks", "REST APIs", "Self-Hosted"],
       image: "/projects/n8n.jpg",
       year: "2025",
-      metrics: "10+ hours saved/week",
+      metrics: "10+ hours saved / week",
       caseStudy: {
         problem:
-          "Small repetitive tasks like logging, checking alerts, and moving data between tools were eating focus without creating real progress.",
+          "Repetitive ops — logging, alerts, moving data between tools — were eating focus without producing real progress.",
         solution:
-          "Self-hosted n8n and built modular workflows with webhooks, API integrations, and Telegram-style alerts for practical day-to-day automation.",
+          "Self-hosted n8n and built modular, observable workflows around webhooks, REST integrations, and Telegram-style alerts.",
         challenges: [
-          "Managing API auth, rate limits, and failure cases",
-          "Avoiding silent workflow failures",
-          "Keeping workflows simple enough to extend later"
+          "Managing API auth, rate limits, and silent failure modes",
+          "Keeping each workflow simple enough to extend later",
+          "Designing alerting that surfaces real issues, not noise"
         ],
         outcomes: [
           "Reduced repeated manual work by 10+ hours per week",
-          "Built a reusable automation mindset for future systems",
-          "Improved personal and technical operations with low-maintenance workflows"
+          "Established a reusable automation mindset that carries into bigger systems",
+          "Improved personal and project ops with low-maintenance flows"
         ]
       }
     },
@@ -304,20 +366,20 @@ export const content = {
       title: "Linux Dev Environment",
       category: "System Engineering",
       description:
-        "A reproducible Linux development setup with keyboard-driven workflow, scripts, dotfiles, and system tuning built from a hardware-first curiosity.",
+        "A reproducible, keyboard-driven Linux setup with shell scripts, tiling extensions, and dotfiles built from a hardware-first curiosity.",
       tech: ["Linux", "Bash", "GNOME", "Dotfiles"],
       image: "/projects/linux.jpg",
       year: "2024",
-      metrics: "30 min setup time",
+      metrics: "Sub-30 min fresh setup",
       caseStudy: {
         problem:
-          "A fresh development machine can waste hours on repetitive setup, missing tools, inconsistent shortcuts, and environment drift.",
+          "Fresh dev machines waste hours on setup, missing tools, inconsistent shortcuts, and environment drift.",
         solution:
-          "Created a Linux workflow with shell scripts, GNOME customization, tiling extensions, and reusable dotfiles to get productive quickly after a fresh install.",
+          "Built a Linux workflow with shell scripts, GNOME tiling extensions, and reusable dotfiles to get productive within half an hour after a clean install.",
         challenges: [
-          "Keeping configuration portable across Linux versions",
+          "Keeping configs portable across distros and versions",
           "Balancing aesthetics with actual productivity",
-          "Avoiding over-customization that makes the system fragile"
+          "Avoiding over-customization that makes systems fragile"
         ],
         outcomes: [
           "Reduced fresh setup time to under 30 minutes",

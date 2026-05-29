@@ -5,21 +5,21 @@ import { motion, AnimatePresence } from "framer-motion"
 import { content } from "@/lib/content"
 
 const categoryColors: Record<string, string> = {
-  "AI/ML & Search": "from-purple-500 to-pink-500",
-  "Backend & Data": "from-cyan-500 to-blue-500",
+  "ML & AI": "from-purple-500 to-pink-500",
+  "Data Engineering & Analytics": "from-cyan-500 to-blue-500",
+  "Backend & APIs": "from-emerald-500 to-teal-500",
   "Cloud & DevOps": "from-orange-500 to-amber-500",
   "Frontend & Product": "from-fuchsia-500 to-violet-500",
-  "Enterprise Platforms": "from-blue-400 to-indigo-500",
-  "Core CS": "from-emerald-500 to-teal-500",
+  "Languages & Core CS": "from-sky-500 to-indigo-500",
 }
 
 const categoryIcons: Record<string, string> = {
-  "AI/ML & Search": "AI",
-  "Backend & Data": "API",
+  "ML & AI": "AI",
+  "Data Engineering & Analytics": "ETL",
+  "Backend & APIs": "API",
   "Cloud & DevOps": "AWS",
   "Frontend & Product": "UI",
-  "Enterprise Platforms": "SN",
-  "Core CS": "CS",
+  "Languages & Core CS": "CS",
 }
 
 export function Skills() {
@@ -55,7 +55,7 @@ export function Skills() {
             </span>
           </h2>
           <p className="max-w-xl mx-auto text-white/50 text-lg">
-            Not just a list — these are tools I&apos;ve actually shipped with.
+            Not a wishlist. Each one shows up in shipped work — RAG pipelines, ETL flows, APIs, dashboards.
           </p>
         </motion.div>
 
@@ -157,11 +157,11 @@ export function Skills() {
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          {[    
-            { value: "4x", label: "Core Certifications", color: "text-orange-400" },
-            { value: "250+", label: "DSA Problems", color: "text-blue-400" },
-            { value: "20+", label: "GitHub Repos", color: "text-purple-400" },
-            { value: "100+", label: "Students Reached", color: "text-pink-400" },
+          {[
+            { value: "1.3M+", label: "KG Edges Engineered", color: "text-orange-400" },
+            { value: "84.7%", label: "Placify Accuracy", color: "text-blue-400" },
+            { value: "250+", label: "DSA Problems", color: "text-purple-400" },
+            { value: "1,000+", label: "Students Reached", color: "text-pink-400" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}

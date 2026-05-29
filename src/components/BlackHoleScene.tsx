@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { profile } from "@/data/profile";
-import { Download, Github, Linkedin, Mail, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin, Mail, Sparkles } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════════════
    GLSL SHADERS
@@ -213,11 +213,7 @@ void main(){
    COMPONENT
    ═══════════════════════════════════════════════════════════════════ */
 
-interface BlackHoleSceneProps {
-  scrollProgress?: number;
-}
-
-export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleSceneProps) {
+export default function BlackHoleScene() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [ditherEnabled, setDitherEnabled] = useState(false);
   const ditherRef = useRef(false);
@@ -232,8 +228,11 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
     const container = containerRef.current;
     if (!container) return;
 
-    /* ── renderer ──────────────────────────────────────────────── */
+    /* ── env detection ─────────────────────────────────────────── */
     const isMobile = window.innerWidth < 768;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ── renderer ──────────────────────────────────────────────── */
     const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: false });
     renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -277,8 +276,8 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
       });
 
     const noiseRT = mkRT(256, 256, true);
-    let defaultRT = mkRT(W(), H());
-    let distortionRT = mkRT(W(), H());
+    const defaultRT = mkRT(W(), H());
+    const distortionRT = mkRT(W(), H());
 
     /* ═══════════════════════════════════════════════════════════════
        NOISE PRE-BAKE
@@ -339,7 +338,7 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
     mainScene.add(disk);
 
     // ── stars ──
-    const STAR_COUNT = isMobile ? 5000 : 10000;
+    const STAR_COUNT = isMobile ? 3000 : 8000;
     const starGeo = new THREE.BufferGeometry();
     const starPos = new Float32Array(STAR_COUNT * 3);
     const starSizes = new Float32Array(STAR_COUNT);
@@ -435,13 +434,15 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
 
       controls.update();
 
-      // slow camera roll
-      camera.rotateZ(0.002);
+      if (!reduceMotion) {
+        // slow camera roll
+        camera.rotateZ(0.002);
 
-      // subtle drift
-      cameraGroup.position.x = Math.sin(Math.sin(t * 0.3) * 0.5) * 0.1;
-      cameraGroup.position.y = Math.sin(Math.sin(t * 0.4) * 0.7) * 0.1;
-      cameraGroup.position.z = Math.sin(Math.sin(t * 0.2) * 0.6) * 0.1;
+        // subtle drift
+        cameraGroup.position.x = Math.sin(Math.sin(t * 0.3) * 0.5) * 0.1;
+        cameraGroup.position.y = Math.sin(Math.sin(t * 0.4) * 0.7) * 0.1;
+        cameraGroup.position.z = Math.sin(Math.sin(t * 0.2) * 0.6) * 0.1;
+      }
 
       // billboard the hole quad
       holeMesh.lookAt(camera.position);
@@ -458,28 +459,19 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
         (projVec.y + 1) * 0.5
       );
 
-      // 1. render main to screen (for direct viewing while post-proc composites)
-      renderer.setRenderTarget(null);
-      renderer.setClearColor(clearMain, 1);
-      renderer.clear();
-      renderer.render(mainScene, camera);
-
-      // also render distortion to screen overlaid (transparent blend)
-      renderer.render(distScene, camera);
-
-      // 2. render main scene → rt
+      // 1. main scene → defaultRT
       renderer.setRenderTarget(defaultRT);
       renderer.setClearColor(clearMain, 1);
       renderer.clear();
       renderer.render(mainScene, camera);
 
-      // 3. render distortion scene → rt
+      // 2. distortion scene → distortionRT
       renderer.setRenderTarget(distortionRT);
       renderer.setClearColor(clearDist, 1);
       renderer.clear();
       renderer.render(distScene, camera);
 
-      // 4. post-processing → screen
+      // 3. composite → screen
       renderer.setRenderTarget(null);
       renderer.clear();
       renderer.render(postScene, postCam);
@@ -499,10 +491,21 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
     };
     window.addEventListener("resize", onResize);
 
+    /* ── visibility (pause when tab hidden) ──────────────────────── */
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId);
+      } else {
+        animId = requestAnimationFrame(animate);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     /* ── cleanup ─────────────────────────────────────────────────── */
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
       controls.dispose();
       renderer.dispose();
       noiseRT.dispose();
@@ -512,7 +515,7 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
         container.removeChild(renderer.domElement);
       }
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   /* ═══════════════════════════════════════════════════════════════
      RENDER — HTML OVERLAY
@@ -524,8 +527,7 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
     >
       {/* ── Main text overlay ── */}
       <div
-        className={`absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"}`}
       >
         {/* Subtle radial fade behind text for readability */}
         <div
@@ -539,7 +541,7 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
         <div className="relative z-10 flex w-full max-w-5xl flex-col items-center px-4 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-cyan-200 backdrop-blur">
             <Sparkles className="h-4 w-4" />
-            Open to AI/ML, Cloud, and Backend roles
+            Open to AI / ML, Data, and Cloud roles
           </div>
 
           <h1 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-7xl">
@@ -547,64 +549,72 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
           </h1>
 
           <p className="mt-4 text-2xl font-black tracking-wide text-cyan-300 sm:text-3xl md:text-4xl">
-            AI/ML Engineer • Cloud • Backend
+            Data-driven ML Engineer
           </p>
 
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
-            I build AI assistants, backend APIs, and AWS-backed automation with proof in internships, projects, and certifications.
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+            I build retrieval-heavy AI systems and knowledge-graph pipelines.
+            <span className="hidden sm:inline">
+              {" "}
+              MediFast AI bumped semantic search accuracy by 18 percentage points
+              over a 169K-record knowledge graph with 1.3M+ edges.
+            </span>
           </p>
 
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
+          {/* Primary CTAs */}
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a
+              href="#projects"
+              className="pointer-events-auto group inline-flex min-h-12 items-center gap-2 rounded-full bg-cyan-400 px-7 py-3 text-sm font-black uppercase tracking-wider text-black shadow-lg shadow-cyan-400/20 transition hover:bg-cyan-300"
+            >
+              See the work
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
             <a
               href={profile.contactLinks.email}
-              className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-white/[0.09] px-5 py-3 text-sm font-semibold text-white/75 backdrop-blur transition hover:border-cyan-400/60 hover:text-cyan-200"
+              className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-7 py-3 text-sm font-bold uppercase tracking-wider text-white/85 backdrop-blur transition hover:border-cyan-400/60 hover:text-white"
             >
               <Mail className="h-4 w-4 text-cyan-300" />
-              <span className="hidden sm:inline">{profile.email}</span>
-              <span className="sm:hidden">Email</span>
+              Hire me
+            </a>
+          </div>
+
+          {/* Secondary contact / social row */}
+          <div className="mt-5 flex flex-wrap justify-center gap-2 text-xs">
+            <a
+              href={profile.contactLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-4 py-2 font-medium text-white/65 backdrop-blur transition hover:border-cyan-400/40 hover:text-white"
+            >
+              <Linkedin className="h-3.5 w-3.5 text-[#0a66c2]" />
+              LinkedIn
             </a>
             <a
-              href={profile.contactLinks.phone}
-              className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-white/[0.09] px-5 py-3 text-sm font-semibold text-white/75 backdrop-blur transition hover:border-cyan-400/60 hover:text-cyan-200"
+              href={profile.contactLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-4 py-2 font-medium text-white/65 backdrop-blur transition hover:border-cyan-400/40 hover:text-white"
             >
-              <Phone className="h-4 w-4 text-cyan-300" />
-              {profile.phone}
+              <Github className="h-3.5 w-3.5" />
+              GitHub
+            </a>
+            <a
+              href={profile.contactLinks.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-4 py-2 font-medium text-white/65 backdrop-blur transition hover:border-cyan-400/40 hover:text-white"
+            >
+              <Download className="h-3.5 w-3.5 text-cyan-300" />
+              Resume
             </a>
           </div>
 
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <a href={profile.contactLinks.linkedin} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
-              <Linkedin className="h-4 w-4 text-[#0a66c2]" /> LinkedIn
-            </a>
-            <a href={profile.contactLinks.github} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
-              <Github className="h-4 w-4" /> GitHub
-            </a>
-            <a href={profile.contactLinks.resume} target="_blank" rel="noopener noreferrer" className="pointer-events-auto inline-flex min-h-12 items-center gap-2 rounded-full border border-white/10 bg-[#19192b]/80 px-5 py-3 text-sm font-semibold text-white/65 backdrop-blur transition hover:border-cyan-400/60 hover:text-white">
-              <Download className="h-4 w-4 text-cyan-300" /> Resume
-            </a>
-          </div>
-
-          <div className="mt-7 flex flex-wrap justify-center gap-4">
-            <a href={profile.contactLinks.email} className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-400 px-8 py-3 text-sm font-black uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400 hover:text-black">
-              Hire Me
-            </a>
-            <a href="#projects" className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-400/80 px-8 py-3 text-sm font-black uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400 hover:text-black">
-              View Projects
-            </a>
-          </div>
-
-          <div className="relative mt-7 flex max-w-2xl flex-wrap justify-center gap-2 md:gap-3">
-            {profile.badges.map((badge, i) => (
+          <div className="mt-6 flex max-w-2xl flex-wrap justify-center gap-2">
+            {profile.badges.map((badge) => (
               <span
                 key={badge}
-                className="rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider backdrop-blur-md md:px-4 md:py-2 md:text-xs"
-                style={{
-                  borderColor: "rgba(255,188,104,0.25)",
-                  background: "rgba(19,14,22,0.6)",
-                  color: "rgba(255,251,249,0.8)",
-                  textShadow: "0 0 8px rgba(255,86,0,0.3)",
-                  animationDelay: `${0.5 + i * 0.1}s`,
-                }}
+                className="rounded-full border border-amber-300/25 bg-[#130e16]/60 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100/80 backdrop-blur md:px-3.5 md:text-[11px]"
               >
                 {badge}
               </span>
@@ -615,34 +625,20 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
 
       {/* ── Scroll CTA ── */}
       <div
-        className={`absolute inset-x-0 bottom-8 z-20 flex justify-center pointer-events-none transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-x-0 bottom-8 z-20 flex justify-center pointer-events-none transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"}`}
         style={{ transitionDelay: "1s" }}
       >
         <a
           href="#about"
-          className="pointer-events-auto group flex items-center gap-2 rounded-full px-6 py-3 font-bold uppercase tracking-wider shadow-lg transition-all duration-300 text-sm"
-          style={{
-            background: "rgba(255,251,249,0.95)",
-            color: "#0a0a0f",
-          }}
-          onMouseEnter={(e) => {
-            (e.target as HTMLElement).style.background =
-              "linear-gradient(135deg, #ff5600, #cc00ff)";
-            (e.target as HTMLElement).style.color = "#fff";
-          }}
-          onMouseLeave={(e) => {
-            (e.target as HTMLElement).style.background =
-              "rgba(255,251,249,0.95)";
-            (e.target as HTMLElement).style.color = "#0a0a0f";
-          }}
+          className="pointer-events-auto group inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 backdrop-blur transition hover:border-cyan-400/60 hover:text-white"
         >
-          <span>View Portfolio</span>
+          <span>Scroll to explore</span>
           <svg
-            className="w-4 h-4 animate-bounce"
+            className="w-3.5 h-3.5 animate-bounce"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -655,17 +651,9 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
       </div>
 
       {/* ── Dither toggle ── */}
-      <div
-        className="absolute bottom-8 right-4 z-30"
-      >
+      <div className="absolute bottom-8 right-4 z-30">
         <label
-          className="flex items-center gap-2 rounded-full px-4 py-2 cursor-pointer select-none text-xs font-mono uppercase tracking-wider"
-          style={{
-            background: "rgba(19,14,22,0.7)",
-            backdropFilter: "blur(12px)",
-            color: "rgba(255,251,249,0.6)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
+          className="flex items-center gap-2 rounded-full border border-white/10 bg-black/55 px-3.5 py-2 cursor-pointer select-none text-[10px] font-mono uppercase tracking-wider text-white/55 backdrop-blur"
         >
           <input
             type="checkbox"
@@ -680,17 +668,11 @@ export default function BlackHoleScene({ scrollProgress = 0 }: BlackHoleScenePro
       {/* ── Bottom name badge ── */}
       <div className="absolute left-4 bottom-20 z-10 pointer-events-none">
         <div
-          className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] shadow-lg backdrop-blur"
-          style={{
-            background: "rgba(0,0,0,0.6)",
-            color: "rgba(255,251,249,0.9)",
-          }}
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/85 shadow-lg backdrop-blur"
         >
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>{profile.name}</span>
-          <span className="hidden sm:inline" style={{ color: "rgba(255,251,249,0.5)" }}>
-            {profile.role}
-          </span>
+          <span className="hidden sm:inline text-white/45">{profile.role}</span>
         </div>
       </div>
     </div>

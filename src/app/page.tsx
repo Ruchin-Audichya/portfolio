@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { LazySection } from "@/components/LazySection";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { Navbar } from "@/components/Navbar";
 
 const BlackHoleScene = dynamic(() => import("@/components/BlackHoleScene"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-black" />,
 });
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { Navbar } from "@/components/Navbar";
 
 const KineticAbout = dynamic(() =>
   import("@/components/sections/KineticAbout").then((mod) => mod.KineticAbout)
@@ -29,6 +28,9 @@ const KineticProjects = dynamic(() =>
 const KineticAchievements = dynamic(() =>
   import("@/components/sections/KineticAchievements").then((mod) => mod.KineticAchievements)
 );
+const Recognition = dynamic(() =>
+  import("@/components/sections/Recognition").then((mod) => mod.Recognition)
+);
 const Github = dynamic(() =>
   import("@/components/sections/Github").then((mod) => mod.Github)
 );
@@ -40,39 +42,12 @@ const Contact = dynamic(() =>
 );
 
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    let rafId: number | null = null;
-    let latestY = window.scrollY;
-
-    const compute = () => {
-      rafId = null;
-      const doc = document.documentElement;
-      const total = doc.scrollHeight - window.innerHeight;
-      const progress = total > 0 ? Math.min(Math.max(latestY / total, 0), 1) : 0;
-      setScrollProgress(progress);
-    };
-
-    const onScroll = () => {
-      latestY = window.scrollY;
-      if (rafId == null) rafId = window.requestAnimationFrame(compute);
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafId != null) window.cancelAnimationFrame(rafId);
-    };
-  }, []);
-
   return (
     <main className="relative min-h-screen">
       <Navbar />
 
       <section id="world" className="h-screen w-full relative">
-        <BlackHoleScene scrollProgress={scrollProgress} />
+        <BlackHoleScene />
       </section>
 
       {/* Smooth transition from black hole to portfolio */}
@@ -102,7 +77,12 @@ export default function Home() {
           <KineticProjects />
         </LazySection>
 
-        {/* Achievements - Milestones with authority, gentle glow */}
+        {/* Recognition - hackathon wins, finalist standings */}
+        <LazySection>
+          <Recognition />
+        </LazySection>
+
+        {/* Achievements - Certifications */}
         <LazySection>
           <KineticAchievements />
         </LazySection>

@@ -1,9 +1,8 @@
 import { content } from "@/lib/content";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { ArrowLeft, ArrowRight, CheckCircle2, AlertTriangle, Lightbulb } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Magnetic from "@/components/Magnetic";
 
 const siteUrl = "https://ruchinaudichya.in";
 

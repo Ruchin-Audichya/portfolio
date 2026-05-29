@@ -1,304 +1,158 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { content } from "@/lib/content";
 
-// Floating text fragment component
-function FloatingFragment({
+// A single line that fades in with a subtle blur — used for the staggered story.
+function FadeLine({
   children,
   delay = 0,
-  y = 30,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
-  y?: number;
+  className?: string;
 }) {
   return (
-    <motion.span
-      className="inline-block"
-      initial={{ opacity: 0, y, filter: "blur(4px)" }}
+    <motion.p
+      className={className}
+      initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-10%" }}
-      transition={{
-        duration: 0.8,
-        delay,
-        ease: [0.25, 0.1, 0.25, 1],
-      }}
+      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {children}
-    </motion.span>
-  );
-}
-
-// Staggered line reveal
-function StaggeredLines({
-  lines,
-  className = "",
-  lineClassName = "",
-}: {
-  lines: string[];
-  className?: string;
-  lineClassName?: string;
-}) {
-  return (
-    <div className={className}>
-      {lines.map((line, i) => (
-        <motion.p
-          key={i}
-          className={lineClassName}
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-5%" }}
-          transition={{
-            duration: 0.6,
-            delay: i * 0.15,
-            ease: [0.25, 0.1, 0.25, 1],
-          }}
-        >
-          {line}
-        </motion.p>
-      ))}
-    </div>
-  );
-}
-
-// Origin story panel
-function OriginPanel({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  const opacity = useTransform(progress, [0, 0.15, 0.35, 0.5], [0, 1, 1, 0]);
-  const y = useTransform(progress, [0, 0.15, 0.35, 0.5], [60, 0, 0, -60]);
-  const springY = useSpring(y, { stiffness: 100, damping: 30 });
-
-  const originLines = [
-    "2017 - started taking PCs apart.",
-    "Not for school. Because the fan was loud and I wanted to know why.",
-    "Built rigs from parts. Overclocked. Broke things. Fixed them.",
-    "Games, hardware, and Linux taught me systems thinking before college did.",
-    "That curiosity never went away. It just found new hardware.",
-  ];
-
-  return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center px-8"
-      style={{ opacity, y: springY }}
-    >
-      <div className="max-w-3xl text-center">
-        <motion.span
-          className="text-8xl md:text-[12rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 opacity-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
-          style={{ opacity: useTransform(progress, [0.1, 0.25], [0, 0.15]) }}
-        >
-          2017
-        </motion.span>
-
-        <StaggeredLines
-          lines={originLines}
-          className="space-y-4 relative z-10"
-          lineClassName="text-xl md:text-2xl text-white/70 font-light tracking-wide"
-        />
-      </div>
-    </motion.div>
-  );
-}
-
-// Evolution panel
-function EvolutionPanel({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  const opacity = useTransform(progress, [0.35, 0.5, 0.65, 0.8], [0, 1, 1, 0]);
-  const y = useTransform(progress, [0.35, 0.5, 0.65, 0.8], [60, 0, 0, -60]);
-  const springY = useSpring(y, { stiffness: 100, damping: 30 });
-
-  return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center px-8"
-      style={{ opacity, y: springY }}
-    >
-      <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div className="space-y-8">
-          <div>
-            <FloatingFragment delay={0}>
-              <span className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-                2021
-              </span>
-            </FloatingFragment>
-          </div>
-
-          <div className="space-y-4">
-            <FloatingFragment delay={0.2}>
-              <h3 className="text-2xl md:text-3xl font-bold text-white">
-                College. Real builds.
-              </h3>
-            </FloatingFragment>
-
-            <FloatingFragment delay={0.3}>
-              <p className="text-lg text-white/60 leading-relaxed">
-                Moved from hardware into AI, backend, and cloud. Built APIs, ML-backed workflows, AWS labs, and automation systems. Earned AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD certifications.
-              </p>
-            </FloatingFragment>
-          </div>
-        </div>
-
-        <motion.div
-          className="relative aspect-square max-w-sm mx-auto"
-          initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="w-full h-full rounded-3xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/10 backdrop-blur-sm" />
-          <div className="absolute inset-4 rounded-2xl bg-gradient-to-br from-purple-500/30 to-pink-500/30" />
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
-// Now panel
-function NowPanel({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  const opacity = useTransform(progress, [0.7, 0.85, 1], [0, 1, 1]);
-  const y = useTransform(progress, [0.7, 0.85], [60, 0]);
-  const springY = useSpring(y, { stiffness: 100, damping: 30 });
-
-  return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center px-8"
-      style={{ opacity, y: springY }}
-    >
-      <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <motion.div
-          className="relative aspect-square max-w-md mx-auto order-2 lg:order-1"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="w-full h-full rounded-3xl overflow-hidden border border-white/10">
-            <Image
-              src={content.profile.avatar}
-              alt={content.profile.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
-          </div>
-        </motion.div>
-
-        <div className="space-y-8 order-1 lg:order-2">
-          <div>
-            <FloatingFragment delay={0}>
-              <span className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">
-                Now
-              </span>
-            </FloatingFragment>
-          </div>
-
-          <div className="space-y-4">
-            <FloatingFragment delay={0.2}>
-              <h3 className="text-2xl md:text-3xl font-bold text-white">
-                Building. Shipping. Iterating.
-              </h3>
-            </FloatingFragment>
-
-            <FloatingFragment delay={0.3}>
-              <p className="text-lg text-white/60 leading-relaxed">
-                AI/ML engineering, backend APIs, and AWS cloud are the center now. I build systems like MediFastRx and Placify AI where search, data, and product experience have to work together.
-              </p>
-            </FloatingFragment>
-
-            <FloatingFragment delay={0.4}>
-              <p className="text-base text-white/40 italic">
-                This portfolio is still a project - a Three.js black hole with GLSL shaders, gravitational lensing, and post-processing. Now it also works harder as a hiring portfolio.
-              </p>
-            </FloatingFragment>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-// Progress indicator
-function TimelineProgress({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  const scaleY = useSpring(progress, { stiffness: 100, damping: 30 });
-
-  return (
-    <div className="absolute right-8 top-1/2 -translate-y-1/2 h-48 w-px bg-white/10">
-      <motion.div
-        className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 via-purple-500 to-pink-500 origin-top"
-        style={{ scaleY, height: "100%" }}
-      />
-
-      {/* Year markers */}
-      {[
-        { pos: "0%", label: "2017" },
-        { pos: "50%", label: "2021" },
-        { pos: "100%", label: "Now" },
-      ].map((marker) => (
-        <div
-          key={marker.label}
-          className="absolute left-4 text-xs font-mono text-white/40"
-          style={{ top: marker.pos, transform: "translateY(-50%)" }}
-        >
-          {marker.label}
-        </div>
-      ))}
-    </div>
+    </motion.p>
   );
 }
 
 export function KineticAbout() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"],
+    offset: ["start end", "end start"],
   });
+
+  const blobX1 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const blobX2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
 
   return (
     <section
       id="about"
       ref={containerRef}
-      className="relative bg-[#0a0a0f]"
-      style={{ height: "300vh" }}
+      className="relative bg-[#0a0a0f] py-28 md:py-36 overflow-hidden"
     >
-      {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Ambient background */}
+      {/* Ambient background */}
+      {!reduceMotion && (
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[150px]"
-            style={{
-              x: useTransform(scrollYProgress, [0, 0.5], [0, -100]),
-              opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.5, 1, 1, 0.5]),
-            }}
+            className="absolute top-1/4 left-1/4 w-[480px] h-[480px] rounded-full bg-cyan-500/5 blur-[140px]"
+            style={{ x: blobX1 }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/5 blur-[120px]"
-            style={{
-              x: useTransform(scrollYProgress, [0, 0.5, 1], [0, 50, 100]),
-            }}
+            className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] rounded-full bg-purple-500/5 blur-[120px]"
+            style={{ x: blobX2 }}
           />
         </div>
+      )}
 
+      <div className="relative mx-auto max-w-6xl px-6 md:px-12">
         {/* Section label */}
         <motion.div
-          className="absolute top-8 left-8 z-20 flex items-center gap-3"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="mb-12 flex items-center gap-3 justify-center md:justify-start"
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="w-12 h-[1px] bg-gradient-to-r from-white/50 to-transparent" />
-          <span className="text-white/40 text-xs uppercase tracking-[0.3em] font-medium">
-            Origin
+          <div className="h-px w-10 bg-gradient-to-r from-cyan-300/60 to-transparent" />
+          <span className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-200/80">
+            About
           </span>
         </motion.div>
 
-        {/* Content panels */}
-        <OriginPanel progress={scrollYProgress} />
-        <EvolutionPanel progress={scrollYProgress} />
-        <NowPanel progress={scrollYProgress} />
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-10 md:gap-14 items-start">
+          {/* Avatar / portrait */}
+          <motion.div
+            className="relative aspect-[4/5] w-full max-w-sm mx-auto lg:mx-0"
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-cyan-400/20 via-purple-500/15 to-pink-500/20 blur-xl opacity-60" />
+            <div className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-white/5">
+              <Image
+                src={content.profile.avatar}
+                alt={content.profile.name}
+                fill
+                priority={false}
+                sizes="(max-width: 768px) 80vw, 30vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+            </div>
 
-        {/* Timeline progress */}
-        <TimelineProgress progress={scrollYProgress} />
+            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
+              {content.profile.badges.slice(0, 3).map((badge) => (
+                <span
+                  key={badge}
+                  className="rounded-full border border-white/10 bg-black/55 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-white/80 backdrop-blur"
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Story */}
+          <div className="space-y-7">
+            <motion.h2
+              className="text-3xl md:text-5xl font-black tracking-tight text-white leading-[1.05]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              {content.profile.bio_title}
+            </motion.h2>
+
+            <div className="space-y-5">
+              {content.profile.bio.map((line, i) => (
+                <FadeLine
+                  key={i}
+                  delay={0.1 + i * 0.08}
+                  className="text-base md:text-lg leading-relaxed text-white/65"
+                >
+                  {line}
+                </FadeLine>
+              ))}
+            </div>
+
+            <motion.div
+              className="flex flex-wrap gap-3 pt-2"
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <a
+                href="#projects"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-cyan-400/60 bg-cyan-400/10 px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-cyan-200 transition hover:bg-cyan-400 hover:text-black"
+              >
+                See the projects
+              </a>
+              <a
+                href="#experience"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-white/80 transition hover:bg-white/10 hover:text-white"
+              >
+                Experience
+              </a>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

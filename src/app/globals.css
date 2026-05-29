@@ -358,3 +358,71 @@ html, body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(168, 85, 247, 0.5);
 }
+
+/* ═══ SHARED UTILITIES (referenced across components) ═══ */
+
+/* Glass panel — used by GitHub repo cards, contact cards, etc. */
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(168, 85, 247, 0.35);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+}
+
+/* Subtle hover glow used on GitHub repo cards */
+.card-hover-glow {
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -20px rgba(168, 85, 247, 0.45);
+}
+
+/* Tiny bounce for the “View All Repositories” style buttons */
+.hover-bounce {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-bounce:hover {
+  transform: translateY(-2px);
+}
+
+.hover-bounce:active {
+  transform: translateY(0);
+}
+
+/* Teal accent label color used on case-study and blog meta strips */
+.text-accent-teal {
+  color: #5eead4; /* Tailwind teal-300 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-hover-glow:hover,
+  .hover-bounce:hover {
+    transform: none !important;
+  }
+}
+
+/* Lantern bobbing for guestbook messages — pure CSS so it scales with N messages */
+@keyframes lantern-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.lantern-float {
+  animation: lantern-bob 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lantern-float {
+    animation: none !important;
+  }
+}
