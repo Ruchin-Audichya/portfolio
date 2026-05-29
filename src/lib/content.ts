@@ -151,28 +151,40 @@ export const content = {
       issuer: "Amazon Web Services",
       year: "2026",
       description:
-        "Foundational knowledge of AI, generative AI, responsible AI, and the core AWS AI services."
+        "Foundational knowledge of AI, generative AI, responsible AI, and the core AWS AI services.",
+      credentialUrl: "https://www.credly.com/badges/20ba1db5-c6e1-4f12-9400-8546b7102d5f/public_url",
+      image: "/certificates/aws-ai-practitioner.png",
+      brand: "aws" as const
     },
     {
       title: "AWS Certified Cloud Practitioner",
       issuer: "Amazon Web Services",
       year: "2025",
       description:
-        "AWS cloud concepts, core services, security, architecture, pricing, and support fundamentals."
+        "AWS cloud concepts, core services, security, architecture, pricing, and support fundamentals.",
+      credentialUrl: "https://www.credly.com/badges/daee29ab-3939-4d21-8ea5-86e3dbfda8b1/public_url",
+      image: "/certificates/aws-cloud-practitioner.png",
+      brand: "aws" as const
     },
     {
       title: "ServiceNow Certified System Administrator (CSA)",
       issuer: "ServiceNow",
       year: "2026",
       description:
-        "Platform administration, configuration, user management, and workflow fundamentals on ServiceNow."
+        "Platform administration, configuration, user management, and workflow fundamentals on ServiceNow.",
+      credentialUrl: "https://www.credly.com/badges/01176bad-90e8-42ea-9813-00f869263665/public_url",
+      image: "/certificates/servicenow-csa.png",
+      brand: "servicenow" as const
     },
     {
       title: "ServiceNow Certified Application Developer (CAD)",
       issuer: "ServiceNow",
       year: "2026",
       description:
-        "Application development, data modeling, scripting, UI, and automation patterns on ServiceNow."
+        "Application development, data modeling, scripting, UI, and automation patterns on ServiceNow.",
+      credentialUrl: null,
+      image: "/certificates/servicenow-cad.png",
+      brand: "servicenow" as const
     }
   ],
   experience: [
