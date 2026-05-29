@@ -33,14 +33,8 @@ const KineticProjects = dynamic(() =>
 const KineticAchievements = dynamic(() =>
   import("@/components/sections/KineticAchievements").then((mod) => mod.KineticAchievements)
 );
-const Recognition = dynamic(() =>
-  import("@/components/sections/Recognition").then((mod) => mod.Recognition)
-);
 const Github = dynamic(() =>
   import("@/components/sections/Github").then((mod) => mod.Github)
-);
-const Guestbook = dynamic(() =>
-  import("@/components/sections/Guestbook").then((mod) => mod.Guestbook)
 );
 const Contact = dynamic(() =>
   import("@/components/sections/Contact").then((mod) => mod.Contact)
@@ -88,11 +82,6 @@ export default function Home() {
           <KineticProjects />
         </LazySection>
 
-        {/* Recognition - hackathon wins, finalist standings */}
-        <LazySection>
-          <Recognition />
-        </LazySection>
-
         {/* Achievements - Certifications */}
         <LazySection>
           <KineticAchievements />
@@ -101,12 +90,6 @@ export default function Home() {
         <LazySection>
           <ScrollReveal width="100%">
             <Github />
-          </ScrollReveal>
-        </LazySection>
-
-        <LazySection>
-          <ScrollReveal width="100%">
-            <Guestbook />
           </ScrollReveal>
         </LazySection>
 

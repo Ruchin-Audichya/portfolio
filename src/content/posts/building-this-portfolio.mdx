@@ -1,61 +1,83 @@
 ---
-title: "Building an Inevitable Portfolio"
-date: "2025-11-22"
-description: "A deep dive into the technical architecture, 3D world design, and SOTA optimizations behind this portfolio."
-tags: ["Next.js", "Three.js", "Design"]
+title: "Building this portfolio: a black hole, a multi-pass renderer, and a hiring page"
+date: "2026-05-29"
+description: "How the homepage works under the hood — a hand-written GLSL black hole, multi-pass WebGL composition, scroll-linked motion, and the deliberate choices that make it doubles as a recruiter-readable hiring site."
+tags: ["Next.js", "Three.js", "GLSL", "Framer Motion", "Performance"]
 ---
 
-## The Vision
+## The brief I gave myself
 
-When I set out to build this portfolio, I didn't just want a static resume. I wanted to create a **digital artifact**—something that felt alive, immersive, and technically precise.
+Most developer portfolios fall into one of two camps. Either they're a static template that says "I exist", or they're a 3D demo so heavy on visuals that you can't actually find the projects. I wanted neither.
 
-The concept was simple: **"Precision in Motion."**
+The brief was simple: prove I can build something visually demanding, and at the same time make the hiring information so clean that a recruiter who hates 3D websites still leaves with the resume.
 
-I wanted to combine the raw power of modern web technologies (Next.js 14, React Three Fiber) with a design language that felt premium, cinematic, and slightly futuristic.
+## The stack
 
-## The Tech Stack
+Nothing exotic.
 
-To achieve this, I chose a stack that prioritizes performance without sacrificing creativity:
+- **Next.js 14 (App Router)** for the framework and the static-export-friendly routing.
+- **Three.js (raw, no React Three Fiber)** for the hero scene, because the rendering is multi-pass and I wanted full control of the render targets.
+- **GLSL** hand-written shaders for the noise prebake, the accretion disk, the gravitational-lensing distortion, and the post-processing composite.
+- **Framer Motion** for scroll-linked section reveals.
+- **Lenis** for smooth scroll on desktop, disabled on mobile and reduced-motion contexts.
+- **TailwindCSS** for the design system.
+- **MDX** for posts like this one.
 
-- **Framework**: Next.js 14 (App Router)
-- **3D Engine**: React Three Fiber (R3F) + Drei
-- **Styling**: TailwindCSS + Custom Design System
-- **Animation**: Framer Motion + GSAP
-- **Smooth Scroll**: Lenis
+## The hero scene, explained
 
-## The 3D World
+The black hole isn't a model. It's a few primitives plus shaders.
 
-The centerpiece of the experience is the interactive 3D world. It's not just a background; it's a navigational element.
+- A **noise texture** is pre-baked once into a render target using classic 3D Perlin noise. The accretion disk samples this noise at four offsets to fake animated turbulence without recomputing it per frame.
+- The **accretion disk** is an inverted cylinder geometry with a custom fragment shader that maps a vertical gradient texture against the noise-distorted UVs.
+- A **starfield** is 8,000 GPU points (3,000 on mobile) with per-vertex sizes and HSL colors, drawn through a tiny shader that fakes a soft glow with a `1/distance` falloff.
+- A **lensing pass** renders a simple "hole" billboard plus a horizontal disc into a separate distortion render target. That texture's red channel is sampled in post-processing to push pixels toward a convergence point — the projected origin of the black hole on screen — which is what gives the look of light bending around the singularity.
+- The **post-processing composite** then samples the main scene, applies chromatic aberration scaled by the lensing distance, adds film grain, and vignettes the edges.
 
-```tsx
-<Canvas shadows camera={{ position: [0, 2, 10], fov: 45 }}>
-  <Suspense fallback={<Loader />}>
-    <World />
-    <OrbitControls 
-      enableZoom={false} 
-      autoRotate 
-      autoRotateSpeed={0.5} 
-    />
-  </Suspense>
-</Canvas>
+```glsl
+// The core distortion line, simplified:
+vec2 dir = uConvergence - vUv;
+vec2 uvD = vUv + dir * dist * 0.3;
+
+// then chromatic-aberration sampling:
+float r = texture2D(uScene, uvD + vec2(cos( 0.0), sin( 0.0)) * caStr).r;
+float g = texture2D(uScene, uvD + vec2(cos( 2.1), sin( 2.1)) * caStr).g;
+float b = texture2D(uScene, uvD + vec2(cos(-2.1), sin(-2.1)) * caStr).b;
 ```
 
-I used low-poly primitives to create the island, ensuring it loads instantly even on mobile devices. The day/night cycle isn't just a visual gimmick—it's tied to the system time (or user preference), changing the entire mood of the site from a vibrant day to a mystical, firefly-lit night.
+Two render passes per frame, one composite to the screen. Earlier versions did three passes (an extra direct-to-screen render) and burned GPU for nothing — that was cut as part of a perf pass.
 
-## SOTA Optimizations
+## Performance tradeoffs I actually made
 
-Building a "State of the Art" (SOTA) portfolio means sweating the details. Here's what we optimized:
+A 3D hero is an indulgence. It's worth nothing if it kills the page on a mid-range Android. So:
 
-1.  **Accessibility**: Full keyboard navigation, ARIA labels, and focus management.
-2.  **Performance**: 95+ Lighthouse score, optimized 3D assets, and code splitting.
-3.  **Interaction**: Custom magnetic cursors, micro-interactions, and smooth scroll reveals.
+- **Star count is halved on mobile** (3,000 vs 8,000), antialias is off on mobile, and the device pixel ratio is clamped to 1.
+- **The animation loop pauses on `visibilitychange`** so background tabs cost zero GPU.
+- **`prefers-reduced-motion` disables camera roll and drift.** The scene still renders so the page doesn't look broken, but the auto-rotation is gone.
+- **All sections below the fold are wrapped in a custom `LazySection`** that uses `IntersectionObserver` with a 300px root margin. Heavy components only mount when they're about to be visible.
+- **`next/dynamic` with `ssr: false`** for the WebGL component itself, so the initial HTML is small and Lighthouse metrics aren't pulled down by the canvas mount.
 
-## What's Next?
+## The hiring layer on top of the visual layer
 
-This portfolio is a living document. I plan to add:
+The 3D scene is the first impression. Everything below it is the actual hiring page.
 
-- More detailed case studies
-- A "Process" section showing my workflow
-- Ambient sound design
+- The **About section** is first-person prose with a sticky portrait on desktop. The bio walks from PC-building in 2017 to the work I'm proudest of today, with the resume numbers (169K records, 1.3M edges, +18 percentage points) embedded inside the story rather than as a list.
+- The **Recruiter Snapshot** is a 30-second skim card: where I fit, how I work, proof points.
+- The **Key Achievements strip** has six accent-colored cards covering hackathon standings, project metrics, and community reach.
+- The **Credentials section** features Credly badges with brand-tinted glows and a Verified pill on each card. The whole card is the click target to Credly — no exposed URLs.
+- Each **project case study** is its own page with its own SoftwareApplication and BreadcrumbList JSON-LD schema, plus a "View on GitHub" link to the source.
 
-Stay tuned.
+## SEO that actually targets the name
+
+The bigger goal is that searching "Ruchin Audichya" surfaces this site, not LinkedIn alone.
+
+- A visually-hidden `SeoIdentity` component at the top of the page acts as the canonical text identity for crawlers — name, role, location, paragraphs of name-dense copy, and inbound links to every public profile.
+- The head emits five different JSON-LD blocks: `Person` with `alternateName`, `hasOccupation` with skills, awards, and credential URLs from Credly; `WebSite` with a `SearchAction`; `ProfilePage`; a six-question `FAQPage` for direct-name queries; plus per-page `BreadcrumbList`, `Article`, and `SoftwareApplication`.
+- `rel="me"` links connect this domain to GitHub, LinkedIn, X, and Instagram so Google can confirm the same person owns those profiles.
+- `robots.ts` explicitly allows Googlebot, Bingbot, GPTBot, PerplexityBot, ClaudeBot, and Google-Extended. Being indexed by AI answer engines is a 2026 name-search signal too.
+- `geo.region`, `geo.placename`, and ICBM coordinates point at Jaipur for local-pack signals.
+
+## What I'd change next
+
+The honest list: better project screenshots in case studies (the current placeholders are weak), a real architecture diagram for MediFast AI's case study, the chancellor recommendation letters as an Endorsements section, a refreshed OG image that matches the current positioning, and a verified email domain in Resend so the contact form stops being routed through `onboarding@resend.dev`.
+
+Most of those need an asset, not a code change. They're on the list.

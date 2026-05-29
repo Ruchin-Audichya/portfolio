@@ -56,29 +56,7 @@ export const content = {
       "AWS Cloud + AWS AI + ServiceNow CSA + ServiceNow CAD certified"
     ]
   },
-  recognition: [
-    {
-      title: "Cognizant Technoverse 2026 — Grand Finale Qualifier",
-      issuer: "Top 24 nationwide out of 2,000+ teams",
-      year: "2026",
-      description:
-        "Qualified to the Grand Finale of Cognizant's flagship national hackathon with MediFast AI, an RAG-powered medicine intelligence platform over a 169K-record knowledge graph."
-    },
-    {
-      title: "Smart India Hackathon 2024 — Prelims Top 10 Finalist",
-      issuer: "Government of India",
-      year: "2024",
-      description:
-        "Selected into the institute Top 10 in India's largest student innovation initiative, presenting a backend + AI product proposal."
-    },
-    {
-      title: "250+ DSA Problems Solved",
-      issuer: "LeetCode and Codeforces",
-      year: "Ongoing",
-      description:
-        "Consistent practice across data structures, graphs, dynamic programming, and system-design style problems."
-    }
-  ],
+  recognition: [],
   skills: [
     {
       category: "ML & AI",

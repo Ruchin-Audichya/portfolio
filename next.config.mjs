@@ -27,7 +27,9 @@ const nextConfig = {
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    // Types are enforced at build time. If a future change breaks them,
+    // the build should fail loudly instead of silently shipping bad code.
+    ignoreBuildErrors: false,
   },
   async headers() {
     return [

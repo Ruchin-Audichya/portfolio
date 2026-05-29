@@ -151,10 +151,10 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href="#guestbook"
+                    href="#contact"
                     className="text-sm text-white/65 transition-colors hover:text-white"
                   >
-                    Guestbook
+                    Contact
                   </a>
                 </li>
                 <li>
@@ -202,14 +202,19 @@ export function Footer() {
             </div>
           </div>
 
-          <a
-            href="#world"
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
             aria-label="Back to top"
             className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.22em] text-white/55 backdrop-blur transition hover:border-cyan-400/40 hover:text-white"
           >
             Back to top
             <ArrowUp className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5" />
-          </a>
+          </button>
         </motion.div>
 
         {/* Tagline strip */}

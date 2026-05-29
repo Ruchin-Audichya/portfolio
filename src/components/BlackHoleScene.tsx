@@ -579,8 +579,8 @@ export default function BlackHoleScene() {
             </a>
           </div>
 
-          {/* Secondary contact / social row */}
-          <div className="mt-5 flex flex-wrap justify-center gap-2 text-xs">
+          {/* Secondary contact / social row — desktop and tablet only */}
+          <div className="mt-5 hidden flex-wrap justify-center gap-2 text-xs sm:flex">
             <a
               href={profile.contactLinks.linkedin}
               target="_blank"
@@ -610,7 +610,8 @@ export default function BlackHoleScene() {
             </a>
           </div>
 
-          <div className="mt-6 flex max-w-2xl flex-wrap justify-center gap-2">
+          {/* Credential badges — desktop and tablet only; mobile keeps the hero focused */}
+          <div className="mt-6 hidden max-w-2xl flex-wrap justify-center gap-2 sm:flex">
             {profile.badges.map((badge) => (
               <span
                 key={badge}
