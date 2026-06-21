@@ -30,9 +30,9 @@ export function SeoIdentity() {
         pipeline reaching 84.7% accuracy and 94.5% ROC-AUC on 5,000+ student records.
       </p>
       <p>
-        Ruchin Audichya holds AWS Certified AI Practitioner, AWS Certified Cloud
-        Practitioner, ServiceNow Certified System Administrator (CSA), and ServiceNow
-        Certified Application Developer (CAD) certifications. He is a Computer Science
+        Ruchin Audichya holds AWS Certified Solutions Architect – Associate, AWS
+        Certified AI Practitioner, AWS Certified Cloud Practitioner, and ServiceNow
+        Certified System Administrator (CSA) certifications. He is a Computer Science
         Engineering undergraduate at JECRC University, Jaipur, with an AWS Cloud
         Specialization, and leads the AWS Cloud Club at JECRC University. Ruchin is a
         Top-24 nationwide finalist at Cognizant Technoverse 2026 (out of 2,000+ teams)

@@ -58,10 +58,10 @@ export const generatePersonSchema = () => ({
   award: [
     "Cognizant Technoverse 2026 — Top 24 nationwide (Grand Finale Qualifier)",
     "Smart India Hackathon 2024 — Prelims Top 10 Finalist",
+    "AWS Certified Solutions Architect – Associate",
     "AWS Certified AI Practitioner",
     "AWS Certified Cloud Practitioner",
     "ServiceNow Certified System Administrator",
-    "ServiceNow Certified Application Developer",
   ],
   hasOccupation: {
     "@type": "Occupation",
@@ -194,7 +194,7 @@ export const generateFaqSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Ruchin Audichya holds AWS Certified AI Practitioner, AWS Certified Cloud Practitioner, ServiceNow Certified System Administrator (CSA), and ServiceNow Certified Application Developer (CAD) certifications. Verification badges are linked from the credentials section of ruchinaudichya.in.",
+          "Ruchin Audichya holds AWS Certified Solutions Architect – Associate, AWS Certified AI Practitioner, AWS Certified Cloud Practitioner, and ServiceNow Certified System Administrator (CSA) certifications. Verification badges are linked from the credentials section of ruchinaudichya.in.",
       },
     },
     {

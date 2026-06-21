@@ -274,7 +274,7 @@ export function KineticAchievements() {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            Issued by AWS and ServiceNow. Tap any badge to verify it on Credly.
+            Three AWS certifications and a ServiceNow CSA. Tap any badge to verify it on Credly.
           </motion.p>
         </motion.div>
 

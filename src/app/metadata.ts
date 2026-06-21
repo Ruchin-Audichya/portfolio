@@ -45,8 +45,8 @@ const seoKeywords = [
   // Credential queries.
   "AWS Certified AI Practitioner India",
   "AWS Certified Cloud Practitioner",
+  "AWS Certified Solutions Architect Associate",
   "ServiceNow CSA",
-  "ServiceNow CAD",
   // Hackathon recognition.
   "Cognizant Technoverse 2026 finalist",
   "Smart India Hackathon 2024",

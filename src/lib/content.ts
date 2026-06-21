@@ -13,7 +13,7 @@ export const content = {
       "Around 2017 I cracked open my first rig because the fan was loud and I wanted to know why. That turned into a few years of overclocking things I shouldn't have, breaking them, fixing them, and eventually building custom PCs for friends and clients around me. Gaming taught me to care about frame budgets. Linux taught me that systems behave like systems whether they're made of silicon or software.",
       "By the time college started, the curiosity had moved up the stack — hardware to operating systems to code to data to ML. I leaned into the parts of computer science that kept the same hands-on feeling: what's actually happening here, why is it slow, can I make it faster.",
       "The work I'm proudest of lives at that intersection. MediFast AI is a RAG system over a 169K-record medicine knowledge graph with 1.3M+ edges, built to handle Indian-language symptom queries and typos most search ignores — it lifted match rate by 18 percentage points and made the Cognizant Technoverse 2026 Grand Finale, Top 24 out of 2,000+ teams nationwide. Placify AI came from wanting to clean up messy placement data closer to home, and turned into a CatBoost classifier at 84.7% accuracy with a FastAPI resume parser sitting in front of it.",
-      "Outside the code, I lead the AWS Cloud Club at JECRC and have helped run cloud and Git workshops for 1,000+ students. AWS Cloud, AWS AI, ServiceNow CSA, and ServiceNow CAD all picked up along the way.",
+      "Outside the code, I lead the AWS Cloud Club at JECRC and have helped run cloud and Git workshops for 1,000+ students. AWS Solutions Architect, AWS AI, AWS Cloud, and ServiceNow CSA all picked up along the way.",
       "Same curiosity that started with that noisy fan, just running on different silicon now. If that's the kind of energy you want on your team, my inbox is open."
     ],
     avatar: "/profile.jpg",
@@ -36,9 +36,9 @@ export const content = {
       resume: "/resume.pdf"
     },
     badges: [
+      "AWS Solutions Architect",
       "AWS AI Certified",
       "AWS Cloud Certified",
-      "ServiceNow CSA + CAD",
       "Cognizant Technoverse Top-24"
     ]
   },
@@ -53,7 +53,7 @@ export const content = {
       "MediFast AI — 169K-record knowledge graph, 1.3M+ edges, +18 pp search accuracy",
       "Placify AI — 84.7% accuracy and 94.5% ROC-AUC on 5K+ student records",
       "Data / ML Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
-      "AWS Cloud + AWS AI + ServiceNow CSA + ServiceNow CAD certified"
+      "AWS Solutions Architect + AWS AI + AWS Cloud + ServiceNow CSA certified"
     ]
   },
   recognition: [],
@@ -127,6 +127,16 @@ export const content = {
   ],
   certifications: [
     {
+      title: "AWS Certified Solutions Architect – Associate",
+      issuer: "Amazon Web Services",
+      year: "2026",
+      description:
+        "Designing distributed, resilient, cost-optimized systems on AWS — compute, storage, networking, and security architecture.",
+      credentialUrl: "https://www.credly.com/users/ruchin-audichya",
+      image: "/certificates/aws-solutions-architect-badge.png",
+      brand: "aws" as const
+    },
+    {
       title: "AWS Certified AI Practitioner",
       issuer: "Amazon Web Services",
       year: "2026",
@@ -154,16 +164,6 @@ export const content = {
         "Platform administration, configuration, user management, and workflow fundamentals on ServiceNow.",
       credentialUrl: "https://www.credly.com/badges/01176bad-90e8-42ea-9813-00f869263665/public_url",
       image: "/certificates/servicenow-csa-badge.png",
-      brand: "servicenow" as const
-    },
-    {
-      title: "ServiceNow Certified Application Developer (CAD)",
-      issuer: "ServiceNow",
-      year: "2026",
-      description:
-        "Application development, data modeling, scripting, UI, and automation patterns on ServiceNow.",
-      credentialUrl: null,
-      image: null,
       brand: "servicenow" as const
     }
   ],
