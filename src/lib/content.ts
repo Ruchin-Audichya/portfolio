@@ -132,7 +132,7 @@ export const content = {
       year: "2026",
       description:
         "Designing distributed, resilient, cost-optimized systems on AWS — compute, storage, networking, and security architecture.",
-      credentialUrl: "https://www.credly.com/users/ruchin-audichya",
+      credentialUrl: "https://www.credly.com/badges/14a84662-959b-4450-9fe0-39e914210f25/public_url",
       image: "/certificates/aws-solutions-architect-badge.png",
       brand: "aws" as const
     },
