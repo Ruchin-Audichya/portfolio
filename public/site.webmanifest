@@ -1,17 +1,25 @@
 {
-    "name": "Ruchin Audichya - Full Stack Developer & Cloud Engineer",
-    "short_name": "Ruchin A.",
-    "description": "Full Stack Developer & Cloud Engineer Portfolio - React, Next.js, AWS, DevOps",
+    "name": "Ruchin Audichya — Software Engineer, AI & Cloud",
+    "short_name": "RA",
+    "description": "Portfolio of Ruchin Audichya, software engineer in Jaipur: MediFast AI, Yatra Sync and more.",
     "start_url": "/?source=pwa",
     "scope": "/",
     "display": "standalone",
-    "display_override": ["window-controls-overlay", "standalone", "browser"],
-    "background_color": "#0a0a0a",
-    "theme_color": "#00F0FF",
+    "display_override": [
+        "window-controls-overlay",
+        "standalone",
+        "browser"
+    ],
+    "background_color": "#111110",
+    "theme_color": "#C8205E",
     "orientation": "any",
     "id": "/",
-    "categories": ["portfolio", "developer", "technology"],
-    "lang": "en-US",
+    "categories": [
+        "portfolio",
+        "developer",
+        "technology"
+    ],
+    "lang": "en-IN",
     "dir": "ltr",
     "prefer_related_applications": false,
     "icons": [
@@ -22,16 +30,9 @@
             "purpose": "any"
         },
         {
-            "src": "/logo.svg",
-            "sizes": "any",
-            "type": "image/svg+xml",
-            "purpose": "maskable"
-        },
-        {
             "src": "/apple-touch-icon.png",
             "sizes": "180x180",
-            "type": "image/png",
-            "purpose": "apple touch icon"
+            "type": "image/png"
         },
         {
             "src": "/icon-192.png",
@@ -44,15 +45,6 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "/og-image.png",
-            "sizes": "1200x630",
-            "type": "image/png",
-            "form_factor": "wide",
-            "label": "Portfolio Homepage"
         }
     ],
     "shortcuts": [

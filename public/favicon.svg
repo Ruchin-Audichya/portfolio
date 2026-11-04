@@ -1,19 +1,5 @@
-<svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512">
-      <stop offset="0%" stop-color="#130e16"/>
-      <stop offset="100%" stop-color="#0a0a0f"/>
-    </linearGradient>
-    <linearGradient id="r-stroke" x1="100" y1="80" x2="400" y2="420">
-      <stop offset="0%" stop-color="#fffbf9"/>
-      <stop offset="30%" stop-color="#ffbc68"/>
-      <stop offset="60%" stop-color="#ff5600"/>
-      <stop offset="100%" stop-color="#cc00ff"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <path d="M140 392V120" stroke="#E2E8F0" stroke-width="44" stroke-linecap="round" opacity="0.15"/>
-  <path d="M140 120V392" stroke="url(#r-stroke)" stroke-width="44" stroke-linecap="round"/>
-  <path d="M140 120H272C316.183 120 352 155.817 352 200C352 244.183 316.183 280 272 280H140" stroke="url(#r-stroke)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M272 280L372 392" stroke="url(#r-stroke)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Ruchin Audichya</title>
+  <rect width="512" height="512" rx="96" fill="#C8205E"/>
+  <path fill="#FFFFFF" fill-rule="evenodd" transform="translate(126 100) scale(2.6)" d="M0 120V58C0 22 30 10 50 0C70 10 100 22 100 58V120H74V84H26V120ZM26 62H74V58C74 40 62 28 50 22C38 28 26 40 26 58Z"/>
 </svg>

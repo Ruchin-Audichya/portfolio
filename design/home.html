@@ -42,7 +42,12 @@ h1,h2,h3,h4,p{margin:0}
 .bar nav{display:flex;gap:18px}
 .bar nav a{text-decoration:none;color:var(--muted);transition:color .2s}
 .bar nav a:hover{color:var(--rani)}
-.mono-mark{font:800 15px/1 var(--sans);font-variation-settings:"wdth" 125;letter-spacing:-.02em;text-decoration:none}
+.mono-mark{display:block;text-decoration:none;line-height:0}
+.mono-mark svg{display:block;height:16px;width:auto;overflow:visible}
+.mono-mark .r{fill:var(--ink)}.mono-mark .a{fill:var(--rani);transition:transform .45s var(--ease)}
+.mono-mark:hover .a{transform:translateY(-14px)}
+.foot-mark{display:inline-flex;align-items:center;gap:10px}
+.foot-mark svg{height:14px;width:auto;fill:var(--rani)}
 .avail{display:inline-flex;align-items:center;gap:8px}
 .avail::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--marigold);animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}
@@ -211,7 +216,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
 
 <div class="wrap">
   <header class="bar">
-    <div class="l"><a class="mono-mark" href="#top">RA</a><span class="hide-s">Jaipur · 26.91° N, 75.79° E</span><span id="clock">IST</span></div>
+    <div class="l"><a class="mono-mark" href="#top" aria-label="Ruchin Audichya, back to top"><svg viewBox="0 0 220 120" aria-hidden="true"><path class="r" fill-rule="evenodd" d="M0 0H64C88 0 100 14 100 34C100 52 90 62 74 66L100 120H72L50 70H26V120H0ZM26 22V48H62C70 48 74 42 74 35C74 28 70 22 62 22Z"/><g transform="translate(120 0)"><path class="a" fill-rule="evenodd" d="M0 120V58C0 22 30 10 50 0C70 10 100 22 100 58V120H74V84H26V120ZM26 62H74V58C74 40 62 28 50 22C38 28 26 40 26 58Z"/></g></svg></a><span class="hide-s">Jaipur · 26.91° N, 75.79° E</span><span id="clock">IST</span></div>
     <nav aria-label="Sections"><a href="#work">Work</a><a href="#story">Story</a><a href="#record">Record</a><a href="#contact">Contact</a></nav>
     <div class="r"><span class="avail hide-s">Open to SDE / GET roles</span><button class="toggle" id="theme" type="button">Dark</button></div>
   </header>
@@ -423,7 +428,7 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;paddin
       <a class="lnk" href="https://leetcode.com/u/ruchinaudichya/" target="_blank" rel="noopener">LeetCode ↗</a>
     </div>
   </div>
-  <footer><span>Ruchin Audichya · रुचिन औदीच्य</span><span>Built in Jaipur · 2026</span></footer>
+  <footer><span class="foot-mark"><svg viewBox="0 0 100 120" aria-hidden="true"><path fill-rule="evenodd" d="M0 120V58C0 22 30 10 50 0C70 10 100 22 100 58V120H74V84H26V120ZM26 62H74V58C74 40 62 28 50 22C38 28 26 40 26 58Z"/></svg>Ruchin Audichya · रुचिन औदीच्य</span><span>Built in Jaipur · 2026</span></footer>
 </div>
 
 <script>

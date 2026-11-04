@@ -30,7 +30,13 @@ html.light .ra{
 .ra .bar nav{display:flex;gap:18px}
 .ra .bar nav a{text-decoration:none;color:var(--muted);transition:color .2s}
 .ra .bar nav a:hover{color:var(--rani)}
-.ra .mono-mark{font:800 15px/1 var(--sans);font-variation-settings:"wdth" 125;letter-spacing:-.02em;text-decoration:none}
+.ra .mono-mark{display:block;text-decoration:none;line-height:0}
+.ra .mono-mark svg{display:block;height:16px;width:auto;overflow:visible}
+.ra .mono-mark .r{fill:var(--ink)}
+.ra .mono-mark .a{fill:var(--rani);transition:transform .45s var(--ease)}
+.ra .mono-mark:hover .a{transform:translateY(-14px)}
+.ra .foot-mark{display:inline-flex;align-items:center;gap:10px}
+.ra .foot-mark svg{height:14px;width:auto;fill:var(--rani)}
 .ra .avail{display:inline-flex;align-items:center;gap:8px}
 .ra .avail::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--marigold);animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}

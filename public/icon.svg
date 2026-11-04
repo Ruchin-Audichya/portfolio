@@ -1,15 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Ruchin Audichya logo">
-  <defs>
-    <linearGradient id="logo-hex" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#55e7ff" />
-      <stop offset="50%" stop-color="#6a7aff" />
-      <stop offset="100%" stop-color="#ff4fd8" />
-    </linearGradient>
-  </defs>
-  <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M60 6 L110 34 V86 L60 114 L10 86 V34 Z" stroke="url(#logo-hex)" />
-    <circle cx="60" cy="60" r="30" stroke="#111827" fill="#0b1628" />
-    <path d="M40 66 C42 56 52 52 60 56 C64 50 76 48 82 58 C88 59 92 64 92 70" stroke="#9ee8ff" stroke-width="5" fill="none" />
-    <circle cx="87" cy="60" r="4.5" fill="#ff4fd8" stroke="#0b1628" stroke-width="2" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Ruchin Audichya</title>
+  <rect width="512" height="512" rx="96" fill="#C8205E"/>
+  <path fill="#FFFFFF" fill-rule="evenodd" transform="translate(126 100) scale(2.6)" d="M0 120V58C0 22 30 10 50 0C70 10 100 22 100 58V120H74V84H26V120ZM26 62H74V58C74 40 62 28 50 22C38 28 26 40 26 58Z"/>
 </svg>

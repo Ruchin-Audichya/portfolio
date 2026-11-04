@@ -133,13 +133,16 @@ export const defaultMetadata: Metadata = {
     // google: "your-google-verification-code",
   },
   category: "technology",
+  // Arch-RA identity. favicon.ico (16/32/48) is kept for old browsers, IE9 included.
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
     ],
-    shortcut: "/favicon.svg",
-    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#22d3ee" }],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#C8205E" }],
   },
   manifest: "/site.webmanifest",
   appleWebApp: {

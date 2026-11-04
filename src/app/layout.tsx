@@ -90,7 +90,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Ruchin A." />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-TileColor" content="#8b5cf6" />
+        <meta name="msapplication-TileColor" content="#C8205E" />
         <meta name="msapplication-tap-highlight" content="no" />
 
         <script
