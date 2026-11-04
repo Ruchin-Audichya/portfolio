@@ -3,7 +3,7 @@ import { content } from "@/lib/content";
 export const SITE_URL = "https://ruchinaudichya.in";
 export const SITE_NAME = "Ruchin Audichya";
 export const SITE_DESCRIPTION =
-  "Official portfolio of Ruchin Audichya — Data-driven ML Engineer in Jaipur, India. Builder of MediFast AI (RAG over a 169K-record knowledge graph with 1.3M+ edges) and Placify AI (84.7% accuracy, 94.5% ROC-AUC). AWS and ServiceNow certified.";
+  "Ruchin Audichya is a software engineer in Jaipur, India building backend APIs, AWS automation and applied AI. Creator of MediFast AI (Top 24 of 2,000+ teams, Cognizant Technoverse 2026) and Yatra Sync, a shared-cab matching and fare-split app. AWS Certified Solutions Architect – Associate.";
 export const OG_IMAGE = `${SITE_URL}/readme-hero.png`;
 
 // Every public profile / page that says “Ruchin Audichya” somewhere.
@@ -27,7 +27,7 @@ export const generatePersonSchema = () => ({
   alternateName: ["Ruchin", "Ruchin A.", "ruchinaudichya"],
   givenName: "Ruchin",
   familyName: "Audichya",
-  jobTitle: "Data-driven ML Engineer",
+  jobTitle: "Software Engineer",
   description: SITE_DESCRIPTION,
   url: SITE_URL,
   image: {
@@ -50,13 +50,14 @@ export const generatePersonSchema = () => ({
     name: "JECRC University",
     sameAs: "https://www.jecrcuniversity.edu.in/",
   },
-  worksFor: {
+  // Software Engineering Intern, Dec 2025 – Mar 2026.
+  affiliation: {
     "@type": "Organization",
     name: "SecretEye Telematics",
   },
   knowsLanguage: ["en", "hi"],
   award: [
-    "Cognizant Technoverse 2026 — Top 24 nationwide (Grand Finale Qualifier)",
+    "Cognizant Technoverse 2026 — Grand Finale, Top 24 of 2,000+ teams (MediFast AI)",
     "Smart India Hackathon 2024 — Prelims Top 10 Finalist",
     "AWS Certified Solutions Architect – Associate",
     "AWS Certified AI Practitioner",
@@ -65,29 +66,29 @@ export const generatePersonSchema = () => ({
   ],
   hasOccupation: {
     "@type": "Occupation",
-    name: "Machine Learning Engineer",
+    name: "Software Engineer",
     occupationLocation: {
       "@type": "City",
       name: "Jaipur, India",
     },
     skills: [
-      "Retrieval-Augmented Generation (RAG)",
-      "Knowledge Graphs",
-      "Vector Databases",
-      "ChromaDB",
-      "BM25",
-      "LangChain",
-      "PyTorch",
-      "Scikit-learn",
-      "CatBoost",
-      "FastAPI",
       "Node.js",
-      "AWS",
-      "Docker",
-      "PostgreSQL",
-      "MongoDB",
-      "Python",
+      "Express.js",
       "TypeScript",
+      "Next.js",
+      "React",
+      "REST APIs",
+      "Python",
+      "AWS",
+      "Boto3",
+      "MongoDB",
+      "PostgreSQL",
+      "SQLite",
+      "ChromaDB",
+      "Retrieval-Augmented Generation (RAG)",
+      "Docker",
+      "Git",
+      "Linux",
     ],
   },
   hasCredential: content.certifications.map((c) => ({
@@ -101,15 +102,16 @@ export const generatePersonSchema = () => ({
   knowsAbout: [
     "Ruchin Audichya",
     "MediFast AI",
-    "Placify AI",
-    "RAG",
-    "Knowledge Graphs",
-    "Machine Learning",
-    "Vector Databases",
+    "Yatra Sync",
+    "Backend engineering",
+    "Node.js",
+    "TypeScript",
     "AWS",
-    "ServiceNow",
+    "Applied AI",
+    "Ride sharing and fare splitting",
+    "PC gaming",
     "JECRC University",
-    "Jaipur AI Engineer",
+    "Jaipur",
   ],
 });
 
@@ -139,7 +141,7 @@ export const generateProfilePageSchema = () => ({
   "@type": "ProfilePage",
   "@id": `${SITE_URL}/#profilepage`,
   url: SITE_URL,
-  name: "Ruchin Audichya — Data-driven ML Engineer",
+  name: "Ruchin Audichya — Software Engineer, AI & Cloud",
   description: SITE_DESCRIPTION,
   inLanguage: "en-IN",
   mainEntity: { "@id": `${SITE_URL}/#person` },
@@ -176,7 +178,7 @@ export const generateFaqSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Ruchin Audichya is a data-driven ML engineer based in Jaipur, India. He builds retrieval-heavy AI systems and knowledge-graph pipelines, and is the creator of MediFast AI (RAG over a 169K-record medicine knowledge graph with 1.3M+ relationship edges) and Placify AI (a CatBoost classification pipeline reaching 84.7% accuracy and 94.5% ROC-AUC).",
+          "Ruchin Audichya is a software engineer from Jaipur, India and a final-year B.Tech CSE student at JECRC University (class of 2027). He builds backend APIs with Node.js and TypeScript, automates AWS with Python, and created MediFast AI, a Telegram assistant that finds medicines at nearby pharmacies (Top 24 of 2,000+ teams at Cognizant Technoverse 2026), and Yatra Sync, a shared-cab matching and fare-split app.",
       },
     },
     {
@@ -203,7 +205,7 @@ export const generateFaqSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Ruchin Audichya specializes in Retrieval-Augmented Generation (RAG), knowledge graphs, vector databases (ChromaDB), BM25 hybrid retrieval, LangChain, PyTorch, CatBoost, FastAPI, Node.js, AWS, Docker, PostgreSQL, and MongoDB.",
+          "Ruchin Audichya works with Python, JavaScript, TypeScript, Node.js, Express.js, Next.js, React, REST APIs, MongoDB, PostgreSQL, SQLite, ChromaDB, AWS (EC2, S3, IAM, CloudWatch), Boto3, Docker, Git and Linux.",
       },
     },
     {
@@ -212,7 +214,7 @@ export const generateFaqSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Ruchin Audichya is a Computer Science Engineering undergraduate at JECRC University in Jaipur, India, with an AWS Cloud Specialization. He also leads the AWS Cloud Club at JECRC University.",
+          "Ruchin Audichya is a final-year B.Tech Computer Science Engineering student at JECRC University in Jaipur, India (2023–2027, AWS Cloud Specialization, CGPA 8.2). He is the Technical Lead of the AWS Cloud Club at JECRC University.",
       },
     },
     {
@@ -221,7 +223,7 @@ export const generateFaqSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Ruchin Audichya can be reached at ruchinaudichya100@gmail.com or through LinkedIn at linkedin.com/in/ruchinaudi/. He is currently open to AI / ML, data engineering, and cloud roles.",
+          "Ruchin Audichya can be reached at ruchinaudichya100@gmail.com or on LinkedIn at linkedin.com/in/ruchinaudi/. He is looking for Software Engineer and Graduate Engineer Trainee roles. His résumé is at ruchinaudichya.in/resume.pdf.",
       },
     },
   ],

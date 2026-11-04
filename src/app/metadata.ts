@@ -32,16 +32,21 @@ const seoKeywords = [
   "Ruchin Audichya resume",
   "ruchinaudichya",
   "ruchinaudichya.in",
+  "Ruchin Audichya software engineer",
+  "Ruchin Audichya Yatra Sync",
+  "Ruchin Audichya MediFast",
   // Role + location queries.
-  "Data-driven ML Engineer India",
-  "AI ML Engineer Jaipur",
-  "RAG Engineer India",
-  "Knowledge Graph Engineer India",
+  "Software Engineer Jaipur",
+  "Graduate Engineer Trainee 2027",
+  "Node.js TypeScript developer India",
+  "Backend developer Jaipur",
+  "AWS Solutions Architect Associate Jaipur",
   // Project-specific queries.
   "MediFast AI",
+  "MediFast AI Telegram bot",
+  "Yatra Sync",
+  "Yatra Sync cab sharing fare split",
   "Placify AI",
-  "RAG medicine search",
-  "BM25 ChromaDB hybrid retrieval",
   // Credential queries.
   "AWS Certified AI Practitioner India",
   "AWS Certified Cloud Practitioner",
@@ -49,6 +54,7 @@ const seoKeywords = [
   "ServiceNow CSA",
   // Hackathon recognition.
   "Cognizant Technoverse 2026 finalist",
+  "Cognizant Technoverse 2026 Top 24",
   "Smart India Hackathon 2024",
 ];
 
@@ -57,7 +63,7 @@ export const defaultMetadata: Metadata = {
   applicationName: `${SITE_NAME} Portfolio`,
   title: {
     // Putting the name first + last + descriptor maximizes direct-name match.
-    default: "Ruchin Audichya — Data-driven ML Engineer | Portfolio",
+    default: "Ruchin Audichya — Software Engineer, AI & Cloud | Jaipur",
     template: `%s | Ruchin Audichya`,
   },
   description: SITE_DESCRIPTION,
@@ -82,7 +88,7 @@ export const defaultMetadata: Metadata = {
     locale: "en_IN",
     url: SITE_URL,
     siteName: `${SITE_NAME} Portfolio`,
-    title: "Ruchin Audichya — Data-driven ML Engineer",
+    title: "Ruchin Audichya — Software Engineer, AI & Cloud",
     description: SITE_DESCRIPTION,
     firstName: "Ruchin",
     lastName: "Audichya",
@@ -102,7 +108,7 @@ export const defaultMetadata: Metadata = {
     card: "summary_large_image",
     site: "@itsRuchin",
     creator: "@itsRuchin",
-    title: "Ruchin Audichya — Data-driven ML Engineer",
+    title: "Ruchin Audichya — Software Engineer, AI & Cloud",
     description: SITE_DESCRIPTION,
     images: {
       url: OG_IMAGE,

@@ -1,20 +1,19 @@
 export const content = {
   profile: {
     name: "Ruchin Audichya",
-    role: "Data-driven ML Engineer • RAG • Cloud",
-    headline: "Data-driven ML Engineer • RAG • Cloud",
+    role: "Software Engineer • AI & Cloud",
+    headline: "Software Engineer • AI & Cloud",
     subline:
-      "I build ML systems, knowledge-graph pipelines, and applied AI products that ship. Currently obsessed with retrieval that actually works.",
+      "I build software that does the legwork: backend APIs, AWS automation and applied AI products people actually use.",
     mission:
       "I build retrieval-heavy AI systems, backend APIs, and cloud automation that turn messy real-world data into reliable products.",
-    bio_title: "From broken PCs to production AI.",
+    bio_title: "Player one, since 2009.",
     bio: [
-      "Hey — I'm Ruchin. Short version: I build retrieval-heavy AI systems that ship. Longer version starts with a PC fan I shouldn't have ignored.",
-      "Around 2017 I cracked open my first rig because the fan was loud and I wanted to know why. That turned into a few years of overclocking things I shouldn't have, breaking them, fixing them, and eventually building custom PCs for friends and clients around me. Gaming taught me to care about frame budgets. Linux taught me that systems behave like systems whether they're made of silicon or software.",
-      "By the time college started, the curiosity had moved up the stack — hardware to operating systems to code to data to ML. I leaned into the parts of computer science that kept the same hands-on feeling: what's actually happening here, why is it slow, can I make it faster.",
-      "The work I'm proudest of lives at that intersection. MediFast AI is a RAG system over a 169K-record medicine knowledge graph with 1.3M+ edges, built to handle Indian-language symptom queries and typos most search ignores — it lifted match rate by 18 percentage points and made the Cognizant Technoverse 2026 Grand Finale, Top 24 out of 2,000+ teams nationwide. Placify AI came from wanting to clean up messy placement data closer to home, and turned into a CatBoost classifier at 84.7% accuracy with a FastAPI resume parser sitting in front of it.",
-      "Outside the code, I lead the AWS Cloud Club at JECRC and have helped run cloud and Git workshops for 1,000+ students. AWS Solutions Architect, AWS AI, AWS Cloud, and ServiceNow CSA all picked up along the way.",
-      "Same curiosity that started with that noisy fan, just running on different silicon now. If that's the kind of energy you want on your team, my inbox is open."
+      "Hey, I'm Ruchin. I was a gamer long before I was an engineer. I joined the PC gaming crowd in 2009 and found my people in game communities and forums.",
+      "I grew a YouTube channel to about 6,000 subscribers back when every channel could be monetised, and lost it later when my old email was hijacked. Lesson learned: turn on two-factor authentication.",
+      "My favourite chapter is still the Pascal era: a GTX 1060, CS:GO matches and Steam masti with friends. I have a soft spot for the old internet too, with its forums, retro games and hand-made web pages.",
+      "Today I'm a final-year B.Tech CSE student at JECRC University. I interned as a software engineer at SecretEye Telematics, lead the AWS Cloud Club, and build products like MediFast AI (Top 24 of 2,000+ teams at Cognizant Technoverse 2026) and Yatra Sync.",
+      "If you want someone who builds useful things end to end, my inbox is open."
     ],
     avatar: "/profile.jpg",
     resume: "/resume.pdf",
@@ -50,9 +49,10 @@ export const content = {
       "I move fluently across the stack: Python, Node, AWS, MongoDB, PostgreSQL, ChromaDB, LangChain"
     ],
     proofPoints: [
-      "MediFast AI — 169K-record knowledge graph, 1.3M+ edges, +18 pp search accuracy",
+      "MediFast AI — Top 24 of 2,000+ teams, Cognizant Technoverse 2026",
+      "Yatra Sync — cab matching and fare split, 138 + 9 tests",
       "Placify AI — 84.7% accuracy and 94.5% ROC-AUC on 5K+ student records",
-      "Data / ML Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
+      "Software Engineering Intern at SecretEye Telematics (Dec 2025 – Mar 2026)",
       "AWS Solutions Architect + AWS AI + AWS Cloud + ServiceNow CSA certified"
     ]
   },
@@ -170,7 +170,7 @@ export const content = {
   experience: [
     {
       company: "SecretEye Telematics",
-      role: "Data / ML Intern — Data & Backend Systems",
+      role: "Software Engineering Intern",
       period: "Dec 2025 – Mar 2026",
       location: "Remote / India",
       summary:
@@ -209,9 +209,9 @@ export const content = {
     {
       slug: "medifast-ai",
       title: "MediFast AI",
-      category: "RAG • Knowledge Graph • Healthcare",
+      category: "Telegram agent • Nearby pharmacies • Applied AI",
       description:
-        "RAG-powered medicine intelligence platform over a 169K-record knowledge graph with 1.3M+ relationship edges. Combines BM25 sparse retrieval and ChromaDB dense vector search to handle multilingual, typo-tolerant, and symptom-based queries.",
+        "Telegram assistant that searches 169K+ Indian medicines, handles typos and Hinglish, answers only from verified data, and shows nearby pharmacies sorted by distance. Top 24 of 2,000+ teams at Cognizant Technoverse 2026.",
       tech: [
         "Node.js",
         "Python",
@@ -241,6 +241,44 @@ export const content = {
           "Cut irrelevant pharmacy results by ~30% with radius-based ranking across 10K+ locations",
           "Qualified to Cognizant Technoverse 2026 Grand Finale — Top 24 nationwide out of 2,000+ teams",
           "Built an architecture that extends cleanly to WhatsApp and family-medicine SOS use cases"
+        ]
+      }
+    },
+    {
+      slug: "yatra-sync",
+      title: "Yatra Sync",
+      category: "Ride sharing • Matching • Fare split",
+      description:
+        "Web app that finds co-travellers heading the same way (office, station, airport), groups them into one Ola/Uber cab, and splits the fare by each rider's distance and seats, exact to the paisa.",
+      tech: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "SQLite",
+        "Drizzle ORM",
+        "Zod",
+        "Vitest",
+        "Playwright"
+      ],
+      image: "/projects/yatra-sync.png",
+      year: "2026",
+      metrics: "138 unit/integration + 9 E2E tests",
+      github: "https://github.com/Ruchin-Audichya/Yatra-Sync",
+      caseStudy: {
+        problem:
+          "Office commutes, station transfers and airport runs are expensive to take alone, but sharing a cab with strangers means guessing who is going your way and arguing over who owes what.",
+        solution:
+          "Built a Next.js and TypeScript app with group invites, rider consent and group chat. A matching algorithm runs shortest paths on a road graph and groups riders by departure time, detour, waiting time and seat capacity. Fares are split by each rider's distance and seats, exact to the paisa, so nobody pays more than their solo fare.",
+        challenges: [
+          "Balancing detour, waiting time and seat capacity when grouping riders",
+          "Splitting fares to the exact paisa so every share adds up to the cab fare",
+          "Guaranteeing no rider pays more than their solo fare, including when sharing costs more",
+          "Keeping matching fast as the number of ride requests grows"
+        ],
+        outcomes: [
+          "Tested with 138 unit and integration tests (Vitest) and 9 end-to-end browser tests (Playwright)",
+          "Benchmarked matching on simulations of 25–200 ride requests",
+          "Office, station and airport shortcuts with repeat and return journeys"
         ]
       }
     },
