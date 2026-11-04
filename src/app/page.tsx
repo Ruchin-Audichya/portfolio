@@ -1,106 +1,21 @@
-"use client";
+import { Bricolage_Grotesque, Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
+import { homeMarkup } from "@/components/home/markup";
+import { HomeEffects } from "@/components/home/HomeEffects";
+import "@/components/home/home.css";
 
-import dynamic from "next/dynamic";
-import { LazySection } from "@/components/LazySection";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { SeoIdentity } from "@/components/SeoIdentity";
+const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--f-display", display: "swap" });
+const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--f-mono", display: "swap" });
 
-const BlackHoleScene = dynamic(() => import("@/components/BlackHoleScene"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-black" />,
-});
-
-const KineticAbout = dynamic(() =>
-  import("@/components/sections/KineticAbout").then((mod) => mod.KineticAbout)
-);
-const Skills = dynamic(() =>
-  import("@/components/sections/Skills").then((mod) => mod.Skills)
-);
-const RecruiterSnapshot = dynamic(() =>
-  import("@/components/sections/RecruiterSnapshot").then((mod) => mod.RecruiterSnapshot)
-);
-const KeyAchievements = dynamic(() =>
-  import("@/components/sections/KeyAchievements").then((mod) => mod.KeyAchievements)
-);
-const Experience = dynamic(() =>
-  import("@/components/sections/Experience").then((mod) => mod.Experience)
-);
-const KineticProjects = dynamic(() =>
-  import("@/components/sections/KineticProjects").then((mod) => mod.KineticProjects)
-);
-const KineticAchievements = dynamic(() =>
-  import("@/components/sections/KineticAchievements").then((mod) => mod.KineticAchievements)
-);
-const Github = dynamic(() =>
-  import("@/components/sections/Github").then((mod) => mod.Github)
-);
-const Contact = dynamic(() =>
-  import("@/components/sections/Contact").then((mod) => mod.Contact)
-);
-
+// Server-rendered so crawlers and slow phones get the full content without waiting for JS.
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
-      <Navbar />
-
-      <SeoIdentity />
-
-      <section id="world" className="h-screen w-full relative">
-        <BlackHoleScene />
-      </section>
-
-      {/* Smooth transition from black hole to portfolio */}
-      <div className="h-24 bg-gradient-to-b from-black via-[#0a0a0f] to-[#0a0a0f]" />
-
-      {/* Kinetic Sections - Below Black Hole */}
-      <div className="relative z-10 bg-[#0a0a0f] text-white dark">
-        {/* Origin / About - Floating fragments, staggered reveals */}
-        <LazySection>
-          <KineticAbout />
-        </LazySection>
-
-        <LazySection>
-          <RecruiterSnapshot />
-        </LazySection>
-
-        <LazySection>
-          <KeyAchievements />
-        </LazySection>
-
-        <LazySection>
-          <Experience />
-        </LazySection>
-
-        <LazySection>
-          <Skills />
-        </LazySection>
-
-        {/* Featured Projects - Kinetic typography, scroll-linked motion */}
-        <LazySection>
-          <KineticProjects />
-        </LazySection>
-
-        {/* Achievements - Certifications */}
-        <LazySection>
-          <KineticAchievements />
-        </LazySection>
-
-        <LazySection>
-          <ScrollReveal width="100%">
-            <Github />
-          </ScrollReveal>
-        </LazySection>
-
-        <LazySection>
-          <ScrollReveal width="100%">
-            <Contact />
-          </ScrollReveal>
-        </LazySection>
-
-        <Footer />
-      </div>
-    </main>
+    <>
+      <div
+        className={`ra ${display.variable} ${body.variable} ${mono.variable}`}
+        dangerouslySetInnerHTML={{ __html: homeMarkup }}
+      />
+      <HomeEffects />
+    </>
   );
 }
