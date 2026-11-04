@@ -1,18 +1,19 @@
-import { Bricolage_Grotesque, Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Archivo, Tiro_Devanagari_Hindi, IBM_Plex_Mono } from "next/font/google";
 import { homeMarkup } from "@/components/home/markup";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import "@/components/home/home.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--f-display", display: "swap" });
-const body = Schibsted_Grotesk({ subsets: ["latin"], variable: "--f-body", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--f-mono", display: "swap" });
+// Archivo's width axis drives the edge-to-edge name wordmark.
+const sans = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--f-sans", display: "swap" });
+const deva = Tiro_Devanagari_Hindi({ subsets: ["devanagari", "latin"], weight: "400", variable: "--f-deva", display: "swap" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--f-mono", display: "swap" });
 
 // Server-rendered so crawlers and slow phones get the full content without waiting for JS.
 export default function Home() {
   return (
     <>
       <div
-        className={`ra ${display.variable} ${body.variable} ${mono.variable}`}
+        className={`ra ${sans.variable} ${deva.variable} ${mono.variable}`}
         dangerouslySetInnerHTML={{ __html: homeMarkup }}
       />
       <HomeEffects />
