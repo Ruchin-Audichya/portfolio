@@ -2,7 +2,9 @@
 // Every number here is taken from a project README, a public repo or the résumé.
 
 export const site = {
-  url: "https://ruchinaudichya.in",
+  // The live host. The bare domain 307-redirects here, and link-preview crawlers
+  // (LinkedIn's in particular) give up on og:url / og:image values that redirect.
+  url: "https://www.ruchinaudichya.in",
   name: "Ruchin Audichya",
   nameDeva: "रुचिन औदीच्य",
   pronunciation: "ru·chin au·dee·chya",

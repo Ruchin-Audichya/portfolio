@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
             { userAgent: "ClaudeBot", allow: "/" },
             { userAgent: "Google-Extended", allow: "/" },
         ],
-        sitemap: "https://ruchinaudichya.in/sitemap.xml",
-        host: "https://ruchinaudichya.in",
+        sitemap: "https://www.ruchinaudichya.in/sitemap.xml",
+        host: "https://www.ruchinaudichya.in",
     };
 }
