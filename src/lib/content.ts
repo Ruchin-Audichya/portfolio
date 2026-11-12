@@ -341,7 +341,7 @@ export const projects: Project[] = [
       { value: "3", label: "people on the team" },
     ],
     stack: ["Python", "CatBoost", "FastAPI", "React", "PostgreSQL"],
-    links: [{ label: "GitHub", href: "https://github.com/shriya-gakkhar1/Minor-Project" }],
+    links: [],
     study: {
       problem: [
         "Placement data was scattered across spreadsheets, résumés and manual updates from coordinators.",
@@ -434,7 +434,7 @@ export const moreWork = [
   {
     year: "2025",
     title: "Find My Stipend",
-    kind: "Search · built with Shriya Gakkhar",
+    kind: "Search · team project",
     blurb: "Blends Internshala, LinkedIn and company career pages into one internship search ranked against your résumé.",
     href: "https://wms-virid-six.vercel.app",
     cta: "Live app",
