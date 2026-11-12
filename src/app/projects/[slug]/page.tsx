@@ -1,207 +1,200 @@
-import { content } from "@/lib/content";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb, Github } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { generateBreadcrumb, generateSoftwareSchema, SITE_URL } from "@/lib/seo";
+import { ArrowRight, ArrowUpRight } from "@/components/site/Icons";
+import { getProject, projects } from "@/lib/content";
+import { SITE_URL, breadcrumbSchema, jsonLd, softwareSchema } from "@/lib/seo";
 
-const siteUrl = SITE_URL;
+type Props = { params: { slug: string } };
 
-export async function generateStaticParams() {
-    return content.projects.map((project) => ({
-        slug: project.slug,
-    }));
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const project = content.projects.find((p) => p.slug === params.slug);
-    if (!project) return { title: "Project Not Found" };
-
-    return {
-        title: `${project.title} - ${project.category}`,
-        description: project.description,
-        alternates: {
-            canonical: `${siteUrl}/projects/${project.slug}`,
-        },
-        keywords: [
-            project.title,
-            project.category,
-            "Ruchin Audichya",
-            "AI ML Engineer",
-            ...project.tech,
-        ],
-        openGraph: {
-            type: "article",
-            url: `${siteUrl}/projects/${project.slug}`,
-            title: `${project.title} - ${project.category}`,
-            description: project.description,
-            siteName: "Ruchin Audichya Portfolio",
-            images: [
-                {
-                    url: `${siteUrl}/readme-hero.png`,
-                    width: 1200,
-                    height: 630,
-                    alt: `${project.title} case study by Ruchin Audichya`,
-                    type: "image/png",
-                },
-            ],
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: `${project.title} - ${project.category}`,
-            description: project.description,
-            images: [`${siteUrl}/readme-hero.png`],
-        },
-    };
+export function generateMetadata({ params }: Props): Metadata {
+  const project = getProject(params.slug);
+  if (!project) return { title: "Project not found" };
+  const title = `${project.title} — ${project.tagline}`;
+  return {
+    title,
+    description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: { type: "article", url: `${SITE_URL}/projects/${project.slug}`, title, description: project.summary },
+  };
 }
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-    const project = content.projects.find((p) => p.slug === params.slug);
+function Block({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <section data-reveal className="grid gap-x-12 gap-y-4 border-t border-line py-10 lg:grid-cols-12">
+      <h2 className="label pt-1.5 lg:col-span-3">{label}</h2>
+      <div className="lg:col-span-8">{children}</div>
+    </section>
+  );
+}
 
-    if (!project || !project.caseStudy) {
-        notFound();
-    }
+export default function ProjectPage({ params }: Props) {
+  const project = getProject(params.slug);
+  if (!project) notFound();
 
-    const breadcrumb = generateBreadcrumb([
-        { name: "Home", url: siteUrl },
-        { name: "Projects", url: `${siteUrl}/#projects` },
-        { name: project.title, url: `${siteUrl}/projects/${project.slug}` },
-    ]);
+  const index = projects.indexOf(project);
+  const next = projects[(index + 1) % projects.length];
 
-    const softwareSchema = generateSoftwareSchema({
-        title: project.title,
-        description: project.description,
-        category: project.category,
-        tech: project.tech,
-        slug: project.slug,
-        year: project.year,
-    });
+  return (
+    <article className="shell pb-8 pt-[calc(var(--header-h)+2.5rem)] md:pt-[calc(var(--header-h)+4rem)]">
+      <script {...jsonLd(softwareSchema(project))} />
+      <script
+        {...jsonLd(
+          breadcrumbSchema([
+            { name: "Home", url: SITE_URL },
+            { name: "Work", url: `${SITE_URL}/#work` },
+            { name: project.title, url: `${SITE_URL}/projects/${project.slug}` },
+          ]),
+        )}
+      />
 
-    return (
-        <div className="min-h-screen pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-            />
-            <ScrollReveal width="100%">
-                <Link
-                    href="/#projects"
-                    className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-muted-foreground hover:text-accent mb-8 transition-colors"
-                >
-                    <ArrowLeft className="w-4 h-4" /> Back to Projects
-                </Link>
+      <nav aria-label="Breadcrumb" className="fade-up label flex items-center gap-2">
+        <Link href="/#work" className="link-quiet">
+          Work
+        </Link>
+        <span aria-hidden="true">/</span>
+        <span className="text-ink">{project.title}</span>
+      </nav>
 
-                <header className="mb-16">
-                    <div className="flex flex-wrap items-center gap-4 mb-6">
-                        <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold uppercase tracking-widest border border-accent/20">
-                            {project.category}
-                        </span>
-                        <span className="text-muted-foreground font-mono text-sm">
-                            {project.year}
-                        </span>
-                    </div>
-
-                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
-                        {project.title}
-                    </h1>
-
-                    <div className="flex flex-wrap gap-3 mb-8">
-                        {project.tech.map((tech) => (
-                            <span
-                                key={tech}
-                                className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/10 transition-colors"
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
-
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed">
-                        {project.description}
-                    </p>
-
-                    {project.github && (
-                        <div className="mt-8 flex flex-wrap gap-3">
-                            <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-white/85 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
-                            >
-                                <Github className="h-4 w-4" />
-                                <span>View on GitHub</span>
-                            </a>
-                        </div>
-                    )}
-                </header>
-
-                <div className="grid gap-16 md:grid-cols-[2fr,1fr]">
-                    <div className="space-y-16">
-                        {/* Problem */}
-                        <section>
-                            <div className="flex items-center gap-3 mb-6 text-accent-teal">
-                                <AlertTriangle className="w-6 h-6" />
-                                <h2 className="text-2xl font-bold uppercase tracking-widest">The Problem</h2>
-                            </div>
-                            <p className="text-lg text-muted-foreground leading-relaxed">
-                                {project.caseStudy.problem}
-                            </p>
-                        </section>
-
-                        {/* Solution */}
-                        <section>
-                            <div className="flex items-center gap-3 mb-6 text-accent">
-                                <Lightbulb className="w-6 h-6" />
-                                <h2 className="text-2xl font-bold uppercase tracking-widest">The Solution</h2>
-                            </div>
-                            <p className="text-lg text-muted-foreground leading-relaxed">
-                                {project.caseStudy.solution}
-                            </p>
-                        </section>
-
-                        {/* Challenges */}
-                        <section>
-                            <h2 className="text-2xl font-bold uppercase tracking-widest mb-6">Key Challenges</h2>
-                            <div className="grid gap-4">
-                                {project.caseStudy.challenges.map((challenge, i) => (
-                                    <div key={i} className="flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10">
-                                        <span className="text-accent font-mono font-bold">0{i + 1}</span>
-                                        <p className="text-muted-foreground">{challenge}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    </div>
-
-                    <div className="space-y-8">
-                        {/* Outcomes Card */}
-                        <div className="p-8 rounded-3xl bg-gradient-to-br from-accent/20 to-transparent border border-accent/20 sticky top-32">
-                            <h3 className="text-xl font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
-                                <CheckCircle2 className="w-5 h-5 text-accent" /> Outcomes
-                            </h3>
-                            <ul className="space-y-4">
-                                {project.caseStudy.outcomes.map((outcome, i) => (
-                                    <li key={i} className="flex gap-3 text-sm">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-                                        <span className="text-foreground/90">{outcome}</span>
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <div className="mt-8 pt-8 border-t border-white/10">
-                                <div className="text-center">
-                                    <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground mb-2">Result Metric</p>
-                                    <p className="text-3xl font-black text-white">{project.metrics}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ScrollReveal>
+      <header className="mt-10 grid gap-x-12 gap-y-8 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <p className="fade-up label" style={{ ["--d" as string]: "60ms" }}>
+            {project.kind} · {project.year}
+          </p>
+          <h1 className="display mt-5 text-[clamp(3rem,9vw,7rem)]">
+            {project.title.split(" ").map((word, i) => (
+              <span key={i}>
+                <span className="rise">
+                  <span style={{ ["--i" as string]: i }}>{word}</span>
+                </span>{" "}
+              </span>
+            ))}
+          </h1>
+          <p className="fade-up mt-4 font-serif text-[clamp(1.5rem,3vw,2.25rem)] italic leading-snug text-accent" style={{ ["--d" as string]: "350ms" }}>
+            {project.tagline}
+          </p>
+          <p className="fade-up mt-6 max-w-2xl text-lg leading-relaxed text-ink2" style={{ ["--d" as string]: "450ms" }}>
+            {project.summary}
+          </p>
         </div>
-    );
+
+        <aside className="fade-up lg:col-span-4 lg:pt-12" style={{ ["--d" as string]: "550ms" }}>
+          <dl className="border-t border-line text-sm">
+            <div className="border-b border-line py-3">
+              <dt className="label">Built with</dt>
+              <dd className="mt-2 leading-relaxed text-ink2">{project.stack.join(" · ")}</dd>
+            </div>
+          </dl>
+          {project.links.length ? (
+            <ul className="mt-5 flex flex-wrap gap-3">
+              {project.links.map((link, i) => (
+                <li key={link.href}>
+                  <a href={link.href} target="_blank" rel="noopener" className={`btn h-10 ${i === 0 ? "btn-solid" : "btn-ghost"}`}>
+                    {link.label} <ArrowUpRight />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </aside>
+      </header>
+
+      <ul className="mt-14 grid grid-cols-2 border-y border-line lg:grid-cols-4" data-reveal>
+        {project.facts.map((fact) => (
+          <li
+            key={fact.label}
+            className="border-line py-6 pr-4 odd:border-r max-lg:even:pl-5 max-lg:[&:nth-child(-n+2):not(:nth-last-child(-n+2))]:border-b lg:border-r lg:pl-6 lg:first:pl-0 lg:last:border-r-0"
+          >
+            <p className="display text-[clamp(2rem,4vw,3.25rem)] tabular-nums">{fact.value}</p>
+            <p className="mt-2 text-sm text-ink3">{fact.label}</p>
+          </li>
+        ))}
+      </ul>
+
+      {project.image ? (
+        <figure className="mt-12" data-reveal>
+          <div className="panel overflow-hidden">
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width}
+              height={project.image.height}
+              sizes="(min-width: 1344px) 1232px, 92vw"
+              className="h-auto w-full"
+            />
+          </div>
+          <figcaption className="mt-3 text-sm text-ink3">{project.image.caption}</figcaption>
+        </figure>
+      ) : null}
+
+      <div className="mt-14">
+        <Block label="The problem">
+          <div className="space-y-4">
+            {project.study.problem.map((p, i) => (
+              <p key={p} className={i === 0 ? "font-serif text-[clamp(1.5rem,2.6vw,2rem)] leading-snug" : "max-w-2xl text-base leading-relaxed text-ink2"}>
+                {p}
+              </p>
+            ))}
+          </div>
+        </Block>
+
+        <Block label="How it works">
+          <ol className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            {project.study.approach.map((step, i) => (
+              <li key={step.title}>
+                <p className="label text-accent">Step {i + 1}</p>
+                <h3 className="mt-3 font-serif text-2xl leading-tight">{step.title}</h3>
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink2">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Block>
+
+        <Block label="The hard parts">
+          <dl>
+            {project.study.hard.map((item) => (
+              <div key={item.title} className="grid gap-x-8 gap-y-1 border-b border-line py-4 first:pt-0 sm:grid-cols-[14rem_minmax(0,1fr)]">
+                <dt className="text-[0.9375rem] font-medium">{item.title}</dt>
+                <dd className="text-[0.9375rem] leading-relaxed text-ink2">{item.body}</dd>
+              </div>
+            ))}
+          </dl>
+        </Block>
+
+        <Block label="The proof">
+          <ul className="space-y-3">
+            {project.study.outcome.map((line) => (
+              <li key={line} className="flex gap-3 text-base leading-relaxed">
+                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ok" aria-hidden="true" />
+                {line}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 rounded-2xl border border-line bg-raised px-5 py-4 text-sm leading-relaxed text-ink2">
+            <span className="label mb-2 block">Honest status</span>
+            {project.study.honest}
+          </p>
+        </Block>
+      </div>
+
+      <Link
+        href={`/projects/${next.slug}`}
+        className="group mt-6 flex items-end justify-between gap-6 border-t border-line-strong py-10"
+        data-reveal
+      >
+        <span>
+          <span className="label">Next project</span>
+          <span className="display mt-3 block text-[clamp(2.25rem,6vw,4.5rem)] transition-colors group-hover:text-accent">{next.title}</span>
+        </span>
+        <span className="mb-3 grid h-12 w-12 shrink-0 place-items-center rounded-full border border-line-strong transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:border-accent group-hover:text-accent">
+          <ArrowRight />
+        </span>
+      </Link>
+    </article>
+  );
 }

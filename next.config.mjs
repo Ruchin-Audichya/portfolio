@@ -1,69 +1,33 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-  openAnalyzer: false,
-});
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
+  poweredByHeader: false,
   images: {
-    formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'github.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'media.licdn.com',
-      },
-    ],
+    formats: ["image/avif", "image/webp"],
   },
-  typescript: {
-    // Types are enforced at build time. If a future change breaks them,
-    // the build should fail loudly instead of silently shipping bad code.
-    ignoreBuildErrors: false,
+  async redirects() {
+    // Case studies that were retired in the 2026 rebuild.
+    return ["portfolio-v1", "n8n-automations", "linux-productivity"].map((slug) => ({
+      source: `/projects/${slug}`,
+      destination: "/#work",
+      permanent: true,
+    }));
   },
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          }
-        ]
-      }
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        ],
+      },
     ];
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;

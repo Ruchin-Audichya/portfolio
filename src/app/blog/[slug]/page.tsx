@@ -1,93 +1,84 @@
-import { getPostBySlug, getAllPosts } from "@/lib/mdx";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { generateArticleSchema, generateBreadcrumb, SITE_URL } from "@/lib/seo";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { getAllPosts, getPostBySlug, type Post } from "@/lib/mdx";
+import { SITE_URL, articleSchema, breadcrumbSchema, jsonLd } from "@/lib/seo";
 
-export async function generateStaticParams() {
-    const posts = getAllPosts();
-    return posts.map((post) => ({
-        slug: post.slug,
-    }));
+type Props = { params: { slug: string } };
+
+export function generateStaticParams() {
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    try {
-        const post = getPostBySlug(params.slug);
-        return {
-            title: `${post.meta.title} | Ruchin Audichya`,
-            description: post.meta.description,
-        };
-    } catch (e) {
-        return {
-            title: "Blog Post Not Found",
-        };
-    }
+const load = (slug: string): Post | null => {
+  try {
+    return getPostBySlug(slug);
+  } catch {
+    return null;
+  }
+};
+
+export function generateMetadata({ params }: Props): Metadata {
+  const post = load(params.slug);
+  if (!post) return { title: "Note not found" };
+  return {
+    title: post.meta.title,
+    description: post.meta.description,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: { type: "article", title: post.meta.title, description: post.meta.description, publishedTime: post.meta.date },
+  };
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-    let post;
-    try {
-        post = getPostBySlug(params.slug);
-    } catch (e) {
-        notFound();
-    }
+export default function BlogPost({ params }: Props) {
+  const post = load(params.slug);
+  if (!post) notFound();
 
-    const articleSchema = generateArticleSchema({
-        title: post.meta.title,
-        description: post.meta.description,
-        date: post.meta.date,
-        slug: post.slug,
-        tags: post.meta.tags,
-    });
-    const breadcrumb = generateBreadcrumb([
-        { name: "Home", url: SITE_URL },
-        { name: "Blog", url: `${SITE_URL}/blog` },
-        { name: post.meta.title, url: `${SITE_URL}/blog/${post.slug}` },
-    ]);
+  const date = new Date(post.meta.date).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 
-    return (
-        <article className="min-h-screen pt-32 pb-20 px-4 md:px-8 max-w-4xl mx-auto">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-            />
-            <ScrollReveal width="100%">
-                <Link
-                    href="/blog"
-                    className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-muted-foreground hover:text-accent mb-8 transition-colors"
-                >
-                    <ArrowLeft className="w-4 h-4" /> Back to Log
-                </Link>
+  return (
+    <article className="shell pb-20 pt-[calc(var(--header-h)+2.5rem)] md:pt-[calc(var(--header-h)+4rem)]">
+      <script {...jsonLd(articleSchema({ ...post.meta, slug: post.slug }))} />
+      <script
+        {...jsonLd(
+          breadcrumbSchema([
+            { name: "Home", url: SITE_URL },
+            { name: "Notes", url: `${SITE_URL}/blog` },
+            { name: post.meta.title, url: `${SITE_URL}/blog/${post.slug}` },
+          ]),
+        )}
+      />
 
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 text-sm font-mono uppercase tracking-widest text-accent-teal mb-4">
-                        <time dateTime={post.meta.date}>{post.meta.date}</time>
-                        <span>•</span>
-                        <div className="flex gap-2">
-                            {post.meta.tags.map(tag => (
-                                <span key={tag}>#{tag}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-6 leading-tight">
-                        {post.meta.title}
-                    </h1>
-                    <p className="text-xl text-muted-foreground leading-relaxed">
-                        {post.meta.description}
-                    </p>
-                </header>
+      <div className="mx-auto max-w-3xl">
+        <nav aria-label="Breadcrumb" className="fade-up label flex items-center gap-2">
+          <Link href="/blog" className="link-quiet">
+            Notes
+          </Link>
+          <span aria-hidden="true">/</span>
+          <time dateTime={post.meta.date}>{date}</time>
+        </nav>
 
-                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl">
-                    <MDXRemote source={post.content} />
-                </div>
-            </ScrollReveal>
-        </article>
-    );
+        <header className="mt-8 border-b border-line-strong pb-10">
+          <h1 className="fade-up display text-[clamp(2.25rem,5.5vw,4rem)] !leading-[1.04]" style={{ ["--d" as string]: "80ms" }}>
+            {post.meta.title}
+          </h1>
+          <p className="fade-up mt-6 text-lg leading-relaxed text-ink2" style={{ ["--d" as string]: "200ms" }}>
+            {post.meta.description}
+          </p>
+          <p className="fade-up mt-6 font-mono text-xs text-ink3" style={{ ["--d" as string]: "280ms" }}>
+            {post.meta.tags.join(" · ")}
+          </p>
+        </header>
+
+        <div className="prose-notes fade-up mt-10" style={{ ["--d" as string]: "360ms" }}>
+          <MDXRemote source={post.content} />
+        </div>
+      </div>
+    </article>
+  );
 }

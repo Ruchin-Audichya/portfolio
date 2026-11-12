@@ -1,40 +1,52 @@
-# Ruchin Audichya Portfolio
+# ruchinaudichya.in
 
-Hire-focused portfolio for AI/ML, Cloud, and Backend roles. Built with Next.js, TailwindCSS, Framer Motion, and a lightweight custom Three.js black-hole hero.
+Personal portfolio of Ruchin Audichya. Live at [ruchinaudichya.in](https://ruchinaudichya.in).
 
-## Features
-- Recruiter-first hero with email, phone, LinkedIn, GitHub, resume, hire, and project CTAs.
-- STAR-method experience section for Secret Eye Pvt Ltd and AWS Cloud Club JECRC.
-- Project case studies for MediFastRx, Placify AI, AWS/cloud work, automation, Linux, and this portfolio.
-- Centralized content in `src/lib/content.ts` to reduce duplicated copy drift.
-- SEO metadata, sitemap, robots, analytics, and contact/guestbook APIs.
+The site is built around one idea: the work is exact. To the paisa (Yatra Sync), the byte (Anvil) and the milligram (MediFast). Each of the three flagship projects has a small working demo on the homepage.
 
 ## Stack
-- Framework: Next.js App Router
-- 3D: custom Three.js scene
-- Styling: TailwindCSS
-- Motion: Framer Motion
-- Forms: React Hook Form, Zod, Resend
-- Deploy: Vercel
 
-## Run Locally
+- **Next.js 14** (App Router), statically rendered
+- **Tailwind CSS**, with colours as CSS variables for light and dark themes
+- **No animation library.** Motion is CSS plus one `IntersectionObserver`
+- **MDX** for notes, **Resend** for the contact form, **Vercel** for hosting and analytics
+
+## Run locally
+
 ```bash
 npm install
 npm run dev
 ```
 
-## Verify
+## Check before pushing
+
 ```bash
-npm run build
+npm run typecheck
 npm run lint
+npm run build
 ```
 
-## Content Editing
-- Main profile, skills, experience, certifications, recruiter snapshot, and projects: `src/lib/content.ts`
-- Hero/contact profile fields used by the black-hole hero: `src/data/profile.ts`
-- Homepage section order: `src/app/page.tsx`
-- Project case-study route: `src/app/projects/[slug]/page.tsx`
-- Resume download: `public/resume.pdf`
+## Where things live
 
-## Deployment
-Push to main; Vercel auto-builds. Verify the homepage, project case-study pages, and contact form after deployment.
+| What | Where |
+| --- | --- |
+| All copy: projects, experience, story, certifications | `src/lib/content.ts` |
+| SEO metadata and structured data | `src/lib/seo.ts` |
+| Design tokens, type and motion | `src/app/globals.css`, `tailwind.config.ts` |
+| Homepage sections | `src/components/home/` |
+| Interactive demos | `src/components/demos/` |
+| Fare-split maths used by the Yatra Sync demo | `src/lib/fare.ts` |
+| Case-study pages | `src/app/projects/[slug]/page.tsx` |
+| Notes (MDX) | `src/content/posts/` |
+| Résumé | `public/resume.pdf` |
+
+## Environment
+
+| Variable | Purpose |
+| --- | --- |
+| `RESEND_API_KEY` | Sends contact-form messages |
+| `CONTACT_TO` | Optional. Where messages are delivered. Resend's test sender only delivers to the address the Resend account was created with |
+
+## Deploy
+
+Push to `main`. Vercel builds and deploys automatically.
