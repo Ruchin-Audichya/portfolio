@@ -27,6 +27,7 @@ export const site = {
 
 export const nav = [
   { label: "Work", href: "/#work" },
+  { label: "Anvil", href: "/anvil" },
   { label: "Record", href: "/#record" },
   { label: "Story", href: "/#story" },
   { label: "Notes", href: "/blog" },
@@ -96,12 +97,12 @@ export const projects: Project[] = [
       { value: "0", label: "PCs or root access needed" },
       { value: "7.6 GB", label: "install.wim split on the fly" },
       { value: "978", label: "files, byte-identical to the ISO" },
-      { value: "v0.3.1", label: "open-source beta, MIT" },
+      { value: "v0.5.0", label: "open-source beta, MIT" },
     ],
     stack: ["Kotlin", "Jetpack Compose", "Android USB Host API", "Hilt", "Gradle"],
     links: [
       { label: "GitHub", href: "https://github.com/Ruchin-Audichya/anvil-usb" },
-      { label: "Download the APK", href: "https://github.com/Ruchin-Audichya/anvil-usb/releases/latest" },
+      { label: "Download the APK", href: "/anvil" },
     ],
     image: {
       src: "/projects/anvil-boot.png",

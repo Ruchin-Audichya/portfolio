@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const routes: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
     { path: "", priority: 1, changeFrequency: "weekly" },
+    { path: "/anvil", priority: 0.9, changeFrequency: "weekly" },
     { path: "/blog", priority: 0.6, changeFrequency: "monthly" },
     ...projects.map((p, i) => ({
       path: `/projects/${p.slug}`,
