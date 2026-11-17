@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Mono, Instrument_Sans, Newsreader, Tiro_Devanagari_Hindi } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Beacon } from "@/components/site/Beacon";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { ArchClip } from "@/components/site/Logo";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <Motion />
+        <Beacon />
         <Analytics />
         <SpeedInsights />
       </body>
