@@ -41,6 +41,11 @@ export function Footer() {
                 Résumé (PDF)
               </a>
             </li>
+            <li>
+              <Link href="/privacy" className="link">
+                Privacy
+              </Link>
+            </li>
           </ul>
         </nav>
 
